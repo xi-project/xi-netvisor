@@ -9,7 +9,7 @@ use Xi\Netvisor\Zend\Validate;
  * @subpackage Zend
  * @author     Henri Vesala     <henri.vesala@gmail.fi>
  */
-class XmlifyInvoiceData extends \Zend_Rest_Client
+class XmlifyInvoiceData 
 {
    
     private $invoiceData;
@@ -21,7 +21,7 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
      * Just initialize rules
      */
     public function __construct()
-    {        
+    {
         $this->initValidationRules();
     }
     
@@ -62,15 +62,14 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
     {
         $writer = new XMLWriter();
         $writer ->openMemory();
-        $writer->startDocument('1.0', 'UTF-8');
+        //$writer->startDocument('1.0', 'UTF-8');
         $writer->setIndent(4); 
         $writer->startElement('Root');
             $writer->startElement('SalesInvoice');
-        
+            
                 $writer->writeAttributeElement('SalesInvoiceNumber', $this->invoiceData);
                 $writer->writeAttributeElement('SalesInvoiceDate', $this->invoiceData, array('format'=>'ansi'));         
-                $writer->writeAttributeElement('SalesInvoiceDeliveryDate', $this->invoiceData, array('format'=>'ansi'));  
-                $writer->writeAttributeElement('SalesInvoiceNumber', $this->invoiceData);  
+                $writer->writeAttributeElement('SalesInvoiceDeliveryDate', $this->invoiceData, array('format'=>'ansi'));   
                 $writer->writeAttributeElement('SalesInvoiceReferenceNumber', $this->invoiceData);  
                 $writer->writeAttributeElement('SalesInvoiceAmount', $this->invoiceData);                
 
@@ -105,7 +104,7 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
                 $writer->writeAttributeElement('PaymentTermCashDiscountDays', $this->invoiceData);                
                 $writer->writeAttributeElement('PaymentTermCashDiscount', $this->invoiceData, array('type' => 'percentage'));
                 $writer->writeAttributeElement('ExpectPartialPayments', $this->invoiceData);                
-                $writer->writeAttributeElement('TryDirectDebitLink', $this->invoiceData, array('type' => 'percentage'));
+                $writer->writeAttributeElement('TryDirectDebitLink', $this->invoiceData, array('mode' => $this->invoiceData['TryDirectDebitLinkMode']));
         
                 
                 $writer->startElement('InvoiceLines');
@@ -113,22 +112,33 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
                     foreach($this->invoiceData['InvoiceLines'] as $invoiceLine) {
                         $writer->startElement('InvoiceLine');  
                             $writer->startElement('SalesInvoiceProductLine');                  
-                                
-                                $writer->writeAttributeElement('ProductIdentifier',$invoiceLine,array('type' => 'netvisor'));
+   
+                            
+                                $writer->writeAttributeElement('ProductIdentifier',$invoiceLine,array('type' => $invoiceLine['ProductIdentifierType']));
                                 $writer->writeAttributeElement('ProductName', $invoiceLine);
                                 $writer->writeAttributeElement('ProductUnitPrice', $invoiceLine, array('type' => 'net'));    
                                 $writer->writeAttributeElement('ProductVatPercentage', $invoiceLine, array('vatcode' => ($invoiceLine['ProductVatPercentageVatCode']?:'')));
                                 $writer->writeAttributeElement('SalesInvoiceProductLineQuantity', $invoiceLine);
                                 $writer->writeAttributeElement('SalesInvoiceProductLineDiscountPercentage', $invoiceLine);
-                                $writer->writeAttributeElement('SalesInvoiceProductLineFreeText', $invoiceLine);
-                                $writer->writeAttributeElement('SalesInvoiceProductLineSum', $invoiceLine);
-                                $writer->writeAttributeElement('SalesInvoiceProductLineVatSum', $invoiceLine);
                                 $writer->writeAttributeElement('AccountingAccountSuggestion', $invoiceLine);
 
+                                if(!empty($incoiceLine['Dimensions'])) {
+                                    foreach($invoiceLine['Dimensions'] as $dimension) {
+                                        $writer->startElement('Dimension');
+                                        $writer->writeAttributeElement('DimensionName', $dimension);
+                                        $writer->writeAttributeElement('DimensionItem', $dimension);
+                                        $writer->endElement(); // dimension
+                                    }
+                                }
+
+                                    
                             // SalesInvoiceProductLine
                             $writer->endElement();                        
                         // InvoiceLine
                         $writer->endElement(); 
+                        
+                        // dimension elementtejä X kappaletta
+                        
                         
                         if(isset($this->invoiceData['Comment'])){
                             $writer->startElement('InvoiceLine');  
@@ -145,9 +155,6 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
                 // InvoiceLines
                 $writer->endElement(); 
                 
-
-                // DIMENSIONS how to implement?
-                
                 
                 if(!empty($this->invoiceData['InvoiceVoucherLines'])) {
                     $writer->startElement('InvoiceVoucherLines');
@@ -162,11 +169,10 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
 
                          // VoucherLine
                         $writer->endElement();
-                    }
+                    }            
+                    // InvoiceVoucherLines
+                    $writer->endElement();
                 }
-                // InvoiceVoucherLines
-                $writer->endElement();
-                
                 if(!empty($this->invoiceData['‹'])) {
                     $writer->startElement('SalesInvoiceAttachments');
 
@@ -213,7 +219,7 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
         // End Root
         $writer->endElement();
        
-        $writer->endDocument();
+    //    $writer->endDocument();
         return $writer->outputMemory(TRUE);
         
     }
@@ -228,8 +234,7 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
     private function validate($invoiceData, $required = false)
     {
         $filterInput = new \Zend_Filter_Input(null, $this->validationRules);
-       // $filterInput->addValidatorPrefixPath('Xi_Validate', 'Xi/Validate');
-
+     
         foreach($invoiceData as $key => $value)
         { 
             if(is_array($value)){
@@ -268,7 +273,7 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
             'SalesInvoiceAmount'                        => array('Float', 'NotEmpty'),
             'SellerIdentifier'                          => array('Float'),
             'SellerName'                                => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 50)),
-            'SalesInvoiceStatus'                        => array('Alnum', 'NotEmpty'),
+            'SalesInvoiceStatus'                        => array('NotEmpty', array('InArray', 'haystack' => array('open', 'unsent'))),
             'SalesInvoiceFreeTextBeforeLines'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 500)),
             'SalesInvoiceFreeTextAfterLines'            => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 500)),
             'SalesInvoiceOurReference'                  => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 200)),
@@ -296,8 +301,8 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
             'PaymentTermNetDays'                        => array('Digits', 'NotEmpty'),
             'PaymentTermCashDiscountDays'               => array('Digits'),
             'PaymentTermCashDiscount'                   => array('Float'),
-            'ExpectPartialPayments'                     => array( array('InArray', 'haystack' => array(1,2))),
-            'TryDirectDebitLink'                        => array( array('InArray', 'haystack' => array(1,2))),
+            'ExpectPartialPayments'                     => array( array('InArray', 'haystack' => array(0,1))),
+            'TryDirectDebitLink'                        => array( array('InArray', 'haystack' => array(0,1))),
             'TryDirectDebitLinkMode'                    => array('NotEmpty', array('InArray', 'haystack' => array('fail_on_error', 'ignore_error'))),
 
             //InvoiceLines
@@ -310,9 +315,9 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
             'ProductVatPercentageVatCode'               => array('NotEmpty', array('InArray', 'haystack' => $vatcode)),
             'SalesInvoiceProductLineQuantity'           => array('Float', 'NotEmpty'),
             'SalesInvoiceProductLineDiscountPercentage' => array('Float'),
-            'SalesInvoiceProductLineFreeText'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 200)),
-            'SalesInvoiceProductLineSum'                => array('Float'),
-            'SalesInvoiceProductLineVatSum'             => array('Float'),
+           // 'SalesInvoiceProductLineFreeText'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 200)),
+           // 'SalesInvoiceProductLineSum'                => array('Float'),
+           // 'SalesInvoiceProductLineVatSum'             => array('Float'),
             'AccountingAccountSuggestion'               => array('Float'),
             
             'DimensionName'                             => array('Alnum'=> array('allowWhiteSpace' => true), 'NotEmpty',array('StringLength', 0, 50)),
@@ -321,7 +326,7 @@ class XmlifyInvoiceData extends \Zend_Rest_Client
             'LineSum'                                   => array('Float', 'NotEmpty'),
             'LineSumType'                               => array('NotEmpty', array('InArray', 'haystack' => array('net', 'gross'))),
             'Description'                               => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 255)),
-            'AccountNumber'                             => array('Alnum', 'NotEmpty'),
+            'AccountNumber'                             => array('Int', 'NotEmpty'),
             'VatPercent'                                => array('Float', 'NotEmpty'),
             'VatCode'                                   => array('NotEmpty', array('InArray', 'haystack' => $vatcode)),       
             
