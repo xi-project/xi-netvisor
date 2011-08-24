@@ -42,14 +42,14 @@ Usecase example:
     $xmlify->setInvoiceData($invoiceData);                      // sets invoice data to xml generator
     $xml = $xmlify->createXml();                                // creates xml, throws exception if data is not valid
 
-    $netvisor = new Xi\Netvisor\Zend\Netvisor();                // netvisor interface
+    $netvisor = new Xi\Netvisor\Zend\Invoicing();               // netvisor interface
     $netvisor->addInvoice($xml);                                // sends new invoice to netvisor (you can also edit old invoice with editInvoce -method)
 
 
 Invoice data should just be an array containing invoice fields:
 
   
-    $invoiceData = array(
+        $invoiceData = array(
             'SalesInvoiceNumber'                        => 123456, 
             'SalesInvoiceDate'                          => '2011-12-12', 
             'SalesInvoiceDeliveryDate'                  => '2011-12-12', 
@@ -91,7 +91,7 @@ Invoice data should just be an array containing invoice fields:
 
             'InvoiceLines' => array(
                 array(               
-                    'ProductIdentifier'                         => '1697',
+                    'ProductIdentifier'                         => '5',
                     'ProductIdentifierType'                     => 'netvisor',
                     'ProductName'                               => 'Banaani',
                     'ProductUnitPrice'                          => 100,
@@ -101,15 +101,9 @@ Invoice data should just be an array containing invoice fields:
                     'SalesInvoiceProductLineQuantity'           => 5,
                     'SalesInvoiceProductLineDiscountPercentage' => 10,
                     'AccountingAccountSuggestion'               => '3000',
-                    'Dimensions' => array(                                      // yep, there can be x amount of dimension items. I don't really even know what these are.
-                        array(
-                            'DimensionName'                     => 'ulottuvuusnimi',
-                            'DimensionItem'                     => 'ulottuvuusesine',                     
-                        )
-                    ),
                 ),
                 array(               
-                    'ProductIdentifier'                         => 'product2',
+                    'ProductIdentifier'                         => '5',
                     'ProductIdentifierType'                     => 'netvisor',
                     'ProductName'                               => 'tuote 2',
                     'ProductUnitPrice'                          => 10,
@@ -136,7 +130,7 @@ Invoice data should just be an array containing invoice fields:
                     'LineSum'                                   => 100,
                     'LineSumType'                               => 'net',
                     'Description'                               => 'invoice voucher line description',
-                    'AccountNumber'                             => '12412',
+                    'AccountNumber'                             => '1101',      // From "tilikartta", pick what is right for your business.
                     'VatPercent'                                => '22',
                     'VatCode'                                   => 'KOMY',
                 ),
@@ -158,7 +152,7 @@ Invoice data should just be an array containing invoice fields:
                     'TagValueDataType'                          => 'text',
                 ),
             ),
-        );     
+        ); 
 
 
 
