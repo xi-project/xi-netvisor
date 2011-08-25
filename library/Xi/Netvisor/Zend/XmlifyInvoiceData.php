@@ -106,43 +106,49 @@ class XmlifyInvoiceData
                 $writer->writeAttributeElement('ExpectPartialPayments', $this->invoiceData);                
                 $writer->writeAttributeElement('TryDirectDebitLink', $this->invoiceData, array('mode' => $this->invoiceData['TryDirectDebitLinkMode']));
         
-                
                 $writer->startElement('InvoiceLines');
                 
                     foreach($this->invoiceData['InvoiceLines'] as $invoiceLine) {
-                        $writer->startElement('InvoiceLine');  
-                            $writer->startElement('SalesInvoiceProductLine');                  
-   
-                            
-                                $writer->writeAttributeElement('ProductIdentifier',$invoiceLine,array('type' => $invoiceLine['ProductIdentifierType']));
-                                $writer->writeAttributeElement('ProductName', $invoiceLine);
-                                $writer->writeAttributeElement('ProductUnitPrice', $invoiceLine, array('type' => 'net'));    
-                                $writer->writeAttributeElement('ProductVatPercentage', $invoiceLine, array('vatcode' => ($invoiceLine['ProductVatPercentageVatCode']?:'')));
-                                $writer->writeAttributeElement('SalesInvoiceProductLineQuantity', $invoiceLine);
-                                $writer->writeAttributeElement('SalesInvoiceProductLineDiscountPercentage', $invoiceLine);
-                                $writer->writeAttributeElement('AccountingAccountSuggestion', $invoiceLine);
-
-                                if(!empty($incoiceLine['Dimensions'])) {
-                                    foreach($invoiceLine['Dimensions'] as $dimension) {
-                                        $writer->startElement('Dimension');
-                                        $writer->writeAttributeElement('DimensionName', $dimension);
-                                        $writer->writeAttributeElement('DimensionItem', $dimension);
-                                        $writer->endElement(); // dimension
-                                    }
-                                }
-
-                                    
-                            // SalesInvoiceProductLine
-                            $writer->endElement();                        
-                        // InvoiceLine
-                        $writer->endElement(); 
-                        
-                        // dimension elementtejä X kappaletta
-                        
-                        
-                        if(isset($this->invoiceData['Comment'])){
+                        if(isset($invoiceLine['ProductIdentifier'])) {
                             $writer->startElement('InvoiceLine');  
-                                $writer->startElement('SalesInvoiceProductLine'); 
+                                $writer->startElement('SalesInvoiceProductLine');
+
+                                    $writer->writeAttributeElement('ProductIdentifier',$invoiceLine,array('type' => $invoiceLine['ProductIdentifierType']));
+                                    $writer->writeAttributeElement('ProductName', $invoiceLine);
+                                    $writer->writeAttributeElement('ProductUnitPrice', $invoiceLine, array('type' => 'net'));    
+                                    $writer->writeAttributeElement('ProductVatPercentage', $invoiceLine, array('vatcode' => ($invoiceLine['ProductVatPercentageVatCode']?:'')));
+                                    $writer->writeAttributeElement('SalesInvoiceProductLineQuantity', $invoiceLine);
+                                    $writer->writeAttributeElement('SalesInvoiceProductLineDiscountPercentage', $invoiceLine);
+                                    $writer->writeAttributeElement('AccountingAccountSuggestion', $invoiceLine);
+
+                                    if(!empty($incoiceLine['Dimensions'])) {
+                                        foreach($invoiceLine['Dimensions'] as $dimension) {
+                                            $writer->startElement('Dimension');
+                                            $writer->writeAttributeElement('DimensionName', $dimension);
+                                            $writer->writeAttributeElement('DimensionItem', $dimension);
+                                            $writer->endElement(); // dimension
+                                        }
+                                    }
+
+                                // SalesInvoiceProductLine
+                                $writer->endElement();                        
+                            // InvoiceLine
+                            $writer->endElement(); 
+                        } else if(isset($invoiceLine['Comment'])) {
+                            $writer->startElement('InvoiceLine');  
+                                $writer->startElement('SalesInvoiceCommentLine');
+
+                                    $writer->writeAttributeElement('Comment', $invoiceLine);
+                                    
+                                // SalesInvoiceCommentLine
+                                $writer->endElement();                        
+                            // InvoiceLine
+                            $writer->endElement(); 
+                        }
+                        
+                        /*if(isset($this->invoiceData['Comment'])){
+                            $writer->startElement('InvoiceLine');  
+                                $writer->startElement('SalesInvoiceCommentLine'); 
 
                                     $writer->writeAttributeElement('Comment', $this->invoiceData['Comment']);    
 
@@ -150,11 +156,10 @@ class XmlifyInvoiceData
                                 $writer->endElement();                        
                             // InvoiceLine
                             $writer->endElement();
-                        }
+                        }*/
                     }
                 // InvoiceLines
                 $writer->endElement(); 
-                
                 
                 if(!empty($this->invoiceData['InvoiceVoucherLines'])) {
                     $writer->startElement('InvoiceVoucherLines');
@@ -173,6 +178,7 @@ class XmlifyInvoiceData
                     // InvoiceVoucherLines
                     $writer->endElement();
                 }
+                
                 if(!empty($this->invoiceData['‹'])) {
                     $writer->startElement('SalesInvoiceAttachments');
 
@@ -196,7 +202,6 @@ class XmlifyInvoiceData
                     $writer->endElement();
                 }
                 
-                
                 if(!empty($this->invoiceData['CustomTags'])) {
                     $writer->startElement('CustomTags');
 
@@ -218,8 +223,11 @@ class XmlifyInvoiceData
               
         // End Root
         $writer->endElement();
+        
+        //echo $writer->outputMemory(TRUE);
+        //die();
        
-    //    $writer->endDocument();
+        // $writer->endDocument();
         return $writer->outputMemory(TRUE);
         
     }
@@ -271,7 +279,7 @@ class XmlifyInvoiceData
             'SalesInvoiceDeliveryDate'                  => array(new Validate\AnsiDate),
             'SalesInvoiceReferenceNumber'               => array(new Validate\TransactionReferenceNumber()),
             'SalesInvoiceAmount'                        => array('Float', 'NotEmpty'),
-            'SellerIdentifier'                          => array('Float'),
+            'SellerIdentifier'                          => array('Alnum'), // float
             'SellerName'                                => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 50)),
             'SalesInvoiceStatus'                        => array('NotEmpty', array('InArray', 'haystack' => array('open', 'unsent'))),
             'SalesInvoiceFreeTextBeforeLines'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 500)),
@@ -313,11 +321,11 @@ class XmlifyInvoiceData
             'ProductUnitPriceType'                      => array('NotEmpty', array('InArray', 'haystack' => array('net', 'gross'))),
             'ProductVatPercentage'                      => array('Float', 'NotEmpty'),
             'ProductVatPercentageVatCode'               => array('NotEmpty', array('InArray', 'haystack' => $vatcode)),
-            'SalesInvoiceProductLineQuantity'           => array('Float', 'NotEmpty'),
-            'SalesInvoiceProductLineDiscountPercentage' => array('Float'),
-           // 'SalesInvoiceProductLineFreeText'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 200)),
-           // 'SalesInvoiceProductLineSum'                => array('Float'),
-           // 'SalesInvoiceProductLineVatSum'             => array('Float'),
+            //'SalesInvoiceProductLineQuantity'           => array('Float', 'NotEmpty'),
+            //'SalesInvoiceProductLineDiscountPercentage' => array('Float'),
+            //'SalesInvoiceProductLineFreeText'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 200)),
+            //'SalesInvoiceProductLineSum'                => array('Float'),
+            //'SalesInvoiceProductLineVatSum'             => array('Float'),
             'AccountingAccountSuggestion'               => array('Float'),
             
             'DimensionName'                             => array('Alnum'=> array('allowWhiteSpace' => true), 'NotEmpty',array('StringLength', 0, 50)),

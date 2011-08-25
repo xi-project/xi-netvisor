@@ -2,7 +2,7 @@
 namespace Xi\Netvisor\Zend\Exception;
 
 /**
- *  Netvisor responce status exception
+ *  Netvisor response status exception
  * 
  * @category   Xi
  * @package    Netvisor
