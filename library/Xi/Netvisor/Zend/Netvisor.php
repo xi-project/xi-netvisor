@@ -16,10 +16,13 @@ namespace Xi\Netvisor\Zend;
  */
 class Netvisor extends \Zend_Rest_Client
 {   
-    const SERVICE_INVOICE_SALES = 'salesinvoice';
+    const SERVICE_INVOICE_SALES = 'salesinvoice',
+          SERVICE_CUSTOMER      = 'customer';
     
     const RESPONSE_STATUS_OK     = 'OK',
           RESPONSE_STATUS_FAILED = 'FAILED';
+    
+    const INVALID_DATA_CUSTOMER_NOT_FOUND = 'Customer not found';
     
     /**
      * @var Zend_Http_Client
@@ -47,7 +50,18 @@ class Netvisor extends \Zend_Rest_Client
      */
     public function invoice($xml)
     {
-        return $this->request($xml, self::SERVICE_INVOICE_SALES);
+        return $this->request($xml, self::SERVICE_INVOICE_SALES);        
+    }
+    
+    /**
+     * Creates a new customer to Netvisor.
+     * 
+     * @param   string  $xml
+     * @return  Zend_Rest_Client_Result 
+     */
+    public function customer($xml)
+    {
+        return $this->request($xml, self::SERVICE_CUSTOMER);
     }
     
     /**
@@ -84,7 +98,6 @@ class Netvisor extends \Zend_Rest_Client
             'X-Netvisor-Organisation-ID'              => $this->config->interface->organizationId,
             'X-Netvisor-Authentication-TransactionId' => $authenticationTransactionId,
             'X-Netvisor-Authentication-MAC'           => $this->getAuthenticationMac($service, $authenticationTimestamp, $authenticationTransactionId),
-            
         ));
 
         // Attach XML to the request.
@@ -126,8 +139,7 @@ class Netvisor extends \Zend_Rest_Client
             $this->config->interface->userKey,
             $this->config->interface->partnerKey,
         );
-           
-            
+
         return md5(implode('&', $parameters));
     }
     
