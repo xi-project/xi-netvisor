@@ -9,54 +9,13 @@ use Xi\Netvisor\Zend\Validate;
  * @subpackage Zend
  * @author     Henri Vesala     <henri.vesala@gmail.fi>
  */
-class XmlifyInvoiceData 
+class XmlifyInvoiceData extends Xmlify
 {
-   
-    private $invoiceData;
-    private $validationRules;
-    private $validationErrors = array();
-    private $xml;
     
     /**
-     * Just initialize rules
-     */
-    public function __construct()
-    {
-        $this->initValidationRules();
-    }
-    
-    /**
-     * set Data 
-     * 
-     * @param array $invoiceData
-     * @return XmlifyInvoiceData 
-     */
-    public function setInvoiceData($invoiceData)
-    {
-        $this->invoiceData = $invoiceData;  
-        return $this;
-    } 
-    
-    /**
-     * creates new Xml string or trhows an exception if data is not valid
+     * Writes data to XML format.
      * 
      * @return string xml
-     * @exception Exception\XmlValidationException
-     */
-    public function createXml()
-    {
-        if($this->validate($this->invoiceData)){
-            $this->xml = $this->writeToXml();
-        } else {
-            throw new Exception\XmlValidationException($this->validationErrors);
-        }       
-        return $this->xml;
-    }
-
-    /**
-     * writes data to xml format.
-     * 
-     * @return string (xml) 
      */
     public function writeToXml()
     {
@@ -67,48 +26,48 @@ class XmlifyInvoiceData
         $writer->startElement('Root');
             $writer->startElement('SalesInvoice');
             
-                $writer->writeAttributeElement('SalesInvoiceNumber', $this->invoiceData);
-                $writer->writeAttributeElement('SalesInvoiceDate', $this->invoiceData, array('format'=>'ansi'));         
-                $writer->writeAttributeElement('SalesInvoiceDeliveryDate', $this->invoiceData, array('format'=>'ansi'));   
-                $writer->writeAttributeElement('SalesInvoiceReferenceNumber', $this->invoiceData);  
-                $writer->writeAttributeElement('SalesInvoiceAmount', $this->invoiceData);                
+                $writer->writeAttributeElement('SalesInvoiceNumber', $this->data);
+                $writer->writeAttributeElement('SalesInvoiceDate', $this->data, array('format'=>'ansi'));         
+                $writer->writeAttributeElement('SalesInvoiceDeliveryDate', $this->data, array('format'=>'ansi'));   
+                $writer->writeAttributeElement('SalesInvoiceReferenceNumber', $this->data);  
+                $writer->writeAttributeElement('SalesInvoiceAmount', $this->data);                
 
-                $writer->writeAttributeElement('SellerIdentifier', $this->invoiceData, array('type'=>'netvisor'));             
-                $writer->writeAttributeElement('SellerName', $this->invoiceData);                
-                $writer->writeAttributeElement('SalesInvoiceStatus', $this->invoiceData, array('type'=>'netvisor'));  
+                $writer->writeAttributeElement('SellerIdentifier', $this->data, array('type'=>'netvisor'));             
+                $writer->writeAttributeElement('SellerName', $this->data);                
+                $writer->writeAttributeElement('SalesInvoiceStatus', $this->data, array('type'=>'netvisor'));  
 
-                $writer->writeAttributeElement('SalesInvoiceFreeTextBeforeLines', $this->invoiceData); 
-                $writer->writeAttributeElement('SalesInvoiceFreeTextAfterLines', $this->invoiceData); 
-                $writer->writeAttributeElement('SalesInvoiceOurReference', $this->invoiceData); 
-                $writer->writeAttributeElement('SalesInvoiceYourReference', $this->invoiceData); 
-                $writer->writeAttributeElement('SalesInvoicePrivateComment', $this->invoiceData); 
+                $writer->writeAttributeElement('SalesInvoiceFreeTextBeforeLines', $this->data); 
+                $writer->writeAttributeElement('SalesInvoiceFreeTextAfterLines', $this->data); 
+                $writer->writeAttributeElement('SalesInvoiceOurReference', $this->data); 
+                $writer->writeAttributeElement('SalesInvoiceYourReference', $this->data); 
+                $writer->writeAttributeElement('SalesInvoicePrivateComment', $this->data); 
                            
-                $writer->writeAttributeElement('InvoicingCustomerIdentifier',$this->invoiceData, array('type' => ($this->invoiceData['InvoicingCustomerIdentifierType']?:'')));
-                $writer->writeAttributeElement('InvoicingCustomerName', $this->invoiceData);                  
-                $writer->writeAttributeElement('InvoicingCustomerNameExtension', $this->invoiceData);
-                $writer->writeAttributeElement('InvoicingCustomerAddressLine', $this->invoiceData); 
-                $writer->writeAttributeElement('InvoicingCustomerPostNumber', $this->invoiceData);
-                $writer->writeAttributeElement('InvoicingCustomerTown', $this->invoiceData);
-                $writer->writeAttributeElement('InvoicingCustomerCountryCode', $this->invoiceData, array('type' => 'ISO-3166'));
+                $writer->writeAttributeElement('InvoicingCustomerIdentifier',$this->data, array('type' => ($this->data['InvoicingCustomerIdentifierType']?:'')));
+                $writer->writeAttributeElement('InvoicingCustomerName', $this->data);                  
+                $writer->writeAttributeElement('InvoicingCustomerNameExtension', $this->data);
+                $writer->writeAttributeElement('InvoicingCustomerAddressLine', $this->data); 
+                $writer->writeAttributeElement('InvoicingCustomerPostNumber', $this->data);
+                $writer->writeAttributeElement('InvoicingCustomerTown', $this->data);
+                $writer->writeAttributeElement('InvoicingCustomerCountryCode', $this->data, array('type' => 'ISO-3166'));
               
-                $writer->writeAttributeElement('DeliveryAddressName', $this->invoiceData);
-                $writer->writeAttributeElement('DeliveryAddressNameExtension', $this->invoiceData);
-                $writer->writeAttributeElement('DeliveryAddressLine', $this->invoiceData);
-                $writer->writeAttributeElement('DeliveryAddressPostNumber', $this->invoiceData);
-                $writer->writeAttributeElement('DeliveryAddressTown', $this->invoiceData);               
+                $writer->writeAttributeElement('DeliveryAddressName', $this->data);
+                $writer->writeAttributeElement('DeliveryAddressNameExtension', $this->data);
+                $writer->writeAttributeElement('DeliveryAddressLine', $this->data);
+                $writer->writeAttributeElement('DeliveryAddressPostNumber', $this->data);
+                $writer->writeAttributeElement('DeliveryAddressTown', $this->data);               
                 
-                $writer->writeAttributeElement('DeliveryAddressCountryCode', $this->invoiceData, array('type' => 'ISO-3166'));
-                $writer->writeAttributeElement('DeliveryMethod', $this->invoiceData);
-                $writer->writeAttributeElement('DeliveryTerm', $this->invoiceData);
-                $writer->writeAttributeElement('PaymentTermNetDays', $this->invoiceData);
-                $writer->writeAttributeElement('PaymentTermCashDiscountDays', $this->invoiceData);                
-                $writer->writeAttributeElement('PaymentTermCashDiscount', $this->invoiceData, array('type' => 'percentage'));
-                $writer->writeAttributeElement('ExpectPartialPayments', $this->invoiceData);                
-                $writer->writeAttributeElement('TryDirectDebitLink', $this->invoiceData, array('mode' => $this->invoiceData['TryDirectDebitLinkMode']));
+                $writer->writeAttributeElement('DeliveryAddressCountryCode', $this->data, array('type' => 'ISO-3166'));
+                $writer->writeAttributeElement('DeliveryMethod', $this->data);
+                $writer->writeAttributeElement('DeliveryTerm', $this->data);
+                $writer->writeAttributeElement('PaymentTermNetDays', $this->data);
+                $writer->writeAttributeElement('PaymentTermCashDiscountDays', $this->data);                
+                $writer->writeAttributeElement('PaymentTermCashDiscount', $this->data, array('type' => 'percentage'));
+                $writer->writeAttributeElement('ExpectPartialPayments', $this->data);                
+                $writer->writeAttributeElement('TryDirectDebitLink', $this->data, array('mode' => $this->data['TryDirectDebitLinkMode']));
         
                 $writer->startElement('InvoiceLines');
                 
-                    foreach($this->invoiceData['InvoiceLines'] as $invoiceLine) {
+                    foreach($this->data['InvoiceLines'] as $invoiceLine) {
                         if(isset($invoiceLine['ProductIdentifier'])) {
                             $writer->startElement('InvoiceLine');  
                                 $writer->startElement('SalesInvoiceProductLine');
@@ -145,26 +104,14 @@ class XmlifyInvoiceData
                             // InvoiceLine
                             $writer->endElement(); 
                         }
-                        
-                        /*if(isset($this->invoiceData['Comment'])){
-                            $writer->startElement('InvoiceLine');  
-                                $writer->startElement('SalesInvoiceCommentLine'); 
-
-                                    $writer->writeAttributeElement('Comment', $this->invoiceData['Comment']);    
-
-                                // SalesInvoiceProductLine
-                                $writer->endElement();                        
-                            // InvoiceLine
-                            $writer->endElement();
-                        }*/
                     }
                 // InvoiceLines
                 $writer->endElement(); 
                 
-                if(!empty($this->invoiceData['InvoiceVoucherLines'])) {
+                if(!empty($this->data['InvoiceVoucherLines'])) {
                     $writer->startElement('InvoiceVoucherLines');
 
-                    foreach($this->invoiceData['InvoiceVoucherLines'] as $voucherLine) {
+                    foreach($this->data['InvoiceVoucherLines'] as $voucherLine) {
                         $writer->startElement('VoucherLine');
 
                             $writer->writeAttributeElement('LineSum',$voucherLine, array('type' => 'net'));
@@ -179,10 +126,10 @@ class XmlifyInvoiceData
                     $writer->endElement();
                 }
                 
-                if(!empty($this->invoiceData['‹'])) {
+                if(!empty($this->data['‹'])) {
                     $writer->startElement('SalesInvoiceAttachments');
 
-                        foreach($this->invoiceData['SalesInvoiceAttachments'] as $salesInvoiceAttachment) {
+                        foreach($this->data['SalesInvoiceAttachments'] as $salesInvoiceAttachment) {
 
                             $writer->startElement('SalesInvoiceAttachment');
 
@@ -202,10 +149,10 @@ class XmlifyInvoiceData
                     $writer->endElement();
                 }
                 
-                if(!empty($this->invoiceData['CustomTags'])) {
+                if(!empty($this->data['CustomTags'])) {
                     $writer->startElement('CustomTags');
 
-                        foreach($this->invoiceData['CustomTags'] as $customTag)
+                        foreach($this->data['CustomTags'] as $customTag)
                         {
                             $writer->startElement('Tag');  
                                 $writer->writeAttributeElement('TagName', $customTag);
@@ -224,52 +171,15 @@ class XmlifyInvoiceData
         // End Root
         $writer->endElement();
         
-        //echo $writer->outputMemory(TRUE);
-        //die();
-       
-        // $writer->endDocument();
         return $writer->outputMemory(TRUE);
-        
-    }
-
-    /**
-     * validates data
-     * 
-     * @param array $invoiceData
-     * @param array $required
-     * @return bool 
-     */
-    private function validate($invoiceData, $required = false)
-    {
-        $filterInput = new \Zend_Filter_Input(null, $this->validationRules);
-     
-        foreach($invoiceData as $key => $value)
-        { 
-            if(is_array($value)){
-                foreach($value as $rows) {
-                    $this->validate($rows, true);
-                }
-                    
-            } else if(isset($this->validationRules[$key])) {
-                
-               $filterInput->setData(array($key => $value));
-               if(!$filterInput->isValid()){   
-                   $this->validationErrors[] = $filterInput->getErrors();
-               }
-            }            
-        }
-
-        if(empty($this->validationErrors)){
-            return true;
-        }
-        return false;
     }
     
-
     /**
-     * initialize validation rules
+     * Initialize validation rules.
+     * 
+     * @return XmlifyInvoiceData
      */
-    private function initValidationRules()
+    protected function initValidationRules()
     {
         $vatcode = array('NONE','KOOS','EUOS','EUUO','EUPO','100','KOMY','EUMY','EUUM','EUPM312','EUPM309','MUUL','EVTO','EVPO','RAMY','RAOS');
         
@@ -279,7 +189,7 @@ class XmlifyInvoiceData
             'SalesInvoiceDeliveryDate'                  => array(new Validate\AnsiDate),
             'SalesInvoiceReferenceNumber'               => array(new Validate\TransactionReferenceNumber()),
             'SalesInvoiceAmount'                        => array('Float', 'NotEmpty'),
-            'SellerIdentifier'                          => array('Alnum'), // float
+            'SellerIdentifier'                          => array('Alnum'),
             'SellerName'                                => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 50)),
             'SalesInvoiceStatus'                        => array('NotEmpty', array('InArray', 'haystack' => array('open', 'unsent'))),
             'SalesInvoiceFreeTextBeforeLines'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 500)),
@@ -288,7 +198,7 @@ class XmlifyInvoiceData
             'SalesInvoiceYourReference'                 => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 200)),
             'SalesInvoicePrivateComment'                => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 255)),
             
-            'InvoicingCustomerIdentifier'               => array('Alnum', 'NotEmpty'),
+            'InvoicingCustomerIdentifier'               => array('NotEmpty'),
             'InvoicingCustomerIdentifierType'           => array('NotEmpty', array('InArray', 'haystack' => array('customer', 'netvisor'))),
             'InvoicingCustomerName'                     => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 250)),
             'InvoicingCustomerNameExtension'            => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 250)),
@@ -347,5 +257,7 @@ class XmlifyInvoiceData
             'TagValue'                                  => array('Alnum'=> array('allowWhiteSpace' => true), 'NotEmpty'),
             'TagValueDataType'                          => array('NotEmpty', array('InArray', 'haystack' => array('enum', 'date', 'float', 'text'))),         
         );
+        
+        return $this;
     }    
 }
