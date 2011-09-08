@@ -77,22 +77,22 @@ abstract class Xmlify
      * @param array $required
      * @return bool 
      */
-    protected function validate($invoiceData, $required = false)
+    protected function validate($data, $required = false)
     {
         $filterInput = new \Zend_Filter_Input(null, $this->validationRules);
-     
-        foreach($invoiceData as $key => $value) { 
+
+        foreach($data as $key => $value) {
             if(is_array($value)) {
                 foreach($value as $rows) {
                     $this->validate($rows, true);
-                }                    
+                }
             } else if(isset($this->validationRules[$key])) {                
                $filterInput->setData(array($key => $value));
                
-               if(!$filterInput->isValid()){   
+               if(!$filterInput->isValid()){
                    $this->validationErrors[] = $filterInput->getErrors();
                }
-            }            
+            }    
         }
 
         if(empty($this->validationErrors)) {
