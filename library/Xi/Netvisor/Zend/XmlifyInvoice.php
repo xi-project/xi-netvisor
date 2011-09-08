@@ -9,7 +9,7 @@ use Xi\Netvisor\Zend\Validate;
  * @subpackage Zend
  * @author     Henri Vesala     <henri.vesala@gmail.fi>
  */
-class XmlifyInvoiceData extends Xmlify
+class XmlifyInvoice extends Xmlify
 {
     
     /**
