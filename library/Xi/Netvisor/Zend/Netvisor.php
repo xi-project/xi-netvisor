@@ -19,6 +19,9 @@ class Netvisor extends \Zend_Rest_Client
     const SERVICE_INVOICE_SALES = 'salesinvoice',
           SERVICE_CUSTOMER      = 'customer';
     
+    const METHOD_ADD  = 'add',
+          METHOD_EDIT = 'edit';
+    
     const RESPONSE_STATUS_OK     = 'OK',
           RESPONSE_STATUS_FAILED = 'FAILED';
     
@@ -61,7 +64,7 @@ class Netvisor extends \Zend_Rest_Client
      */
     public function customer($xml)
     {
-        return $this->request($xml, self::SERVICE_CUSTOMER);
+        return $this->request($xml, self::SERVICE_CUSTOMER, self::METHOD_ADD);
     }
     
     /**
@@ -71,13 +74,17 @@ class Netvisor extends \Zend_Rest_Client
      * @param   string  $service
      * @return  Zend_Rest_Client_Result 
      */
-    private function request($xml, $service)
+    private function request($xml, $service, $method = null)
     {
         if(!$this->config->interface->enabled) {
             return null;
         }
         
         $url = "{$this->config->interface->host}/{$service}.nv";
+        
+        if($method != null) {
+            $url .= "?method={$method}"; 
+        }
 
         // Reset the client.
         $this->client->resetParameters(true);
@@ -97,7 +104,7 @@ class Netvisor extends \Zend_Rest_Client
             'X-Netvisor-Interface-Language'           => $this->config->interface->language,
             'X-Netvisor-Organisation-ID'              => $this->config->interface->organizationId,
             'X-Netvisor-Authentication-TransactionId' => $authenticationTransactionId,
-            'X-Netvisor-Authentication-MAC'           => $this->getAuthenticationMac($service, $authenticationTimestamp, $authenticationTransactionId),
+            'X-Netvisor-Authentication-MAC'           => $this->getAuthenticationMac($url, $authenticationTimestamp, $authenticationTransactionId),
         ));
 
         // Attach XML to the request.
@@ -121,15 +128,15 @@ class Netvisor extends \Zend_Rest_Client
     /**
      * Calculates MAC MD5-hash for headers.
      * 
-     * @param   string  $service
+     * @param   string  $url
      * @param   string  $authenticationTimestamp
      * @param   string  $authenticationTransactionId
      * @return  string 
      */
-    private function getAuthenticationMac($service, $authenticationTimestamp, $authenticationTransactionId)
+    private function getAuthenticationMac($url, $authenticationTimestamp, $authenticationTransactionId)
     {
         $parameters = array(
-            "{$this->config->interface->host}/{$service}.nv",
+            $url,
             $this->config->interface->sender,
             $this->config->interface->customerId,
             $authenticationTimestamp,
