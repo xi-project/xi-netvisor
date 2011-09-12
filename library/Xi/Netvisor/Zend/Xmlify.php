@@ -80,7 +80,7 @@ abstract class Xmlify
     protected function validate($data, $required = false)
     {
         $filterInput = new \Zend_Filter_Input(null, $this->validationRules);
-
+        
         foreach($data as $key => $value) {
             if(is_array($value)) {
                 foreach($value as $rows) {

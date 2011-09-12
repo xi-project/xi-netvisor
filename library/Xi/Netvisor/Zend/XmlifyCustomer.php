@@ -41,7 +41,27 @@ class XmlifyCustomer extends Xmlify
                     $writer->writeAttributeElement('FaxNumber',   $this->data);
                     $writer->writeAttributeElement('Email',       $this->data);
                     
-                $writer->endElement();                    
+                $writer->endElement();
+                
+                if($this->data['Finvoice']) {
+                    $writer->startElement('CustomerFinvoiceDetails');
+
+                        $writer->writeAttributeElement('FinvoiceAddress',    $this->data['Finvoice'][0]);
+                        $writer->writeAttributeElement('FinvoiceRouterCode', $this->data['Finvoice'][0]);
+
+                    $writer->endElement();
+                }
+                
+                if($this->data['ContactPerson']) {
+                    $writer->startElement('CustomerContactDetails');
+
+                        $writer->writeAttributeElement('ContactPerson',      $this->data['ContactPerson'][0]);
+                        $writer->writeAttributeElement('ContactPersonEmail', $this->data['ContactPerson'][0]);
+                        $writer->writeAttributeElement('ContactPersonPhone', $this->data['ContactPerson'][0]);
+
+                    $writer->endElement();
+                }
+                
             $writer->endElement();
         $writer->endElement();
 
