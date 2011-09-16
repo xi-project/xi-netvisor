@@ -55,8 +55,8 @@ class XmlifyInvoice extends Xmlify
                 $writer->writeAttributeElement('DeliveryAddressLine', $this->data);
                 $writer->writeAttributeElement('DeliveryAddressPostNumber', $this->data);
                 $writer->writeAttributeElement('DeliveryAddressTown', $this->data);               
-                
                 $writer->writeAttributeElement('DeliveryAddressCountryCode', $this->data, array('type' => 'ISO-3166'));
+                
                 $writer->writeAttributeElement('DeliveryMethod', $this->data);
                 $writer->writeAttributeElement('DeliveryTerm', $this->data);
                 $writer->writeAttributeElement('PaymentTermNetDays', $this->data);
@@ -77,6 +77,7 @@ class XmlifyInvoice extends Xmlify
                                     $writer->writeAttributeElement('ProductUnitPrice', $invoiceLine, array('type' => 'net'));    
                                     $writer->writeAttributeElement('ProductVatPercentage', $invoiceLine, array('vatcode' => ($invoiceLine['ProductVatPercentageVatCode']?:'')));
                                     $writer->writeAttributeElement('SalesInvoiceProductLineQuantity', $invoiceLine);
+                                    $writer->writeAttributeElement('SalesInvoiceProductLineFreeText', $invoiceLine);
                                     $writer->writeAttributeElement('SalesInvoiceProductLineDiscountPercentage', $invoiceLine);
                                     $writer->writeAttributeElement('AccountingAccountSuggestion', $invoiceLine);
 
@@ -231,9 +232,9 @@ class XmlifyInvoice extends Xmlify
             'ProductUnitPriceType'                      => array('NotEmpty', array('InArray', 'haystack' => array('net', 'gross'))),
             'ProductVatPercentage'                      => array('Float', 'NotEmpty'),
             'ProductVatPercentageVatCode'               => array('NotEmpty', array('InArray', 'haystack' => $vatcode)),
-            //'SalesInvoiceProductLineQuantity'           => array('Float', 'NotEmpty'),
+            'SalesInvoiceProductLineQuantity'           => array('Float', 'NotEmpty'),
             //'SalesInvoiceProductLineDiscountPercentage' => array('Float'),
-            //'SalesInvoiceProductLineFreeText'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 200)),
+            'SalesInvoiceProductLineFreeText'           => array('Alnum'=> array('allowWhiteSpace' => true), array('StringLength', 0, 200)),
             //'SalesInvoiceProductLineSum'                => array('Float'),
             //'SalesInvoiceProductLineVatSum'             => array('Float'),
             'AccountingAccountSuggestion'               => array('Float'),

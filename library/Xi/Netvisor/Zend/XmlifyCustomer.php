@@ -31,6 +31,7 @@ class XmlifyCustomer extends Xmlify
                     $writer->writeAttributeElement('ExternalIdentifier', $this->data);
                     
                     $writer->writeAttributeElement('Name', $this->data);
+                    $writer->writeAttributeElement('NameExtension', $this->data);
                     
                     $writer->writeAttributeElement('StreetAddress', $this->data);
                     $writer->writeAttributeElement('City',          $this->data);
@@ -42,6 +43,17 @@ class XmlifyCustomer extends Xmlify
                     $writer->writeAttributeElement('Email',       $this->data);
                     
                 $writer->endElement();
+                
+                if($this->data['Delivery']) {
+                    $writer->startElement('CustomerDeliveryDetails');
+
+                        $writer->writeAttributeElement('DeliveryStreetAddress', $this->data['Delivery'][0]);
+                        $writer->writeAttributeElement('DeliveryCity',          $this->data['Delivery'][0]);
+                        $writer->writeAttributeElement('DeliveryPostNumber',    $this->data['Delivery'][0]);                    
+                        $writer->writeAttributeElement('DeliveryCountry',       $this->data['Delivery'][0], array('type' => 'ISO-3166'));
+
+                    $writer->endElement();
+                }
                 
                 if($this->data['Finvoice']) {
                     $writer->startElement('CustomerFinvoiceDetails');
@@ -80,7 +92,7 @@ class XmlifyCustomer extends Xmlify
         $this->validationRules = array(
             'InternalIdentifier'    => array('NotEmpty'),
             'ExternalIdentifier'    => array('NotEmpty'),
-                        
+            
             'Name' => array('NotEmpty'),
         );
         
