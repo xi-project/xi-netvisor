@@ -44,7 +44,7 @@ class XmlifyCustomer extends Xmlify
                     
                 $writer->endElement();
                 
-                if($this->data['Delivery']) {
+                if(isset($this->data['Delivery']) && $this->data['Delivery']) {
                     $writer->startElement('CustomerDeliveryDetails');
 
                         $writer->writeAttributeElement('DeliveryStreetAddress', $this->data['Delivery'][0]);
@@ -55,7 +55,7 @@ class XmlifyCustomer extends Xmlify
                     $writer->endElement();
                 }
                 
-                if($this->data['Finvoice']) {
+                if(isset($this->data['Finvoice']) && $this->data['Finvoice']) {
                     $writer->startElement('CustomerFinvoiceDetails');
 
                         $writer->writeAttributeElement('FinvoiceAddress',    $this->data['Finvoice'][0]);
@@ -64,7 +64,7 @@ class XmlifyCustomer extends Xmlify
                     $writer->endElement();
                 }
                 
-                if($this->data['ContactPerson']) {
+                if(isset($this->data['ContactPerson']) && $this->data['ContactPerson']) {
                     $writer->startElement('CustomerContactDetails');
 
                         $writer->writeAttributeElement('ContactPerson',      $this->data['ContactPerson'][0]);
