@@ -19,7 +19,7 @@ class XmlifyInvoice extends Xmlify
      */
     public function writeToXml()
     {
-        $writer = new XMLWriter();
+        $writer = new XmlWriter();
         $writer ->openMemory();
         //$writer->startDocument('1.0', 'UTF-8');
         $writer->setIndent(4); 
