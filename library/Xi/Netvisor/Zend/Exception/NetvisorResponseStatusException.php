@@ -40,7 +40,7 @@ class NetvisorResponseStatusException extends \Zend_Service_Exception
     }
 
     /**
-     * @return string
+     * @return Zend_Http_Response
      */
     public function getResponse()
     {
