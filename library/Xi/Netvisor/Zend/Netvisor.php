@@ -1,6 +1,9 @@
 <?php
 namespace Xi\Netvisor\Zend;
 
+use Zend_Http_Client as Client,
+    Zend_Rest_Client_Result as Result;
+
 /**
  * 
  * Connects to Netvisor-interface via HTTP.
@@ -13,12 +16,28 @@ namespace Xi\Netvisor\Zend;
  * @subpackage Zend
  * @author     Panu Leppäniemi  <me@panuleppaniemi.com>
  * @author     Henri Vesala     <henri.vesala@gmail.fi>
+ * @author     Petri Koivula    <petri.koivula@iki.fi>
  */
 class Netvisor extends \Zend_Rest_Client
-{   
-    const SERVICE_INVOICE_SALES = 'salesinvoice',
-          SERVICE_CUSTOMER      = 'customer';
-    
+{
+    const SERVICE_INVOICE_ADD = 'salesinvoice',
+          SERVICE_PAYMENT_ADD = 'salespayment',
+          SERVICE_ACCOUNTING_ADD = 'accounting',
+          SERVICE_CUSTOMER_ADD = 'customer',
+          SERVICE_PRODUCT_ADD = 'product',
+          SERVICE_PAYROLL_ADD = 'payrollpaycheckbatch',
+          SERVICE_WORKDAY_ADD = 'workday',
+          SERVICE_BUDGET_ADD = 'accountingbudget',
+          SERVICE_INVOICE_LIST = 'salesinvoicelist',
+          SERVICE_INVOICE_GET = 'getsalesinvoice',
+          SERVICE_CUSTOMER_LIST = 'customerlist',
+          SERVICE_CUSTOMER_GET = 'getcustomer',
+          SERVICE_PRODUCT_LIST = 'productlist',
+          SERVICE_PRODUCT_GET = 'getproduct',
+          SERVICE_COMPANY_INFORMATION_GET = 'getcompanyinformation',
+          SERVICE_EMPLOYEE_ADD = 'employee',
+          SERVICE_PAYROLL_PERIOD_ADD = 'collectortimereportratio';
+
     const METHOD_ADD  = 'add',
           METHOD_EDIT = 'edit';
     
@@ -31,17 +50,15 @@ class Netvisor extends \Zend_Rest_Client
      * @var Zend_Http_Client
      */
     private $client = null;
-    
-    /**
-     * @var Zend_Config
-     */
-    private $config = null; // @todo refactor to not use registry/config
+
+    private $config = null;
     
     
-    public function __construct()
+    public function __construct(\stdClass $config = null)
     {
-        $this->config = $this->getConfig();        
-        $this->client = new \Zend_Http_Client();
+        $this->config = $this->config ?: $this->getConfig();
+
+        $this->client = new Client();
         $this->client->setConfig(array('maxdirects' => 0, 'timeout' => 30, 'keepalive' => true));
     }
     
@@ -49,41 +66,114 @@ class Netvisor extends \Zend_Rest_Client
      * Sends an invoice to Netvisor.
      * 
      * @param   string  $xml
-     * @return  Zend_Rest_Client_Result 
+     * @return  Result
+     *
+     * @deprecated
      */
     public function invoice($xml)
     {
-        return $this->request($xml, self::SERVICE_INVOICE_SALES);        
+        return $this->request($xml, self::SERVICE_INVOICE_ADD);
     }
     
     /**
      * Creates a new customer to Netvisor.
      * 
      * @param   string  $xml
-     * @return  Zend_Rest_Client_Result 
+     * @return  Result
+     *
+     * @deprecated
      */
     public function customer($xml)
     {
-        return $this->request($xml, self::SERVICE_CUSTOMER, self::METHOD_ADD);
+        return $this->request($xml, self::SERVICE_CUSTOMER_ADD, self::METHOD_ADD);
     }
-    
+
+    /**
+     * Adds an invoice to Netvisor.
+     *
+     * @param   string  $xml
+     * @return  Result
+     */
+    public function invoiceAdd($xml)
+    {
+        return $this->request($xml, self::SERVICE_INVOICE_ADD);
+    }
+
+    /**
+     * Get a list of invoices at Netvisor.
+     *
+     * @return Result
+     */
+    public function invoiceList()
+    {
+        return $this->request('', self::SERVICE_INVOICE_LIST);
+    }
+
+    /**
+     * Adds a customer to Netvisor.
+     *
+     * @param   string  $xml
+     * @return  Result
+     */
+    public function customerAdd($xml)
+    {
+        return $this->request($xml, self::SERVICE_CUSTOMER_ADD, self::METHOD_ADD);
+    }
+
+    /**
+     * Edits a customer at Netvisor.
+     *
+     * @param   string  $xml
+     * @return  Result
+     */
+    public function customerEdit($xml, $netvisorId)
+    {
+        return $this->request($xml, self::SERVICE_CUSTOMER_ADD, self::METHOD_EDIT, $netvisorId);
+    }
+
+    /**
+     * Get a list of customers at Netvisor.
+     *
+     * @return Result
+     */
+    public function customerList()
+    {
+        return $this->request('', self::SERVICE_CUSTOMER_LIST);
+    }
+
+    /**
+     * Get the details of a customer at Netvisor.
+     *
+     * @return Result
+     */
+    public function customerGet($netvisorId)
+    {
+        return $this->request('', self::SERVICE_CUSTOMER_LIST, null, $netvisorId);
+    }
+
     /**
      * Makes a request to Netvisor and returns a response.
      * 
      * @param   string  $xml
      * @param   string  $service
-     * @return  Zend_Rest_Client_Result 
+     * @return  Result 
      */
-    private function request($xml, $service, $method = null)
+    private function request($xml, $service, $method = null, $id = null)
     {
         if(!$this->config->interface->enabled) {
             return null;
         }
         
         $url = "{$this->config->interface->host}/{$service}.nv";
-        
-        if($method != null) {
-            $url .= "?method={$method}"; 
+
+        $params = array(
+            'method' => $method,
+            'id' => $id,
+        );
+        $params = array_filter($params);
+        $queryString = http_build_query($params);
+        if ($queryString) {
+            $url .= '?' . $queryString;
         }
 
         // Reset the client.
@@ -111,10 +201,12 @@ class Netvisor extends \Zend_Rest_Client
         $this->client->setRawData($xml, 'text/xml');
         
         try {
-            $result = new \Zend_Rest_Client_Result($this->client->request('POST')->getBody());
+            $result = new Result($this->client->request('POST')->getBody());
             
             if(strstr($result->ResponseStatus->Status[0], self::RESPONSE_STATUS_FAILED)) {
-                throw new Exception\NetvisorResponseStatusException($result->ResponseStatus->Status[1]);
+                $e = new Exception\NetvisorResponseStatusException($result->ResponseStatus->Status[1]);
+                $e->populateFromClient($this->client);
+                throw $e;
             }
             
             return $result;
@@ -172,13 +264,18 @@ class Netvisor extends \Zend_Rest_Client
         
         return substr($timestamp->format('Y-m-d H:i:s.u'), 0, -3);
     }
-    
+
+    protected function getConfig()
+    {
+        return $this->getZendRegistryConfig('netvisor');
+    }
+
     /**
      * @return Zend_Config
      */
-    private function getConfig()
+    protected function getZendRegistryConfig($key)
     {
-        return \Zend_Registry::get('config')->netvisor;
+        return \Zend_Registry::get('config')->$key;
     }
 
 }
