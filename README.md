@@ -9,7 +9,7 @@ Netvisor API interface for PHP 5.3+.
 
 ## Setup
 
-You must do following things to get all running:
+You must do the following things to get everything up and running:
 
 - Get your partner ID and key from Netvisor
 - Get access to Netvisor web management page (testing environment has its own management page)
@@ -42,7 +42,7 @@ netvisor.interface.enabled        = true
 ```php
 $xmlify = new Xi\Netvisor\Zend\XmlifyInvoice();
 $xmlify->setData($invoiceData);
-$xml = $xmlify->createXml(); // throws Exception if data is not valid
+$xml = $xmlify->createXml();                 // throws Exception if data is not valid
 
 $netvisor = new Xi\Netvisor\Zend\Netvisor(); // Netvisor interface
 $netvisor->addInvoice($xml);                 // sends the invoice to Netvisor
