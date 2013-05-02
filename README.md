@@ -1,5 +1,7 @@
 # Xi Netvisor
 
+Netvisor API interface for PHP 5.3+.
+
 ## Interfaces
 
 - Invoice
@@ -17,17 +19,17 @@ You must do following things to get all running:
 
 ## Configuration
 
-Most configuration parameters should be obtained from Netvisor.
+Most of the configuration parameters should be obtained from Netvisor.
 
 ```
-netvisor.interface.host           = "https://www.netvisor.biz"              // for testserver use "http://koulutus.netvisor.fi"
-netvisor.interface.sender         = "Testiclient"                           // Just pick a some name that describes your service
-netvisor.interface.customerId     = "XX_yyyy_1yyy"                          // You must create this manually in your Netvisor management page
-netvisor.interface.partnerId      = "Xxx_yyy"                               // Get this from your Netvisor contact
-netvisor.interface.organizationId = "2521043-1"                             // Your Company Id
+netvisor.interface.host           = "https://www.netvisor.biz"         // Test server is "http://koulutus.netvisor.fi"
+netvisor.interface.sender         = "Testiclient"                      // Pick a name that describes your service
+netvisor.interface.customerId     = "XX_yyyy_1yyy"                     // Create manually in your Netvisor management page
+netvisor.interface.partnerId      = "Xxx_yyy"                          // Obtain from your Netvisor contact
+netvisor.interface.organizationId = "2521043-1"                        // Your company ID
 
-netvisor.interface.userKey        = "D953E3D10457F778B009F88B038CC3C7"      // You must create this manually in your Netvisor management page
-netvisor.interface.partnerKey     = "3BCBFB382CE884YD6C8D4F4FC1C2AC95"      // Get this from your Netvisor contact
+netvisor.interface.userKey        = "D953E3D10457F778B009F88B038CC3C7" // Create manually in your Netvisor management page
+netvisor.interface.partnerKey     = "3BCBFB382CE884YD6C8D4F4FC1C2AC95" // Obtain from your Netvisor contact
 
 netvisor.interface.language       = "FI"
 netvisor.interface.enabled        = true
@@ -112,7 +114,7 @@ $invoiceData = array(
             'ProductVatPercentageVatCode'               => 'KOMY',
             'SalesInvoiceProductLineQuantity'           => 5,
         ),
-     ),
+    ),
 
     'Dimension' => array( // TODO: Find out what is a "Dimension"
         array(
@@ -145,6 +147,7 @@ $invoiceData = array(
             'DocumentData'          => 'base64encodedShit',
         ),
     ),
+
     'Tags' => array(
         array(
             'TagName'          => 'tagi',
