@@ -37,16 +37,20 @@ netvisor.interface.enabled        = true
 
 ## Usage
 
-### Invoices
+### Setup
 
 ```php
-$xmlify = new Xi\Netvisor\Zend\XmlifyInvoice();
-$xmlify->setData($invoiceData);
-$xml = $xmlify->createXml();                 // throws Exception if data is not valid
-
-$netvisor = new Xi\Netvisor\Zend\Netvisor(); // Netvisor interface
-$netvisor->addInvoice($xml);                 // sends the invoice to Netvisor
+$netvisor = new Xi\Netvisor\Netvisor($configuration);
 ```
+
+### Invoices
+``
+
+```php
+$invoice = new Xi\Netvisor\Resource\Invoice($data); // throws Exception if data is not valid
+$netvisor->addInvoice($invoice);                    // send the invoice to Netvisor
+```
+
 
 Invoice data should just be an array containing invoice fields:
 
