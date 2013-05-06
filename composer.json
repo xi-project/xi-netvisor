@@ -19,7 +19,7 @@
     ],
 
     "require": {
-
+        "guzzle/guzzle": "3.3.*"
     },
 
     "require-dev": {
