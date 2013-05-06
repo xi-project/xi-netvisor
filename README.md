@@ -44,7 +44,6 @@ $netvisor = new Xi\Netvisor\Netvisor($configuration);
 ```
 
 ### Invoices
-``
 
 ```php
 $invoice = new Xi\Netvisor\Resource\Invoice($data); // throws Exception if data is not valid
