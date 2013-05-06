@@ -51,11 +51,10 @@ $invoice = new Xi\Netvisor\Resource\Invoice($data); // throws Exception if data 
 $netvisor->addInvoice($invoice);                    // send the invoice to Netvisor
 ```
 
-
 Invoice data should just be an array containing invoice fields:
 
 ```php
-$invoiceData = array(
+$data = array(
     'SalesInvoiceNumber'                        => 123456,
     'SalesInvoiceDate'                          => '2011-12-12',
     'SalesInvoiceDeliveryDate'                  => '2011-12-12',
