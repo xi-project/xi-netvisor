@@ -1,0 +1,30 @@
+{
+    "name": "xi/netvisor",
+    "description": "Netvisor API interface",
+    "license": "BSD-3-Clause",
+    "keywords": ["netvisor", "api"],
+    "authors": [
+        {
+            "name": "Panu Leppäniemi",
+            "email": "me@panuleppaniemi.com"
+        },
+        {
+            "name": "Henri Vesala",
+            "email": "henri.vesala@gmail.fi"
+        },
+        {
+            "name": "Petri Koivula",
+            "email": "petri.koivula@iki.fi"
+        }
+    ],
+
+    "require": {
+
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+
+    "minimum-stability": "stable"
+}
