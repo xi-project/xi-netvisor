@@ -2,8 +2,6 @@
 
 namespace Xi\Netvisor\Resource;
 
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-
 abstract class Resource
 {
     /**

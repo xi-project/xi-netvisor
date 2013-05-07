@@ -2,10 +2,13 @@
 
 namespace Xi\Netvisor\Xml;
 
-use Xi\Netvisor\Xml\Material;
+use Xi\Netvisor\Xml\Root;
 use JMS\Serializer\Annotation\XmlAttribute;
+use JMS\Serializer\Annotation\XmlValue;
+use JMS\Serializer\Annotation\XmlRoot;
 
-class TestMaterial extends Material
+/** @XmlRoot("root") */
+class TestXml extends Root
 {
     /**
      * @XmlAttribute
@@ -13,7 +16,7 @@ class TestMaterial extends Material
     public $attribute;
 
     /**
-     * @XmlAttribute
+     * @XmlValue
      */
     public $value;
 }

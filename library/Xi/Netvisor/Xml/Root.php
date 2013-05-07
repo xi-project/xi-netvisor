@@ -2,7 +2,7 @@
 
 namespace Xi\Netvisor\Xml;
 
-abstract class Material
+abstract class Root
 {
 
 }
