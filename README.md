@@ -22,7 +22,7 @@ You must do the following things to get everything up and running:
 Most of the configuration parameters should be obtained from Netvisor.
 
 ```
-netvisor.interface.host           = "https://www.netvisor.biz"         // Test server is "http://koulutus.netvisor.fi"
+netvisor.interface.host           = "https://www.netvisor.biz"         // Test server is "http://integrationdemo.netvisor.fi"
 netvisor.interface.sender         = "Testiclient"                      // Pick a name that describes your service
 netvisor.interface.customerId     = "XX_yyyy_1yyy"                     // Create manually in your Netvisor management page
 netvisor.interface.partnerId      = "Xxx_yyy"                          // Obtain from your Netvisor contact
