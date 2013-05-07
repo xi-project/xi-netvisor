@@ -19,3 +19,5 @@ spl_autoload_register(function($class) {
     }
     return class_exists($class, false);
 });
+
+\Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace('JMS\Serializer\Annotation', __DIR__ . '/../vendor/jms/serializer/src');
