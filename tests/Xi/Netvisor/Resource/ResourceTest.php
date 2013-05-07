@@ -11,6 +11,8 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->markTestIncomplete();
+
         $this->resource = new TestResource(array(
             '@attribute' => '1',
             'children' => array(

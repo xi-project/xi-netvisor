@@ -20,7 +20,7 @@
 
     "require": {
         "guzzle/guzzle": "3.3.*",
-        "symfony/serializer": "2.2"
+        "jms/serializer": "0.12.*"
     },
 
     "require-dev": {
