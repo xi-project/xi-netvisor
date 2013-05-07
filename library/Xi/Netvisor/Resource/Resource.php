@@ -2,10 +2,12 @@
 
 namespace Xi\Netvisor\Resource;
 
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+
 abstract class Resource
 {
     /**
-     * @var String
+     * @var string
      */
     protected $xml;
 
@@ -14,14 +16,26 @@ abstract class Resource
      */
     public function __construct(array $data)
     {
-        // TODO: Render XML Twig template, validate against DTD, set as an instance variable
+        // TODO: Convert array to XML, append DTD and validate against it, set XML as an instance variable.
+        $this->xml = $this->toXml($data);
     }
 
-    abstract public function add();
+    /**
+     * @return string
+     */
+    public function getXml()
+    {
+        return $this->xml;
+    }
 
-    abstract public function get();
+    /**
+     * @param  array  $data
+     * @return string
+     */
+    private function toXml(array $data)
+    {
+        $encoder = new XmlEncoder('root');
 
-    abstract public function all();
-
-    abstract public function edit();
+        return $encoder->encode($data, 'xml');
+    }
 }

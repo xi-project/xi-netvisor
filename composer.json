@@ -19,8 +19,8 @@
     ],
 
     "require": {
-        "twig/twig": "1.*",
-        "guzzle/guzzle": "3.3.*"
+        "guzzle/guzzle": "3.3.*",
+        "symfony/serializer": "2.2"
     },
 
     "require-dev": {
