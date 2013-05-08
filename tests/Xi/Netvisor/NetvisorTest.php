@@ -1,6 +1,6 @@
 <?php
 
-namespace Xi\Netvisor\Resource;
+namespace Xi\Netvisor;
 
 use Xi\Netvisor\Netvisor;
 
