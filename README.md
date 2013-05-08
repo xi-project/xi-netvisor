@@ -45,7 +45,8 @@ $netvisor = new Xi\Netvisor\Netvisor($config);
 ### Constructing XML
 
 You can instantiate a certain type of a _Resource_ (e.g. `Xi\Netvisor\Resource\Xml\Voucher`).
-All _Resources_ should extend `Xi\Netvisor\Resource\Xml\Root`.
+All _Resources_ should extend `Xi\Netvisor\Resource\Xml\Root` and implement `getDtdPath()` to return a file path
+which points to a correct DTD file (used for validation).
 
 #### Vouchers
 
