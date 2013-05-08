@@ -63,7 +63,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 new Response('200', array(), 'hello')
             ));
 
-        $this->request->request(
+        $this->request->send(
             '<?xml>',
             'accounting'
         );
@@ -72,7 +72,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function sendThrowsExceptionIfResponseStatusIsFailed()
+    public function throwsExceptionIfResponseStatusIsFailed()
     {
         $xmlResponse = <<<LUS
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
@@ -97,7 +97,7 @@ LUS;
             'AUTHENTICATION_FAILED :: Integraatiokumppania ei löydy, katso dokumentaatio'
         );
 
-        $this->request->request(
+        $this->request->send(
             '<?xml>',
             'accounting'
         );
@@ -106,7 +106,7 @@ LUS;
     /**
      * @test
      */
-    public function sendReturnsResponseBodyIfResponseStatusIsOK()
+    public function returnsResponseBodyIfResponseStatusIsOK()
     {
         $xmlResponse = <<<LUS
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
@@ -125,7 +125,7 @@ LUS;
                 new Response('200', array(), $xmlResponse)
             ));
 
-        $response = $this->request->request(
+        $response = $this->request->send(
             '<?xml>',
             'accounting'
         );

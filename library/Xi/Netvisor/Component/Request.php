@@ -34,7 +34,7 @@ class Request
      * @param  string $service
      * @return Result
      */
-    public function request($xml, $service, $method = null, $id = null)
+    public function send($xml, $service, $method = null, $id = null)
     {
         $url     = $this->createUrl($service, $method, $id);
         $headers = $this->createHeaders($url);
