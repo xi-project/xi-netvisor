@@ -45,6 +45,8 @@ class Netvisor
     private $serializer;
 
     /**
+     * Initialize with Netvisor::build()
+     *
      * @param Client $client
      * @param Config $config
      */
@@ -56,6 +58,16 @@ class Netvisor
         $this->config     = $config;
         $this->validate   = new Validate();
         $this->serializer = SerializerBuilder::create()->build();
+    }
+
+    /**
+     * Builds a default instance of this class.
+     *
+     * @return Netvisor
+     */
+    public static function build(Config $config)
+    {
+        return new Netvisor(new Client(), $config);
     }
 
     /**
