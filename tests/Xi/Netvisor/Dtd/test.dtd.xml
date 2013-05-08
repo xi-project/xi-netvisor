@@ -1,8 +1,0 @@
-<!DOCTYPE root [
-    <!ELEMENT root (test)>
-    <!ELEMENT test (testfield, testdate?)>
-
-    <!ELEMENT testfield (#PCDATA)>
-    <!ELEMENT testdate (#PCDATA)>
-    <!ATTLIST testdate format CDATA #FIXED "ansi">
-]>

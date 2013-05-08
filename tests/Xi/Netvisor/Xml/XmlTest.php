@@ -2,7 +2,7 @@
 
 namespace Xi\Netvisor\Resource;
 
-use Xi\Netvisor\Xml\TestXml;
+use Xi\Netvisor\Xml\TestRoot;
 use Xi\Netvisor\XmlTestCase;
 
 class XmlTest extends XmlTestCase
@@ -12,10 +12,9 @@ class XmlTest extends XmlTestCase
      */
     public function convertsToXml()
     {
-        $material = new TestXml();
-        $material->attribute = 'attribute';
-        $material->value = 'value';
+        $root = new TestRoot();
+        $root->setValue('value');
 
-        $this->assertStringStartsWith('<?xml', $this->toXml($material));
+        $this->assertStringStartsWith('<?xml', $this->toXml($root));
     }
 }

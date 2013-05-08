@@ -1,56 +1,38 @@
 <?php
-namespace Xi\Netvisor\Zend;
-
-use Zend_Http_Client as Client,
-    Zend_Rest_Client_Result as Result;
+namespace Xi\Netvisor;
 
 /**
- * 
  * Connects to Netvisor-interface via HTTP.
  * Authentication is based on HTTP headers.
  * A single XML file is sent to the server.
  * The server returns a XML response that contains the transaction status.
  * 
- * @category   Xi
- * @package    Netvisor
- * @subpackage Zend
- * @author     Panu Leppäniemi  <me@panuleppaniemi.com>
- * @author     Henri Vesala     <henri.vesala@gmail.fi>
- * @author     Petri Koivula    <petri.koivula@iki.fi>
+ * @category Xi
+ * @package  Netvisor
+ * @author   Panu Leppäniemi <me@panuleppaniemi.com>
+ * @author   Henri Vesala    <henri.vesala@gmail.fi>
+ * @author   Petri Koivula   <petri.koivula@iki.fi>
  */
 class Netvisor
 {
-    const METHOD_ADD  = 'add',
-          METHOD_EDIT = 'edit';
-    
-    const RESPONSE_STATUS_OK     = 'OK',
-          RESPONSE_STATUS_FAILED = 'FAILED';
+    /**
+     * @var boolean
+     */
+    private $enabled;
 
-    private $config = null;
+    public function __construct(
+        $enabled = true
+    ) {
 
-    public function __construct($config)
-    {
     }
 
-    /**
-     * Adds an invoice to Netvisor.
-     *
-     * @param  string $xml
-     * @return Result
-     */
-    public function invoiceAdd($xml)
+    public function addVoucher(Voucher $voucher)
     {
-        return $this->request($xml, self::SERVICE_INVOICE_ADD);
-    }
+        /*$processor = new Processor();
+        $xml = $processor->process($voucher);
 
-    /**
-     * Get a list of invoices at Netvisor.
-     *
-     * @return Result
-     */
-    public function invoiceList()
-    {
-        return $this->request('', self::SERVICE_INVOICE_LIST);
+        $validate = new Validate();
+        $validate->isValid($voucher, $xml);*/ // @throws
     }
 
     /**
@@ -62,9 +44,7 @@ class Netvisor
      */
     private function request($xml, $service, $method = null, $id = null)
     {
-        if(!$this->config->interface->enabled) {
-            return null;
-        }
+        // TODO: Check if enabled.
         
         $url = "{$this->config->interface->host}/{$service}.nv";
 

@@ -1,0 +1,7 @@
+<!DOCTYPE root [
+    <!ELEMENT root (value, inner)>
+
+    <!ELEMENT value (#PCDATA)>
+    <!ELEMENT inner (#PCDATA)>
+    <!ATTLIST inner attr CDATA #FIXED "innerattribute">
+]>
