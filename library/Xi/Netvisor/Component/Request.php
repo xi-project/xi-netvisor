@@ -21,6 +21,7 @@ class Request
 
     /**
      * @param Client $client
+     * @param Config $config
      */
     public function __construct(HttpClient $client, Config $config)
     {
