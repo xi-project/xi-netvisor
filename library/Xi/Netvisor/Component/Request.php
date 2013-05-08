@@ -4,6 +4,7 @@ namespace Xi\Netvisor\Component;
 
 use Guzzle\Http\Client as HttpClient;
 use Guzzle\Http\Message\RequestInterface;
+use Xi\Netvisor\Exception\NetvisorException;
 
 class Request
 {
@@ -37,10 +38,15 @@ class Request
     {
         $url     = $this->createUrl($service, $method, $id);
         $headers = $this->createHeaders($url);
-        $request = $this->client->createRequest(RequestInterface::POST, $url, $headers);
-        
+        $request = $this->client->createRequest(RequestInterface::POST, $url, $headers, $xml);
 
-        $this->client->send(array($request));
+        $response = $this->client->send($request);
+
+        if ($this->hasRequestFailed($response)) {
+            throw new NetvisorException($response);
+        }
+
+        return $response->getBody();
     }
 
     /**
@@ -89,52 +95,22 @@ class Request
         );
     }
 
-    // Reset the client.
-        /*$this->client->resetParameters(true);
-
-        // Start building the client.
-        $this->client->setUri($url);
-
-        $authenticationTransactionId = $this->getAuthenticationTransactionId();
-        $authenticationTimestamp     = $this->getAuthenticationTimestamp();
-
-        // Set headers which Netvisor demands.
-        $this->client->setHeaders(array(
-            'X-Netvisor-Authentication-Sender'        => $this->config->interface->sender,
-            'X-Netvisor-Authentication-CustomerId'    => $this->config->interface->customerId,
-            'X-Netvisor-Authentication-PartnerId'     => $this->config->interface->partnerId,
-            'X-Netvisor-Authentication-Timestamp'     => $authenticationTimestamp,
-            'X-Netvisor-Interface-Language'           => $this->config->interface->language,
-            'X-Netvisor-Organisation-ID'              => $this->config->interface->organizationId,
-            'X-Netvisor-Authentication-TransactionId' => $authenticationTransactionId,
-            'X-Netvisor-Authentication-MAC'           => $this->getAuthenticationMac($url, $authenticationTimestamp, $authenticationTransactionId),
-        ));
-
-        // Attach XML to the request.
-        $this->client->setRawData($xml, 'text/xml');
-
-        try {
-            $result = new Result($this->client->request('POST')->getBody());
-
-            if(strstr($result->ResponseStatus->Status[0], self::RESPONSE_STATUS_FAILED)) {
-                throw new Exception();
-            }
-
-            return $result;
-        } catch(\Zend_Http_Client_Exception $e) {
-            throw $e;
-        } catch(\Exception $e) {
-            throw $e;
-        }/*
+    /**
+     * @param  string  $response
+     * @return boolean
+     */
+    private function hasRequestFailed($response)
+    {
+        return strstr($response->getBody(true), '<Status>FAILED</Status>') != false;
     }
 
     /**
      * Calculates MAC MD5-hash for headers.
      *
-     * @param   string  $url
-     * @param   string  $authenticationTimestamp
-     * @param   string  $authenticationTransactionId
-     * @return  string
+     * @param  string $url
+     * @param  string $authenticationTimestamp
+     * @param  string $authenticationTransactionId
+     * @return string
      */
     private function getAuthenticationMac($url, $authenticationTimestamp, $authenticationTransactionId)
     {
@@ -154,7 +130,7 @@ class Request
     }
 
     /**
-     * Generates unique transaction id.
+     * Generates unique transaction ID.
      *
      * @return string
      */
