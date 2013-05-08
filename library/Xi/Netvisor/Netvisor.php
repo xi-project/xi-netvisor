@@ -3,7 +3,7 @@ namespace Xi\Netvisor;
 
 use Guzzle\Http\Client;
 use JMS\Serializer\SerializerBuilder;
-use Xi\Netvisor\Component\Config;
+use Xi\Netvisor\Config;
 use Xi\Netvisor\Component\Request;
 use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Component\Validate;

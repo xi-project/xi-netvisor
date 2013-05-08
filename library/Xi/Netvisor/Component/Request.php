@@ -5,6 +5,7 @@ namespace Xi\Netvisor\Component;
 use Guzzle\Http\Client as HttpClient;
 use Guzzle\Http\Message\RequestInterface;
 use Xi\Netvisor\Exception\NetvisorException;
+use Xi\Netvisor\Config;
 
 class Request
 {

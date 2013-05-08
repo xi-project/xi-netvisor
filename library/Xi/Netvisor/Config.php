@@ -1,6 +1,6 @@
 <?php
 
-namespace Xi\Netvisor\Component;
+namespace Xi\Netvisor;
 
 class Config
 {

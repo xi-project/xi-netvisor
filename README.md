@@ -4,53 +4,55 @@ Netvisor API interface for PHP 5.3+.
 
 ## Interfaces
 
-- Voucher
+- None yet
 
-## Setup
+## Before you start hacking away
 
 You must do the following things to get everything up and running:
 
 - Get your partner ID and key from Netvisor
 - Get access to Netvisor web management page (testing environment has its own management page)
 - Activate use of external interfaces in your management page
-- Create new interface ID & key with your management page (same as above)
-- You can create and manage your products in Netvisor
+- Create new interface ID & key with your management page (same as above).
 
-## Configuration
+## Usage
+
+### Configuration
 
 Most of the configuration parameters should be obtained from Netvisor.
 
 ```
-netvisor.interface.host           = "https://www.netvisor.biz"         // Test server is "http://integrationdemo.netvisor.fi"
-netvisor.interface.sender         = "Testiclient"                      // Pick a name that describes your service
-netvisor.interface.customerId     = "XX_yyyy_1yyy"                     // Create manually in your Netvisor management page
-netvisor.interface.partnerId      = "Xxx_yyy"                          // Obtain from your Netvisor contact
-netvisor.interface.organizationId = "2521043-1"                        // Your company ID
+netvisor.host           = "https://www.netvisor.biz"         // Test server is "http://integrationdemo.netvisor.fi"
+netvisor.sender         = "Testiclient"                      // Pick a name that describes your service
+netvisor.customerId     = "XX_yyyy_1yyy"                     // Create manually in your Netvisor management page
+netvisor.partnerId      = "Xxx_yyy"                          // Obtain from your Netvisor contact
+netvisor.organizationId = "2521043-1"                        // Your company ID
 
-netvisor.interface.userKey        = "D953E3D10457F778B009F88B038CC3C7" // Create manually in your Netvisor management page
-netvisor.interface.partnerKey     = "3BCBFB382CE884YD6C8D4F4FC1C2AC95" // Obtain from your Netvisor contact
+netvisor.userKey        = "D953E3D10457F778B009F88B038CC3C7" // Create manually in your Netvisor management page
+netvisor.partnerKey     = "3BCBFB382CE884YD6C8D4F4FC1C2AC95" // Obtain from your Netvisor contact
 
-netvisor.interface.language       = "FI"
-netvisor.interface.enabled        = true
+netvisor.language       = "FI"
+netvisor.enabled        = true
 ```
 
-## Usage
-
-### Setup
+### Initialization
 
 ```php
-$netvisor = new Xi\Netvisor\Netvisor($configuration);
+$config   = new Xi\Netvisor\Config(...);       // Use the parameters described above
+$netvisor = new Xi\Netvisor\Netvisor($config);
 ```
 
-### XML
+### Constructing XML
 
-You can instantiate a certain type (e.g. Voucher).
-After building the object, you can call `$voucher->isValid()` to validate.
+You can instantiate a certain type of a _Resource_ (e.g. `Xi\Netvisor\Resource\Xml\Voucher`).
+All _Resources_ should extend `Xi\Netvisor\Resource\Xml\Root`.
 
-### Vouchers
+#### Vouchers
 
 ```php
-$voucher = new Voucher();
-// Set all fields
+$voucher = new Xi\Netvisor\Resource\Xml\Voucher();
+
+// Set the required fields...
 
 $netvisor->addVoucher($voucher); // send the Voucher to Netvisor
+```

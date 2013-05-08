@@ -5,6 +5,7 @@ namespace Xi\Netvisor\Component;
 use Guzzle\Http\Message\Response;
 use Xi\Netvisor\Component\Request;
 use Guzzle\Http\Message\RequestInterface;
+use Xi\Netvisor\Config;
 use Guzzle\Http\Client;
 
 class RequestTest extends \PHPUnit_Framework_TestCase

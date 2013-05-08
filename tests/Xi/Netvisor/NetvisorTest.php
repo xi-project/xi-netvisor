@@ -3,7 +3,7 @@
 namespace Xi\Netvisor;
 
 use Xi\Netvisor\Netvisor;
-use Xi\Netvisor\Component\Config;
+use Xi\Netvisor\Config;
 use Guzzle\Http\Client;
 use Xi\Netvisor\Resource\Xml\TestRoot;
 use Guzzle\Http\Message\Response;
