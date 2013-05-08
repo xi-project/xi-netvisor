@@ -63,6 +63,7 @@ class Netvisor
     /**
      * Builds a default instance of this class.
      *
+     * @param  Config   $config
      * @return Netvisor
      */
     public static function build(Config $config)
