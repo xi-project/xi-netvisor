@@ -34,6 +34,8 @@ class Request
      *
      * @param  string $xml
      * @param  string $service
+     * @param  string $method
+     * @param  string $id
      * @return Result
      */
     public function send($xml, $service, $method = null, $id = null)
