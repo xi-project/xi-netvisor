@@ -74,7 +74,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function sendThrowsExceptionIfResponseStatusIsFailed()
     {
-        $xmlResponse = '
+        $xmlResponse = <<<LUS
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Root>
     <ResponseStatus>
@@ -83,7 +83,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         <TimeStamp>7.4.2009 13:46:07</TimeStamp>
     </ResponseStatus>
 </Root>
-        ';
+LUS;
 
         $this->client->expects($this->once())
             ->method('send')
@@ -108,7 +108,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function sendReturnsResponseBodyIfResponseStatusIsOK()
     {
-        $xmlResponse = '
+        $xmlResponse = <<<LUS
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Root>
     <ResponseStatus>
@@ -116,7 +116,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         <TimeStamp>7.4.2009 13:37:00</TimeStamp>
     </ResponseStatus>
 </Root>
-        ';
+LUS;
 
         $this->client->expects($this->once())
             ->method('send')
