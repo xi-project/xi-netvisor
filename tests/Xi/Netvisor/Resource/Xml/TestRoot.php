@@ -1,8 +1,8 @@
 <?php
 
-namespace Xi\Netvisor\Xml;
+namespace Xi\Netvisor\Resource\Xml;
 
-use Xi\Netvisor\Xml\Root;
+use Xi\Netvisor\Resource\Xml\Root;
 use JMS\Serializer\Annotation\XmlAttribute;
 use JMS\Serializer\Annotation\XmlRoot;
 use JMS\Serializer\Annotation\XmlValue;
@@ -40,7 +40,7 @@ class TestRoot extends Root
      */
     public function getDtdPath()
     {
-        return __DIR__ . '/../Validate/test.dtd';
+        return __DIR__ . '/../Dtd/test.dtd';
     }
 }
 

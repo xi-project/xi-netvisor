@@ -1,8 +1,8 @@
 <?php
 
-namespace Xi\Netvisor\Resource;
+namespace Xi\Netvisor\Resource\Xml;
 
-use Xi\Netvisor\Xml\Voucher;
+use Xi\Netvisor\Resource\Xml\Voucher;
 use Xi\Netvisor\XmlTestCase;
 
 class VoucherTest extends XmlTestCase

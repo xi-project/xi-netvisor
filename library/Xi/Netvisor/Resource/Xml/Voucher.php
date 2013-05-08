@@ -1,6 +1,6 @@
 <?php
 
-namespace Xi\Netvisor\Xml;
+namespace Xi\Netvisor\Resource\Xml;
 
 class Voucher extends Root
 {
