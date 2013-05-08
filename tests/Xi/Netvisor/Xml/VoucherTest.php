@@ -12,7 +12,8 @@ class VoucherTest extends XmlTestCase
      */
     public function convertsToXml()
     {
-        //$voucher = new Voucher();
+        $this->markTestIncomplete();
 
+        $voucher = new Voucher();
     }
 }
