@@ -2,8 +2,13 @@
 namespace Xi\Netvisor;
 
 use Guzzle\Http\Client;
+use JMS\Serializer\SerializerBuilder;
 use Xi\Netvisor\Component\Config;
 use Xi\Netvisor\Component\Request;
+use Xi\Netvisor\Exception\NetvisorException;
+use Xi\Netvisor\Component\Validate;
+use Xi\Netvisor\Resource\Xml\Root;
+use JMS\Serializer\Serializer;
 
 /**
  * Connects to Netvisor-interface via HTTP.
@@ -30,6 +35,16 @@ class Netvisor
     private $client;
 
     /**
+     * @var Validate
+     */
+    private $validate;
+
+    /**
+     * @var Serializer
+     */
+    private $serializer;
+
+    /**
      * @param Client $client
      * @param Config $config
      */
@@ -37,21 +52,43 @@ class Netvisor
         Client $client,
         Config $config
     ) {
-        $this->client = $client;
-        $this->config = $config;
+        $this->client     = $client;
+        $this->config     = $config;
+        $this->validate   = new Validate();
+        $this->serializer = SerializerBuilder::create()->build();
     }
 
+    /**
+     * @param Voucher $voucher
+     */
     public function addVoucher(Voucher $voucher)
     {
-        /*$processor = new Processor();
-        $xml = $processor->process($voucher);
-
-        $validate = new Validate();
-        $validate->isValid($voucher, $xml);*/ // @throws
+        // TODO: Implement
+        // return $this->request();
     }
 
-    private function request()
+    /**
+     * @param  Root              $root
+     * @param  string            $service
+     * @param  string            $method
+     * @param  string            $id
+     * @return null|string
+     * @throws NetvisorException
+     */
+    public function request(Root $root, $service, $method = null, $id = null)
     {
+        if (!$this->config->isEnabled()) {
+            return null;
+        }
+
+        $xml = $this->serializer->serialize($root, 'xml');
+
+        if (!$this->validate->isValid($xml, $root->getDtdPath())) {
+            throw new NetvisorException('XML is not valid according to DTD');
+        }
+
         $request = new Request($this->client, $this->config);
+
+        return $request->send($xml, $service, $method, $id);
     }
 }
