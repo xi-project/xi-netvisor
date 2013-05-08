@@ -21,6 +21,11 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
     private $client;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * @test
      */
     public function setUp()
@@ -29,7 +34,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $config = new Config(
+        $this->config = new Config(
             true,
             'host',
             'sender',
@@ -41,7 +46,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             'partnerKey'
         );
 
-        $this->netvisor = new Netvisor($this->client, $config);
+        $this->netvisor = new Netvisor($this->client, $this->config);
     }
 
     /**
@@ -97,5 +102,13 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             ));
 
         $this->assertEquals('lus', $this->netvisor->request($root, 'service'));
+    }
+
+    /**
+     * @test
+     */
+    public function builds()
+    {
+        $this->assertInstanceOf('Xi\Netvisor\Netvisor', Netvisor::build($this->config));
     }
 }
