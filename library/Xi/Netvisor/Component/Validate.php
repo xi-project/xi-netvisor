@@ -2,8 +2,6 @@
 
 namespace Xi\Netvisor\Component;
 
-use Xi\Netvisor\Xml\Root;
-
 class Validate
 {
     /**
