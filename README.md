@@ -38,7 +38,7 @@ netvisor.enabled        = true
 ### Initialization
 
 ```php
-$config   = new Xi\Netvisor\Config(...);       // Use the parameters described above
+$config   = new Xi\Netvisor\Config(...);       // Use the parameters described above.
 $netvisor = new Xi\Netvisor\Netvisor($config);
 ```
 
@@ -54,5 +54,5 @@ $voucher = new Xi\Netvisor\Resource\Xml\Voucher();
 
 // Set the required fields...
 
-$netvisor->addVoucher($voucher); // send the Voucher to Netvisor
+$netvisor->addVoucher($voucher); // Send the Voucher to Netvisor.
 ```
