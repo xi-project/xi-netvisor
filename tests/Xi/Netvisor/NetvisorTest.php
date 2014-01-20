@@ -92,7 +92,6 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
     {
         $root = new TestRoot();
         $root->setValue('value');
-        $root->setInner('innervalue', 'innerattribute');
 
         $this->client->expects($this->once())
             ->method('send')

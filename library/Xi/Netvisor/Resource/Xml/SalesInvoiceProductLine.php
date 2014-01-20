@@ -19,6 +19,13 @@ class SalesInvoiceProductLine
     private $productVatPercentage;
     private $salesInvoiceProductLineQuantity;
 
+    /**
+     * @param string $productIdentifier
+     * @param string $productName
+     * @param string $productUnitPrice
+     * @param string $productVatPercentage
+     * @param int    $salesInvoiceProductLineQuantity
+     */
     public function __construct(
         $productIdentifier,
         $productName,

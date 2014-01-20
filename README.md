@@ -55,9 +55,9 @@ Resource's mandatory parameters are set in the constructor. Optional values can 
 ```php
 $invoice = new Xi\Netvisor\Resource\Xml\SalesInvoice(...);
 
+$invoiceProductLine = new Xi\Netvisor\Resource\Xml\SalesInvoiceProductLine(...);
 
-
-// Set the required fields...
+$invoice->addSalesInvoiceProductLine($invoiceProductLine);
 
 $netvisor->addSalesInvoice($invoice);
 ```

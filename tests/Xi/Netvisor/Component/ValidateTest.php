@@ -27,7 +27,6 @@ class ValidateTest extends XmlTestCase
     {
         $root = new TestRoot();
         $root->setValue('value');
-        $root->setInner('innervalue', 'innerattribute');
 
         $this->assertTrue(
             $this->validate->isValid($this->toXml($root), $root->getDtdPath())
@@ -41,7 +40,6 @@ class ValidateTest extends XmlTestCase
     {
         $root = new TestRoot();
         $root->setValue('value');
-        $root->setInner('innervalue', 'innerattribute');
 
         $this->assertTrue(
             $this->validate->isValid($this->toXml($root), $root->getDtdPath())
