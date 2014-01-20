@@ -49,4 +49,22 @@ class SalesInvoiceTest extends XmlTestCase
         $this->assertXmlContainsTagWithValue('invoicingCustomerIdentifier', '616', $xml);
         $this->assertXmlContainsTagWithAttributes('invoicingCustomerIdentifier', ['type' => 'netvisor'], $xml);
     }
+
+    /**
+     * @test
+     */
+    public function xmlHasAddedSalesInvoiceProductLines()
+    {
+        $this->invoice->addSalesInvoiceProductLine(new SalesInvoiceProductLine('1', 'A', '1,00', '24', '1'));
+        $this->invoice->addSalesInvoiceProductLine(new SalesInvoiceProductLine('2', 'B', '1,00', '24', '1'));
+
+        $xml = $this->toXml($this->invoice);
+
+        $this->assertContains('invoiceLines', $xml);
+        $this->assertContains('invoiceLine', $xml);
+        $this->assertContains('salesInvoiceProductLine', $xml);
+
+        $this->assertXmlContainsTagWithValue('productIdentifier', '1', $xml);
+        $this->assertXmlContainsTagWithValue('productIdentifier', '2', $xml);
+    }
 }
