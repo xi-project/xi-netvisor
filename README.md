@@ -44,16 +44,20 @@ $netvisor = new Xi\Netvisor\Netvisor($config);
 
 ### Constructing XML
 
-You can instantiate a certain type of a _Resource_ (e.g. `Xi\Netvisor\Resource\Xml\Voucher`).
+You can instantiate a certain type of a _Resource_ (e.g. `Xi\Netvisor\Resource\Xml\SalesInvoice`).
 All _Resources_ should extend `Xi\Netvisor\Resource\Xml\Root` and implement `getDtdPath()` to return a file path
 which points to a correct DTD file (used for validation).
+
+Resource's mandatory parameters are set in the constructor. Optional values can be set via setters.
 
 #### SalesInvoice
 
 ```php
-$ = new Xi\Netvisor\Resource\Xml\SalesInvoice();
+$invoice = new Xi\Netvisor\Resource\Xml\SalesInvoice(...);
+
+
 
 // Set the required fields...
 
-$netvisor->addVoucher($voucher); // Send the Voucher to Netvisor.
+$netvisor->addSalesInvoice($invoice);
 ```
