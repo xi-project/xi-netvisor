@@ -16,11 +16,12 @@ class SalesInvoiceTest extends XmlTestCase
     {
         parent::setUp();
 
-        $this->invoice = new SalesInvoice();
-
-        $this->invoice->setSalesInvoiceDate(\DateTime::createFromFormat('Y-m-d', '2014-01-20'));
-        $this->invoice->setSalesInvoiceAmount('5,00');
-        $this->invoice->setSalesInvoiceStatus('Unsent');
+        $this->invoice = new SalesInvoice(
+            \DateTime::createFromFormat('Y-m-d', '2014-01-20'),
+            '5,00',
+            'Open',
+            '616'
+        );
     }
 
     /**
@@ -34,13 +35,15 @@ class SalesInvoiceTest extends XmlTestCase
     /**
      * @test
      */
-    public function convertsToXml()
+    public function xmlHasRequiredSalesInvoiceValues()
     {
         $xml = $this->toXml($this->invoice);
 
         $this->assertXmlContainsTagWithValue('salesInvoiceDate', '2014-01-20', $xml);
         $this->assertXmlContainsTagWithValue('salesInvoiceAmount', '5,00', $xml);
-        $this->assertXmlContainsTagWithValue('salesInvoiceStatus', 'Unsent', $xml);
+        $this->assertXmlContainsTagWithValue('salesInvoiceStatus', 'Open', $xml);
+        $this->assertXmlContainsTagWithAttributes('salesInvoiceStatus', ['type' => 'netvisor'], $xml);
+        $this->assertXmlContainsTagWithValue('invoicingCustomerIdentifier', '616', $xml);
 
         var_dump($xml);
     }

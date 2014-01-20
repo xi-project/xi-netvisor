@@ -48,10 +48,10 @@ You can instantiate a certain type of a _Resource_ (e.g. `Xi\Netvisor\Resource\X
 All _Resources_ should extend `Xi\Netvisor\Resource\Xml\Root` and implement `getDtdPath()` to return a file path
 which points to a correct DTD file (used for validation).
 
-#### Vouchers
+#### SalesInvoice
 
 ```php
-$voucher = new Xi\Netvisor\Resource\Xml\Voucher();
+$ = new Xi\Netvisor\Resource\Xml\SalesInvoice();
 
 // Set the required fields...
 
