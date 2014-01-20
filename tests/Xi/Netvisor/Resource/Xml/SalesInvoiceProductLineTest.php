@@ -34,15 +34,15 @@ class SalesInvoiceProductLineTest extends XmlTestCase
         $xml = $this->toXml($this->invoiceProductLine);
 
         $this->assertXmlContainsTagWithValue('productIdentifier', '100', $xml);
-        $this->assertXmlContainsTagWithAttributes('productIdentifier', ['type' => 'netvisor'], $xml);
+        $this->assertXmlContainsTagWithAttributes('productIdentifier', array('type' => 'netvisor'), $xml);
 
         $this->assertXmlContainsTagWithValue('productName', 'Product name, which is longer than the limit of 50', $xml);
 
         $this->assertXmlContainsTagWithValue('productUnitPrice', '1,23', $xml);
-        $this->assertXmlContainsTagWithAttributes('productUnitPrice', ['type' => 'net'], $xml);
+        $this->assertXmlContainsTagWithAttributes('productUnitPrice', array('type' => 'net'), $xml);
 
         $this->assertXmlContainsTagWithValue('productVatPercentage', '24', $xml);
-        $this->assertXmlContainsTagWithAttributes('productVatPercentage', ['VatCode' => 'KOMY'], $xml);
+        $this->assertXmlContainsTagWithAttributes('productVatPercentage', array('VatCode' => 'KOMY'), $xml);
 
         $this->assertXmlContainsTagWithValue('salesInvoiceProductLineQuantity', 5, $xml);
     }
