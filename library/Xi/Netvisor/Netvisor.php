@@ -2,6 +2,7 @@
 namespace Xi\Netvisor;
 
 use Guzzle\Http\Client;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
 use Xi\Netvisor\Config;
 use Xi\Netvisor\Component\Request;
@@ -57,7 +58,7 @@ class Netvisor
         $this->client     = $client;
         $this->config     = $config;
         $this->validate   = new Validate();
-        $this->serializer = SerializerBuilder::create()->build();
+        $this->serializer = $this->createSerializer();
     }
 
     /**
@@ -103,5 +104,16 @@ class Netvisor
         $request = new Request($this->client, $this->config);
 
         return $request->send($xml, $service, $method, $id);
+    }
+
+    /**
+     * @return Serializer
+     */
+    private function createSerializer()
+    {
+        $builder = SerializerBuilder::create();
+        $builder->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy());
+
+        return $builder->build();
     }
 }

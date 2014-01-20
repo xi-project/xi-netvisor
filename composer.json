@@ -20,7 +20,7 @@
 
     "require": {
         "guzzle/guzzle": "3.3.*",
-        "jms/serializer": "0.12.*"
+        "jms/serializer": "0.14.*"
     },
 
     "require-dev": {

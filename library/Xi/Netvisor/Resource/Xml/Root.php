@@ -2,6 +2,10 @@
 
 namespace Xi\Netvisor\Resource\Xml;
 
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\XmlValue;
+
+/** @XmlRoot("Root") */
 abstract class Root
 {
     /**
@@ -11,4 +15,12 @@ abstract class Root
      * @return string
      */
     abstract public function getDtdPath();
+
+    /**
+     * @return string
+     */
+    protected function getDtdFile($filename)
+    {
+        return __DIR__ . '/../Dtd/' . $filename;
+    }
 }
