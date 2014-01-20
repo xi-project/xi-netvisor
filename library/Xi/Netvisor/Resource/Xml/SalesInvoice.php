@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation\XmlRoot;
 use JMS\Serializer\Annotation\XmlValue;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Inline;
+use Xi\Netvisor\Resource\Xml\Root;
+use Xi\Netvisor\Resource\Xml\Element;
 
 /**
  * @XmlRoot("SalesInvoice")
@@ -18,6 +20,12 @@ class SalesInvoice extends Root // TODO: This has to be inside a Root tag.
     private $salesInvoiceStatus;
     private $invoicingCustomerIdentifier;
 
+    /**
+     * @param \DateTime $salesInvoiceDate
+     * @param string    $salesInvoiceAmount
+     * @param string    $salesInvoiceStatus
+     * @param string    $invoicingCustomerIdentifier
+     */
     public function __construct(
         \DateTime $salesInvoiceDate,
         $salesInvoiceAmount,
@@ -27,7 +35,7 @@ class SalesInvoice extends Root // TODO: This has to be inside a Root tag.
         $this->salesInvoiceDate = $salesInvoiceDate->format('Y-m-d');
         $this->salesInvoiceAmount = $salesInvoiceAmount;
         $this->salesInvoiceStatus = new Element($salesInvoiceStatus, ['type' => 'netvisor']);
-        $this->invoicingCustomerIdentifier = $invoicingCustomerIdentifier;
+        $this->invoicingCustomerIdentifier = new Element($invoicingCustomerIdentifier, ['type' => 'netvisor']); // TODO: Type can be netvisor/customer.
     }
 
     public function getDtdPath()

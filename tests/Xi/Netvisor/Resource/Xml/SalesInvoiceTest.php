@@ -41,11 +41,11 @@ class SalesInvoiceTest extends XmlTestCase
 
         $this->assertXmlContainsTagWithValue('salesInvoiceDate', '2014-01-20', $xml);
         $this->assertXmlContainsTagWithValue('salesInvoiceAmount', '5,00', $xml);
+
         $this->assertXmlContainsTagWithValue('salesInvoiceStatus', 'Open', $xml);
         $this->assertXmlContainsTagWithAttributes('salesInvoiceStatus', ['type' => 'netvisor'], $xml);
-        $this->assertXmlContainsTagWithValue('invoicingCustomerIdentifier', '616', $xml);
 
-        var_dump($xml);
+        $this->assertXmlContainsTagWithValue('invoicingCustomerIdentifier', '616', $xml);
+        $this->assertXmlContainsTagWithAttributes('invoicingCustomerIdentifier', ['type' => 'netvisor'], $xml);
     }
 }
-
