@@ -2,6 +2,7 @@
 
 namespace Xi\Netvisor\Resource\Xml;
 
+use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use Xi\Netvisor\XmlTestCase;
 

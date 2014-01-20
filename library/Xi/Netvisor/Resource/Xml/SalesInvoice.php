@@ -3,11 +3,9 @@
 namespace Xi\Netvisor\Resource\Xml;
 
 use JMS\Serializer\Annotation\XmlRoot;
-use JMS\Serializer\Annotation\XmlValue;
 use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Inline;
-use Xi\Netvisor\Resource\Xml\Root;
-use Xi\Netvisor\Resource\Xml\Element;
+use Xi\Netvisor\Resource\Xml\Component\Root;
+use Xi\Netvisor\Resource\Xml\Component\Element;
 
 /**
  * @XmlRoot("SalesInvoice")

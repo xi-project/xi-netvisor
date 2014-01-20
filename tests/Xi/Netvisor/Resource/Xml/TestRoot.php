@@ -2,7 +2,7 @@
 
 namespace Xi\Netvisor\Resource\Xml;
 
-use Xi\Netvisor\Resource\Xml\Root;
+use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Annotation\XmlAttribute;
 use JMS\Serializer\Annotation\XmlRoot;
 use JMS\Serializer\Annotation\XmlValue;

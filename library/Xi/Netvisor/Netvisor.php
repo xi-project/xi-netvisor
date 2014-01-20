@@ -8,7 +8,7 @@ use Xi\Netvisor\Config;
 use Xi\Netvisor\Component\Request;
 use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Component\Validate;
-use Xi\Netvisor\Resource\Xml\Root;
+use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Serializer;
 
 /**

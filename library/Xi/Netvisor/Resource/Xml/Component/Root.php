@@ -1,6 +1,6 @@
 <?php
 
-namespace Xi\Netvisor\Resource\Xml;
+namespace Xi\Netvisor\Resource\Xml\Component;
 
 use JMS\Serializer\Annotation\XmlRoot;
 use JMS\Serializer\Annotation\XmlValue;
