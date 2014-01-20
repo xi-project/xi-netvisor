@@ -48,7 +48,7 @@ You can instantiate a certain type of a _Resource_ (e.g. `Xi\Netvisor\Resource\X
 All _Resources_ should extend `Xi\Netvisor\Resource\Xml\Root` and implement `getDtdPath()` to return a file path
 which points to a correct DTD file (used for validation).
 
-Resource's mandatory parameters are set in the constructor. Optional values can be set via setters.
+Resource's mandatory parameters are given in the constructor. Optional values can be set via setters.
 
 #### SalesInvoice
 

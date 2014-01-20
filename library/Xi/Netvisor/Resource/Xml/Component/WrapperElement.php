@@ -15,7 +15,7 @@ class WrapperElement
 
     /**
      * @param string $elementName
-     * @param string $value
+     * @param mixed  $value
      */
     public function __construct($elementName, $value)
     {

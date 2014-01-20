@@ -4,15 +4,14 @@ namespace Xi\Netvisor\Resource\Xml;
 
 use JMS\Serializer\Annotation\XmlRoot;
 use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Exclude;
 use JMS\Serializer\Annotation\XmlList;
-use JMS\Serializer\Annotation\XmlValue;
-use JMS\Serializer\Annotation\Inline;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
 
 /**
+ * TODO: Should be kept immutable?
+ *
  * @XmlRoot("SalesInvoice")
  * @ExclusionPolicy("none")
  */
@@ -46,6 +45,9 @@ class SalesInvoice extends Root // TODO: This has to be inside a Root tag.
         $this->invoicingCustomerIdentifier = new AttributeElement($invoicingCustomerIdentifier, array('type' => 'netvisor')); // TODO: Type can be netvisor/customer.
     }
 
+    /**
+     * @param SalesInvoiceProductLine $line
+     */
     public function addSalesInvoiceProductLine(SalesInvoiceProductLine $line)
     {
         $this->invoiceLines[] = new WrapperElement('salesInvoiceProductLine', $line);

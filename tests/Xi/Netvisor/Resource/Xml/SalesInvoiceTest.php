@@ -59,6 +59,7 @@ class SalesInvoiceTest extends XmlTestCase
         $this->invoice->addSalesInvoiceProductLine(new SalesInvoiceProductLine('2', 'B', '1,00', '24', '1'));
 
         $xml = $this->toXml($this->invoice);
+        var_dump($xml);
 
         $this->assertContains('invoiceLines', $xml);
         $this->assertContains('invoiceLine', $xml);
