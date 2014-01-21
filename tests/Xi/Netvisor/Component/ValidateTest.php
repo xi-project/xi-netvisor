@@ -3,7 +3,7 @@
 namespace Xi\Netvisor\Component;
 
 use Xi\Netvisor\Component\Validate;
-use Xi\Netvisor\Resource\Xml\TestRoot;
+use Xi\Netvisor\Resource\Xml\TestResource;
 use Xi\Netvisor\XmlTestCase;
 
 class ValidateTest extends XmlTestCase
@@ -25,11 +25,11 @@ class ValidateTest extends XmlTestCase
      */
     public function validatesXmlAgainstDtd()
     {
-        $root = new TestRoot();
-        $root->setValue('value');
+        $resource = new TestResource();
+        $resource->setValue('value');
 
         $this->assertTrue(
-            $this->validate->isValid($this->toXml($root), $root->getDtdPath())
+            $this->validate->isValid($this->toXml($resource->getSerializableObject()), $resource->getDtdPath())
         );
     }
 
@@ -38,11 +38,11 @@ class ValidateTest extends XmlTestCase
      */
     public function isNotValidIfXmlDoesNotSatisfyDtd()
     {
-        $root = new TestRoot();
-        $root->setValue('value');
+        $resource = new TestResource();
+        $resource->setValue('value');
 
         $this->assertTrue(
-            $this->validate->isValid($this->toXml($root), $root->getDtdPath())
+            $this->validate->isValid($this->toXml($resource->getSerializableObject()), $resource->getDtdPath())
         );
     }
 }

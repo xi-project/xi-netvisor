@@ -95,7 +95,7 @@ class Netvisor
             return null;
         }
 
-        $xml = $this->serializer->serialize($root, 'xml');
+        $xml = $this->serializer->serialize($root->getSerializableObject(), 'xml');
 
         if (!$this->validate->isValid($xml, $root->getDtdPath())) {
             throw new NetvisorException('XML is not valid according to DTD');

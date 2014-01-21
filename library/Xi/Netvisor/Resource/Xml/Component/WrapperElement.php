@@ -4,7 +4,11 @@ namespace Xi\Netvisor\Resource\Xml\Component;
 
 use JMS\Serializer\Annotation\XmlKeyValuePairs;
 use JMS\Serializer\Annotation\Inline;
+use JMS\Serializer\Annotation\XmlRoot;
 
+/**
+ * @XmlRoot("root")
+ */
 class WrapperElement
 {
     /**

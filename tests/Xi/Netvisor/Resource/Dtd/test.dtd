@@ -1,5 +1,6 @@
 <!DOCTYPE root [
-    <!ELEMENT root (value)>
+    <!ELEMENT root (test)>
 
+    <!ELEMENT test (value)>
     <!ELEMENT value (#PCDATA)>
 ]>

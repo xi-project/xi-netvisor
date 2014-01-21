@@ -3,10 +3,8 @@
 namespace Xi\Netvisor\Resource\Xml;
 
 use Xi\Netvisor\Resource\Xml\Component\Root;
-use JMS\Serializer\Annotation\XmlRoot;
 
-/** @XmlRoot("root") */
-class TestRoot extends Root
+class TestResource extends Root
 {
     protected $value;
 
@@ -24,5 +22,10 @@ class TestRoot extends Root
     public function getDtdPath()
     {
         return __DIR__ . '/../Dtd/test.dtd';
+    }
+
+    protected function getXmlName()
+    {
+        return 'test';
     }
 }

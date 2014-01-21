@@ -2,15 +2,8 @@
 
 namespace Xi\Netvisor\Resource\Xml;
 
-use JMS\Serializer\Annotation\XmlRoot;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use Xi\Netvisor\Resource\Xml\Component\Root;
 use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 
-/**
- * @XmlRoot("SalesInvoiceProductLine")
- * @ExclusionPolicy("none")
- */
 class SalesInvoiceProductLine
 {
     private $productIdentifier;
