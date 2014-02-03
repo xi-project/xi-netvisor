@@ -27,5 +27,13 @@
         "phpunit/phpunit": "3.7.*"
     },
 
+    "autoload": {
+        "psr-0": {
+            "Xi\\Netvisor": "xi-netvisor/library/"
+        }
+    },
+
+    "target-dir": "xi-netvisor",
+
     "minimum-stability": "stable"
 }
