@@ -1,0 +1,6 @@
+<!DOCTYPE root [
+    <!ELEMENT root (test)>
+
+    <!ELEMENT test (value)>
+    <!ELEMENT value (#PCDATA)>
+]>
