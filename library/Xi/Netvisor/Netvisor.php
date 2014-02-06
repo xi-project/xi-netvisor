@@ -26,16 +26,6 @@ use JMS\Serializer\Serializer;
  */
 class Netvisor
 {
-    const SERVICE_INVOICE_ADD = 'salesinvoice';
-
-    const METHOD_ADD  = 'add',
-          METHOD_EDIT = 'edit';
-
-    const RESPONSE_STATUS_OK     = 'OK',
-          RESPONSE_STATUS_FAILED = 'FAILED';
-
-    const INVALID_DATA_CUSTOMER_NOT_FOUND = 'Customer not found';
-
     /**
      * @var Config
      */
@@ -59,8 +49,8 @@ class Netvisor
     /**
      * Initialize with Netvisor::build()
      *
-     * @param Client $client
-     * @param Config $config
+     * @param Client            $client
+     * @param Config            $config
      */
     public function __construct(
         Client $client,
@@ -75,7 +65,7 @@ class Netvisor
     /**
      * Builds a default instance of this class.
      *
-     * @param  Config   $config
+     * @param  Config           $config
      * @return Netvisor
      */
     public static function build(Config $config)
@@ -84,14 +74,12 @@ class Netvisor
     }
 
     /**
-     * Sends invoice to Netvisor for processing
-     *
-     * @param  Root        $root
+     * @param Root              $root
      * @return null|string
      */
     public function sendInvoice(Root $root)
     {
-        return $this->request($root, self::SERVICE_INVOICE_ADD);
+        return $this->request($root, 'salesinvoice');
     }
 
     /**
