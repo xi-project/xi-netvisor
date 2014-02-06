@@ -59,8 +59,8 @@ class Netvisor
     /**
      * Initialize with Netvisor::build()
      *
-     * @param Client            $client
-     * @param Config            $config
+     * @param Client $client
+     * @param Config $config
      */
     public function __construct(
         Client $client,
@@ -75,7 +75,7 @@ class Netvisor
     /**
      * Builds a default instance of this class.
      *
-     * @param  Config           $config
+     * @param  Config   $config
      * @return Netvisor
      */
     public static function build(Config $config)
@@ -84,7 +84,9 @@ class Netvisor
     }
 
     /**
-     * @param Root              $root
+     * Sends invoice to Netvisor for processing
+     *
+     * @param  Root        $root
      * @return null|string
      */
     public function sendInvoice(Root $root)
