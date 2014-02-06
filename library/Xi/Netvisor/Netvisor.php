@@ -22,9 +22,36 @@ use JMS\Serializer\Serializer;
  * @author   Panu Leppäniemi <me@panuleppaniemi.com>
  * @author   Henri Vesala    <henri.vesala@gmail.fi>
  * @author   Petri Koivula   <petri.koivula@iki.fi>
+ * @author   Artur Gajewski  <info@arturgajewski.com>
  */
 class Netvisor
 {
+    const SERVICE_INVOICE_ADD = 'salesinvoice',
+          SERVICE_PAYMENT_ADD = 'salespayment',
+          SERVICE_ACCOUNTING_ADD = 'accounting',
+          SERVICE_CUSTOMER_ADD = 'customer',
+          SERVICE_PRODUCT_ADD = 'product',
+          SERVICE_PAYROLL_ADD = 'payrollpaycheckbatch',
+          SERVICE_WORKDAY_ADD = 'workday',
+          SERVICE_BUDGET_ADD = 'accountingbudget',
+          SERVICE_INVOICE_LIST = 'salesinvoicelist',
+          SERVICE_INVOICE_GET = 'getsalesinvoice',
+          SERVICE_CUSTOMER_LIST = 'customerlist',
+          SERVICE_CUSTOMER_GET = 'getcustomer',
+          SERVICE_PRODUCT_LIST = 'productlist',
+          SERVICE_PRODUCT_GET = 'getproduct',
+          SERVICE_COMPANY_INFORMATION_GET = 'getcompanyinformation',
+          SERVICE_EMPLOYEE_ADD = 'employee',
+          SERVICE_PAYROLL_PERIOD_ADD = 'collectortimereportratio';
+
+    const METHOD_ADD  = 'add',
+          METHOD_EDIT = 'edit';
+
+    const RESPONSE_STATUS_OK     = 'OK',
+          RESPONSE_STATUS_FAILED = 'FAILED';
+
+    const INVALID_DATA_CUSTOMER_NOT_FOUND = 'Customer not found';
+
     /**
      * @var Config
      */
