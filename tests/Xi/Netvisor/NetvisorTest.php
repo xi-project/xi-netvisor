@@ -106,6 +106,24 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function sendInvoiceSendsRequest()
+    {
+        $resource = new TestResource();
+        $resource->setValue('value');
+
+        $this->client->expects($this->once())
+            ->method('send')
+            ->with($this->anything())
+            ->will($this->returnValue(
+                new Response('200', array(), 'lus')
+            ));
+
+        $this->assertEquals('lus', $this->netvisor->sendInvoice($resource));
+    }
+
+    /**
+     * @test
+     */
     public function builds()
     {
         $this->assertInstanceOf('Xi\Netvisor\Netvisor', Netvisor::build($this->config));
