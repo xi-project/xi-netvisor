@@ -26,23 +26,7 @@ use JMS\Serializer\Serializer;
  */
 class Netvisor
 {
-    const SERVICE_INVOICE_ADD = 'salesinvoice',
-          SERVICE_PAYMENT_ADD = 'salespayment',
-          SERVICE_ACCOUNTING_ADD = 'accounting',
-          SERVICE_CUSTOMER_ADD = 'customer',
-          SERVICE_PRODUCT_ADD = 'product',
-          SERVICE_PAYROLL_ADD = 'payrollpaycheckbatch',
-          SERVICE_WORKDAY_ADD = 'workday',
-          SERVICE_BUDGET_ADD = 'accountingbudget',
-          SERVICE_INVOICE_LIST = 'salesinvoicelist',
-          SERVICE_INVOICE_GET = 'getsalesinvoice',
-          SERVICE_CUSTOMER_LIST = 'customerlist',
-          SERVICE_CUSTOMER_GET = 'getcustomer',
-          SERVICE_PRODUCT_LIST = 'productlist',
-          SERVICE_PRODUCT_GET = 'getproduct',
-          SERVICE_COMPANY_INFORMATION_GET = 'getcompanyinformation',
-          SERVICE_EMPLOYEE_ADD = 'employee',
-          SERVICE_PAYROLL_PERIOD_ADD = 'collectortimereportratio';
+    const SERVICE_INVOICE_ADD = 'salesinvoice';
 
     const METHOD_ADD  = 'add',
           METHOD_EDIT = 'edit';
@@ -75,8 +59,8 @@ class Netvisor
     /**
      * Initialize with Netvisor::build()
      *
-     * @param Client $client
-     * @param Config $config
+     * @param Client            $client
+     * @param Config            $config
      */
     public function __construct(
         Client $client,
@@ -91,7 +75,7 @@ class Netvisor
     /**
      * Builds a default instance of this class.
      *
-     * @param  Config   $config
+     * @param  Config           $config
      * @return Netvisor
      */
     public static function build(Config $config)
@@ -100,12 +84,12 @@ class Netvisor
     }
 
     /**
-     * @param Voucher $voucher
+     * @param Root              $root
+     * @return null|string
      */
-    public function addVoucher(Voucher $voucher)
+    public function sendInvoice(Root $root)
     {
-        // TODO: Implement
-        // return $this->request();
+        return $this->request($root, self::SERVICE_INVOICE_ADD);
     }
 
     /**
