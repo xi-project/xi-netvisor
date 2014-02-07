@@ -10,6 +10,7 @@ use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Serializer;
+use Xi\Netvisor\Resource\Xml\SalesInvoice;
 
 /**
  * Connects to Netvisor-interface via HTTP.
@@ -49,37 +50,39 @@ class Netvisor
     /**
      * Initialize with Netvisor::build()
      *
-     * @param Client            $client
-     * @param Config            $config
+     * @param Client   $client
+     * @param Config   $config
+     * @param Validate $validate
      */
     public function __construct(
         Client $client,
-        Config $config
+        Config $config,
+        Validate $validate
     ) {
         $this->client     = $client;
         $this->config     = $config;
-        $this->validate   = new Validate();
+        $this->validate   = $validate;
         $this->serializer = $this->createSerializer();
     }
 
     /**
      * Builds a default instance of this class.
      *
-     * @param  Config           $config
+     * @param  Config   $config
      * @return Netvisor
      */
     public static function build(Config $config)
     {
-        return new Netvisor(new Client(), $config);
+        return new Netvisor(new Client(), $config, new Validate());
     }
 
     /**
-     * @param Root              $root
+     * @param  SalesInvoice $invoice
      * @return null|string
      */
-    public function sendInvoice(Root $root)
+    public function sendInvoice(SalesInvoice $invoice)
     {
-        return $this->request($root, 'salesinvoice');
+        return $this->request($invoice, 'salesinvoice');
     }
 
     /**
