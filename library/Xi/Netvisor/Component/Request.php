@@ -105,7 +105,6 @@ class Request
      */
     private function hasRequestFailed($response)
     {
-        var_dump($response);
         return strstr($response->getBody(true), '<Status>FAILED</Status>') != false;
     }
 
