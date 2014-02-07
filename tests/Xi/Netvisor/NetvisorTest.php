@@ -4,6 +4,7 @@ namespace Xi\Netvisor;
 
 use Xi\Netvisor\Netvisor;
 use Xi\Netvisor\Config;
+use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use Guzzle\Http\Client;
 use Xi\Netvisor\Resource\Xml\TestResource;
 use Guzzle\Http\Message\Response;
@@ -14,6 +15,11 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
      * @var Netvisor
      */
     private $netvisor;
+
+    /**
+     * @var Mock_Validate
+     */
+    private $validateMock;
 
     /**
      * @var Client
@@ -30,6 +36,17 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+
+        $this->validateMock = $this->getMockBuilder('Xi\Netvisor\Component\Validate')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->validateMock->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(
+                true
+            ));
+
         $this->client = $this->getMockBuilder('Guzzle\Http\Client')
             ->disableOriginalConstructor()
             ->getMock();
@@ -46,7 +63,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             'partnerKey'
         );
 
-        $this->netvisor = new Netvisor($this->client, $this->config);
+        $this->netvisor = new Netvisor($this->client, $this->config, $this->validateMock);
     }
 
     /**
@@ -66,7 +83,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             'partnerKey'
         );
 
-        $netvisor = new Netvisor($this->client, $config);
+        $netvisor = new Netvisor($this->client, $config, $validateMock);
 
         $this->assertNull(
             $netvisor->request(new TestResource(), 'service')
@@ -108,8 +125,15 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
      */
     public function sendInvoiceSendsRequest()
     {
-        $resource = new TestResource();
-        $resource->setValue('value');
+        $invoice = $this->getMockBuilder('Xi\Netvisor\Resource\Xml\SalesInvoice')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $invoice->expects($this->once())
+            ->method('getDtdPath')
+            ->will($this->returnValue(
+                __DIR__ . '/Resource/Dtd/test.dtd'
+            ));
 
         $this->client->expects($this->once())
             ->method('send')
@@ -118,7 +142,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
                 new Response('200', array(), 'lus')
             ));
 
-        $this->assertEquals('lus', $this->netvisor->sendInvoice($resource));
+        $this->assertEquals('lus', $this->netvisor->sendInvoice($invoice));
     }
 
     /**
