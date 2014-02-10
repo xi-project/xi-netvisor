@@ -2,8 +2,10 @@
 
 namespace Xi\Netvisor;
 
+use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Netvisor;
 use Xi\Netvisor\Config;
+use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use Guzzle\Http\Client;
 use Xi\Netvisor\Resource\Xml\TestResource;
 use Guzzle\Http\Message\Response;
@@ -46,7 +48,15 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             'partnerKey'
         );
 
-        $this->netvisor = new Netvisor($this->client, $this->config);
+        $this->netvisor = new Netvisor($this->client, $this->config, new Validate());
+    }
+
+    /**
+     * @test
+     */
+    public function builds()
+    {
+        $this->assertInstanceOf('Xi\Netvisor\Netvisor', Netvisor::build($this->config));
     }
 
     /**
@@ -66,7 +76,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             'partnerKey'
         );
 
-        $netvisor = new Netvisor($this->client, $config);
+        $netvisor = new Netvisor($this->client, $config, new Validate());
 
         $this->assertNull(
             $netvisor->request(new TestResource(), 'service')
@@ -78,11 +88,9 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
      */
     public function throwsIfXmlIsNotValid()
     {
-        $resource = new TestResource();
-
         $this->setExpectedException('Xi\Netvisor\Exception\NetvisorException', 'XML is not valid according to DTD');
 
-        $this->netvisor->request($resource, 'service');
+        $this->netvisor->request(new TestResource(), 'service');
     }
 
     /**
@@ -104,10 +112,36 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * TODO: Betterize test and/or Netvisor structure.
+     *
      * @test
      */
-    public function builds()
+    public function sendInvoiceSendsRequest()
     {
-        $this->assertInstanceOf('Xi\Netvisor\Netvisor', Netvisor::build($this->config));
+        $validate = $this->getMockBuilder('Xi\Netvisor\Component\Validate')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $validate->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(true));
+
+        $netvisor = new Netvisor($this->client, $this->config, $validate);
+
+        $this->client->expects($this->once())
+            ->method('send')
+            ->will($this->returnValue(
+                new Response('200', array(), 'lus')
+            ));
+
+        $invoice = $this->getMockBuilder('Xi\Netvisor\Resource\Xml\SalesInvoice')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $invoice->expects($this->once())
+            ->method('getDtdPath')
+            ->will($this->returnValue(__DIR__ . '/Resource/Dtd/test.dtd'));
+
+        $this->assertEquals('lus', $netvisor->sendInvoice($invoice));
     }
 }

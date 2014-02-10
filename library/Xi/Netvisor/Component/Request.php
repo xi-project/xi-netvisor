@@ -100,7 +100,7 @@ class Request
     }
 
     /**
-     * @param  string  $response
+     * @param  Response $response
      * @return boolean
      */
     private function hasRequestFailed($response)

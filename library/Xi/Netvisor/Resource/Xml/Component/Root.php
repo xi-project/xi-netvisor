@@ -36,6 +36,6 @@ abstract class Root
      */
     protected function getDtdFile($filename)
     {
-        return __DIR__ . '/../Dtd/' . $filename;
+        return __DIR__ . '/../../Dtd/' . $filename;
     }
 }
