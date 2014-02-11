@@ -1,3 +1,4 @@
+<!DOCTYPE root [
 <!ELEMENT root (salesinvoice)>
 <!ELEMENT salesinvoice (salesinvoicenumber?, salesinvoicedate, salesinvoicedeliverydate?, salesinvoicereferencenumber?, salesinvoiceamount, selleridentifier?, sellername?, invoicetype?, salesinvoicestatus, salesinvoicefreetextbeforelines?, salesinvoicefreetextafterlines?, salesinvoiceourreference?, salesinvoiceyourreference?, salesinvoiceprivatecomment?, invoicingcustomeridentifier, invoicingcustomername?, invoicingcustomernameextension?, invoicingcustomeraddressline?, invoicingcustomeradditionaladdressline?, invoicingcustomerpostnumber?, invoicingcustomertown?, invoicingcustomercountrycode?, deliveryaddressname?, deliveryaddressnameextension?, deliveryaddressline?, deliveryaddresspostnumber?, deliveryaddresstown?, deliveryaddresscountrycode?, deliverymethod?, deliveryterm?, salesinvoicetaxhandlingtype?, paymenttermnetdays, paymenttermcashdiscountdays?, paymenttermcashdiscount?, expectpartialpayments?, trydirectdebitlink?, overridevouchersalesreceivablesaccountnumber?, invoicesubjecttype?, printchannelformat?, invoicelines, invoicevoucherlines?, salesinvoiceaccrual?, salesinvoiceattachments?, customtags?)>
 <!ELEMENT invoicelines (invoiceline+)>
@@ -111,3 +112,4 @@
 <!ELEMENT tagname (#PCDATA)>
 <!ELEMENT tagvalue (#PCDATA)>
 	<!ATTLIST tagvalue datatype (date|text|float|enum) #REQUIRED>
+]>

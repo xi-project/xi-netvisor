@@ -18,7 +18,7 @@ class SalesInvoice extends Root
     private $invoicingCustomerIdentifier;
 
     /**
-     * @XmlList(entry = "invoiceLine")
+     * @XmlList(entry = "invoiceline")
      */
     private $invoiceLines = array();
 
@@ -55,6 +55,6 @@ class SalesInvoice extends Root
 
     protected function getXmlName()
     {
-        return 'salesInvoice';
+        return 'salesinvoice';
     }
 }

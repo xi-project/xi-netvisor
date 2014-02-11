@@ -29,7 +29,7 @@ class SalesInvoiceProductLine
         $this->productIdentifier = new AttributeElement($productIdentifier, array('type' => 'netvisor')); // TODO: netvisor/customer.
         $this->productName = substr($productName, 0, 50);
         $this->productUnitPrice = new AttributeElement($productUnitPrice, array('type' => 'net')); // TODO: net/gross.
-        $this->productVatPercentage = new AttributeElement($productVatPercentage, array('VatCode' => 'KOMY')); // TODO: different values.
+        $this->productVatPercentage = new AttributeElement($productVatPercentage, array('vatcode' => 'KOMY')); // TODO: different values.
         $this->salesInvoiceProductLineQuantity = $salesInvoiceProductLineQuantity;
     }
 }
