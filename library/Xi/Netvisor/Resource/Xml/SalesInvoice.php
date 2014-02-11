@@ -35,7 +35,7 @@ class SalesInvoice extends Root
         $salesInvoiceAmount,
         $salesInvoiceStatus,
         $invoicingCustomerIdentifier,
-        $paymentTermNetDays = 14
+        $paymentTermNetDays
     ) {
         $this->salesInvoiceDate = $salesInvoiceDate->format('Y-m-d');
         $this->salesInvoiceAmount = $salesInvoiceAmount;

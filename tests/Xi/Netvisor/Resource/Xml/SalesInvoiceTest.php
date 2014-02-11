@@ -23,7 +23,8 @@ class SalesInvoiceTest extends XmlTestCase
             \DateTime::createFromFormat('Y-m-d', '2014-01-20'),
             '5,00',
             'Open',
-            '616'
+            '616',
+            14
         );
     }
 
