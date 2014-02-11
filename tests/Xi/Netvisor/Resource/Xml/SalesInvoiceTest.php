@@ -42,14 +42,14 @@ class SalesInvoiceTest extends XmlTestCase
     {
         $xml = $this->toXml($this->invoice->getSerializableObject());
 
-        $this->assertXmlContainsTagWithValue('salesInvoiceDate', '2014-01-20', $xml);
-        $this->assertXmlContainsTagWithValue('salesInvoiceAmount', '5,00', $xml);
+        $this->assertXmlContainsTagWithValue('salesinvoicedate', '2014-01-20', $xml);
+        $this->assertXmlContainsTagWithValue('salesinvoiceamount', '5,00', $xml);
 
-        $this->assertXmlContainsTagWithValue('salesInvoiceStatus', 'Open', $xml);
-        $this->assertXmlContainsTagWithAttributes('salesInvoiceStatus', array('type' => 'netvisor'), $xml);
+        $this->assertXmlContainsTagWithValue('salesinvoicestatus', 'Open', $xml);
+        $this->assertXmlContainsTagWithAttributes('salesinvoicestatus', array('type' => 'netvisor'), $xml);
 
-        $this->assertXmlContainsTagWithValue('invoicingCustomerIdentifier', '616', $xml);
-        $this->assertXmlContainsTagWithAttributes('invoicingCustomerIdentifier', array('type' => 'netvisor'), $xml);
+        $this->assertXmlContainsTagWithValue('invoicingcustomeridentifier', '616', $xml);
+        $this->assertXmlContainsTagWithAttributes('invoicingcustomeridentifier', array('type' => 'netvisor'), $xml);
     }
 
     /**
@@ -62,11 +62,11 @@ class SalesInvoiceTest extends XmlTestCase
 
         $xml = $this->toXml($this->invoice->getSerializableObject());
 
-        $this->assertContains('invoiceLines', $xml);
-        $this->assertContains('invoiceLine', $xml);
-        $this->assertContains('salesInvoiceProductLine', $xml);
+        $this->assertContains('invoicelines', $xml);
+        $this->assertContains('invoiceline', $xml);
+        $this->assertContains('salesinvoiceproductline', $xml);
 
-        $this->assertXmlContainsTagWithValue('productIdentifier', '1', $xml);
-        $this->assertXmlContainsTagWithValue('productIdentifier', '2', $xml);
+        $this->assertXmlContainsTagWithValue('productidentifier', '1', $xml);
+        $this->assertXmlContainsTagWithValue('productidentifier', '2', $xml);
     }
 }

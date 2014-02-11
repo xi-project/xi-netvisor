@@ -4,7 +4,7 @@ namespace Xi\Netvisor;
 
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
 
 class XmlTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class XmlTestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $builder = SerializerBuilder::create();
-        $builder->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy());
+        $builder->setPropertyNamingStrategy(new LowercaseNamingStrategy());
 
         $this->serializer = $builder->build();
     }
