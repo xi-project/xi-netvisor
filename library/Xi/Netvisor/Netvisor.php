@@ -2,7 +2,6 @@
 namespace Xi\Netvisor;
 
 use Guzzle\Http\Client;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
 use Xi\Netvisor\Config;
 use Xi\Netvisor\Component\Request;
@@ -11,6 +10,7 @@ use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Serializer;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
+use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
 
 /**
  * Connects to Netvisor-interface via HTTP.
@@ -116,7 +116,7 @@ class Netvisor
     private function createSerializer()
     {
         $builder = SerializerBuilder::create();
-        $builder->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy());
+        $builder->setPropertyNamingStrategy(new LowercaseNamingStrategy());
 
         return $builder->build();
     }
