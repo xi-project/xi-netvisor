@@ -4,7 +4,7 @@ error_reporting(E_ALL | E_STRICT);
 
 set_include_path(dirname(__DIR__) . '/library' . PATH_SEPARATOR . __DIR__ . PATH_SEPARATOR . get_include_path());
 
-require '../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Register a trivial autoloader
