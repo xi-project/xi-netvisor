@@ -2,6 +2,10 @@
 
 Netvisor API interface for PHP 5.3+.
 
+Travis CI status
+
+[![Build Status](https://secure.travis-ci.org/xi-project/xi-netvisor.png)](https://travis-ci.org/xi-project/xi-netvisor)
+
 ## Interfaces
 
 - None yet
