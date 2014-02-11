@@ -16,6 +16,7 @@ class SalesInvoice extends Root
     private $salesInvoiceAmount;
     private $salesInvoiceStatus;
     private $invoicingCustomerIdentifier;
+    private $paymentTermNetDays;
 
     /**
      * @XmlList(entry = "invoiceline")
@@ -27,17 +28,20 @@ class SalesInvoice extends Root
      * @param string    $salesInvoiceAmount
      * @param string    $salesInvoiceStatus
      * @param string    $invoicingCustomerIdentifier
+     * @param int       $paymentTermNetDays
      */
     public function __construct(
         \DateTime $salesInvoiceDate,
         $salesInvoiceAmount,
         $salesInvoiceStatus,
-        $invoicingCustomerIdentifier
+        $invoicingCustomerIdentifier,
+        $paymentTermNetDays = 14
     ) {
         $this->salesInvoiceDate = $salesInvoiceDate->format('Y-m-d');
         $this->salesInvoiceAmount = $salesInvoiceAmount;
         $this->salesInvoiceStatus = new AttributeElement($salesInvoiceStatus, array('type' => 'netvisor'));
         $this->invoicingCustomerIdentifier = new AttributeElement($invoicingCustomerIdentifier, array('type' => 'netvisor')); // TODO: Type can be netvisor/customer.
+        $this->paymentTermNetDays = $paymentTermNetDays;
     }
 
     /**
@@ -45,7 +49,7 @@ class SalesInvoice extends Root
      */
     public function addSalesInvoiceProductLine(SalesInvoiceProductLine $line)
     {
-        $this->invoiceLines[] = new WrapperElement('salesInvoiceProductLine', $line);
+        $this->invoiceLines[] = new WrapperElement('salesinvoiceproductline', $line);
     }
 
     public function getDtdPath()
