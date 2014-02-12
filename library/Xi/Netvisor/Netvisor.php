@@ -105,8 +105,10 @@ class Netvisor
             throw new NetvisorException('XML is not valid according to DTD');
         }
 
-        $request = new Request($this->client, $this->config);
+        // Remove XML declaration as Netvisor won't allow it.
+        $xml = str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "", $xml);
 
+        $request = new Request($this->client, $this->config);
         return $request->send($xml, $service, $method, $id);
     }
 

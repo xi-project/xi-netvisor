@@ -40,9 +40,6 @@ class Request
      */
     public function send($xml, $service, $method = null, $id = null)
     {
-        // Netvisor does not allow xml definition in the XML
-        $xml = str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "", $xml);
-
         $url     = $this->createUrl($service, $method, $id);
         $headers = $this->createHeaders($url);
         $request = $this->client->createRequest(RequestInterface::POST, $url, $headers, $xml);
