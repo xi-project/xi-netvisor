@@ -105,10 +105,9 @@ class Netvisor
             throw new NetvisorException('XML is not valid according to DTD');
         }
 
-        $xml = $this->processXml($xml);
-
         $request = new Request($this->client, $this->config);
-        return $request->send($xml, $service, $method, $id);
+
+        return $request->send($this->processXml($xml), $service, $method, $id);
     }
 
     /**
