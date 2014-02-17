@@ -107,7 +107,7 @@ class Netvisor
 
         $request = new Request($this->client, $this->config);
 
-        return $request->send($xml, $service, $method, $id);
+        return $request->send($this->processXml($xml), $service, $method, $id);
     }
 
     /**
@@ -119,5 +119,19 @@ class Netvisor
         $builder->setPropertyNamingStrategy(new LowercaseNamingStrategy());
 
         return $builder->build();
+    }
+
+    /**
+     * Process given XML into Netvisor specific format
+     *
+     * @param  string $xml
+     * @return string
+     */
+    public function processXml($xml)
+    {
+        $xml = str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "", $xml);
+        $xml = str_replace(array('<![CDATA[', ']]>'), '', $xml);
+
+        return $xml;
     }
 }
