@@ -144,4 +144,14 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('lus', $netvisor->sendInvoice($invoice));
     }
+
+    /**
+     * @test
+     */
+    public function processInvoiceToWorkWithNetvisor()
+    {
+        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<salesinvoicedate><![CDATA[2014-02-17]]></salesinvoicedate>";
+
+        $this->assertEquals('<salesinvoicedate>2014-02-17</salesinvoicedate>', $this->netvisor->processXml($xml));
+    }
 }

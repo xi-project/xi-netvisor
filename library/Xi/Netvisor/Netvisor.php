@@ -105,8 +105,7 @@ class Netvisor
             throw new NetvisorException('XML is not valid according to DTD');
         }
 
-        // Remove XML declaration as Netvisor won't allow it.
-        $xml = str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "", $xml);
+        $xml = $this->processXml($xml);
 
         $request = new Request($this->client, $this->config);
         return $request->send($xml, $service, $method, $id);
@@ -121,5 +120,19 @@ class Netvisor
         $builder->setPropertyNamingStrategy(new LowercaseNamingStrategy());
 
         return $builder->build();
+    }
+
+    /**
+     * Process given XML into Netvisor specific format
+     *
+     * @param  string $xml
+     * @return string
+     */
+    public function processXml($xml)
+    {
+        $xml = str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "", $xml);
+        $xml = str_replace(array('<![CDATA[', ']]>'), '', $xml);
+
+        return $xml;
     }
 }
