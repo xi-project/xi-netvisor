@@ -2,11 +2,10 @@
 
 namespace Xi\Netvisor\Component;
 
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use Xi\Netvisor\Component\Request;
-use Guzzle\Http\Message\RequestInterface;
 use Xi\Netvisor\Config;
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,18 +23,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->client = $this->getMockBuilder('Guzzle\Http\Client')
+        $this->client = $this->getMockBuilder('GuzzleHttp\Client')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->client->expects($this->once())
-            ->method('createRequest')
-            ->with(
-                RequestInterface::POST,
-                'http://integration.netvisor.fi/accounting.nv',
-                $this->anything(),
-                '<?xml>'
-            );
 
         $config = new Config(
             true,
@@ -58,8 +48,12 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function createsRequest()
     {
         $this->client->expects($this->once())
-            ->method('send')
-            ->with($this->anything())
+            ->method('request')
+            ->with(
+                'POST',
+                'http://integration.netvisor.fi/accounting.nv',
+                $this->anything()
+            )
             ->will($this->returnValue(
                 new Response('200', array(), 'hello')
             ));
@@ -87,8 +81,12 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 LUS;
 
         $this->client->expects($this->once())
-            ->method('send')
-            ->with($this->anything())
+            ->method('request')
+            ->with(
+                'POST',
+                'http://integration.netvisor.fi/accounting.nv',
+                $this->anything()
+            )
             ->will($this->returnValue(
                 new Response('200', array(), $xmlResponse)
             ));
@@ -120,8 +118,12 @@ LUS;
 LUS;
 
         $this->client->expects($this->once())
-            ->method('send')
-            ->with($this->anything())
+            ->method('request')
+            ->with(
+                'POST',
+                'http://integration.netvisor.fi/accounting.nv',
+                $this->anything()
+            )
             ->will($this->returnValue(
                 new Response('200', array(), $xmlResponse)
             ));
