@@ -40,7 +40,5 @@
         }
     },
 
-    "target-dir": "xi-netvisor",
-
     "minimum-stability": "stable"
 }
