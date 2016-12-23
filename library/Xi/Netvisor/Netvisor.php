@@ -1,7 +1,7 @@
 <?php
 namespace Xi\Netvisor;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use JMS\Serializer\SerializerBuilder;
 use Xi\Netvisor\Config;
 use Xi\Netvisor\Component\Request;

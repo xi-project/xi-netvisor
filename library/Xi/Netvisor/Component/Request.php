@@ -2,8 +2,8 @@
 
 namespace Xi\Netvisor\Component;
 
-use Guzzle\Http\Client as HttpClient;
-use Guzzle\Http\Message\RequestInterface;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Config;
 
@@ -23,7 +23,7 @@ class Request
      * @param Client $client
      * @param Config $config
      */
-    public function __construct(HttpClient $client, Config $config)
+    public function __construct(Client $client, Config $config)
     {
         $this->client = $client;
         $this->config = $config;
@@ -36,21 +36,29 @@ class Request
      * @param  string $service
      * @param  string $method
      * @param  string $id
-     * @return Result
+     * @return string
+     *
+     * @throws NetvisorException
      */
     public function send($xml, $service, $method = null, $id = null)
     {
         $url     = $this->createUrl($service, $method, $id);
         $headers = $this->createHeaders($url);
-        $request = $this->client->createRequest(RequestInterface::POST, $url, $headers, $xml);
 
-        $response = $this->client->send($request);
+        $response = $this->client->request(
+            'POST',
+            $url,
+            [
+                'headers' => $headers,
+                'body' => $xml,
+            ]
+        );
 
         if ($this->hasRequestFailed($response)) {
-            throw new NetvisorException($response);
+            throw new NetvisorException((string)$response->getBody());
         }
 
-        return $response->getBody();
+        return (string)$response->getBody();
     }
 
     /**
@@ -105,7 +113,7 @@ class Request
      */
     private function hasRequestFailed($response)
     {
-        return strstr($response->getBody(true), '<Status>FAILED</Status>') != false;
+        return strstr((string)$response->getBody(), '<Status>FAILED</Status>') != false;
     }
 
     /**
