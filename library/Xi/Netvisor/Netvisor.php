@@ -1,6 +1,7 @@
 <?php
 namespace Xi\Netvisor;
 
+use DateTime;
 use GuzzleHttp\Client;
 use JMS\Serializer\SerializerBuilder;
 use Xi\Netvisor\Config;
@@ -82,18 +83,70 @@ class Netvisor
      */
     public function sendInvoice(SalesInvoice $invoice)
     {
-        return $this->request($invoice, 'salesinvoice');
+        return $this->requestWithBody($invoice, 'salesinvoice');
+    }
+
+    /**
+     * List customers, optionally filtered by a keyword.
+     *
+     * The keyword matches Netvisor fields
+     * Name, Customer Code, Organization identifier, CoName
+     *
+     * @param null|string $keyword
+     * @return null|string
+     */
+    public function getCustomers($keyword = null)
+    {
+        return $this->get(
+            'customerlist',
+            [
+                'keyword' => $keyword,
+            ]
+        );
+    }
+
+    /**
+     * List customers that have changed since given date.
+     *
+     * Giving a keyword would override the changed since parameter.
+     *
+     * @param DateTime $changedSince
+     * @return null|string
+     */
+    public function getCustomersChangedSince(DateTime $changedSince)
+    {
+        return $this->get(
+            'customerlist',
+            [
+                'changedsince' => $changedSince->format('Y-m-d'),
+            ]
+        );
+    }
+
+    /**
+     * @param string  $service
+     * @param array   $params
+     * @return null|string
+     */
+    private function get($service, array $params = [])
+    {
+        if (!$this->config->isEnabled()) {
+            return null;
+        }
+
+        $request = new Request($this->client, $this->config);
+
+        return $request->get($service, $params);
     }
 
     /**
      * @param  Root              $root
      * @param  string            $service
-     * @param  string            $method
-     * @param  string            $id
+     * @param  array             $params
      * @return null|string
      * @throws NetvisorException
      */
-    public function request(Root $root, $service, $method = null, $id = null)
+    public function requestWithBody(Root $root, $service, array $params = [])
     {
         if (!$this->config->isEnabled()) {
             return null;
@@ -107,7 +160,7 @@ class Netvisor
 
         $request = new Request($this->client, $this->config);
 
-        return $request->send($this->processXml($xml), $service, $method, $id);
+        return $request->post($this->processXml($xml), $service, $params);
     }
 
     /**

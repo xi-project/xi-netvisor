@@ -29,20 +29,39 @@ class Request
         $this->config = $config;
     }
 
+    public function get($service, array $params = [])
+    {
+        $url = $this->createUrl($service, $params);
+        $headers = $this->createHeaders($url);
+
+        $response = $this->client->request(
+            'GET',
+            $url,
+            [
+                'headers' => $headers,
+            ]
+        );
+
+        if ($this->hasRequestFailed($response)) {
+            throw new NetvisorException((string)$response->getBody());
+        }
+
+        return (string)$response->getBody();
+    }
+
     /**
      * Makes a request to Netvisor and returns a response.
      *
      * @param  string $xml
      * @param  string $service
-     * @param  string $method
-     * @param  string $id
+     * @param  array $params
      * @return string
      *
      * @throws NetvisorException
      */
-    public function send($xml, $service, $method = null, $id = null)
+    public function post($xml, $service, array $params = [])
     {
-        $url     = $this->createUrl($service, $method, $id);
+        $url     = $this->createUrl($service, $params);
         $headers = $this->createHeaders($url);
 
         $response = $this->client->request(
@@ -63,18 +82,12 @@ class Request
 
     /**
      * @param  string  $service
-     * @param  string  $method
-     * @param  integer $id
+     * @param  array   $params
      * @return string
      */
-    private function createUrl($service, $method = null, $id = null)
+    private function createUrl($service, array $params = [])
     {
         $url = "{$this->config->getHost()}/{$service}.nv";
-
-        $params = array(
-            'method' => $method,
-            'id' => $id,
-        );
 
         $params = array_filter($params);
         $queryString = http_build_query($params);
