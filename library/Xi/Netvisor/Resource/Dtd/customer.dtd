@@ -1,3 +1,4 @@
+<!DOCTYPE root [
 <!ELEMENT root (customer)>
 <!ELEMENT customer (customerbaseinformation, customerfinvoicedetails?, customerdeliverydetails?, customercontactdetails?, customeradditionalinformation?)>
 <!ELEMENT customerbaseinformation (internalidentifier?, externalidentifier?, organizationunitnumber?, name?, nameextension?, streetaddress?, additionaladdressline?, city?, postnumber?, country?, customergroupname?, phonenumber?, faxnumber?, email?, homepageuri?, isactive?, isprivatecustomer?, emailinvoicingaddress?)>
@@ -57,3 +58,4 @@
 <!ELEMENT defaulttextafterinvoicelines (#PCDATA)>
 <!ELEMENT salespersonid (#PCDATA)>
 <!ATTLIST salespersonid type (netvisor) #REQUIRED>
+]>

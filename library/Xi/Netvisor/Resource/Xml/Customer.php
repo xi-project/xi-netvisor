@@ -9,39 +9,15 @@ use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
 
 class Customer extends Root
 {
-    private $externalIdentifier;
-    private $name;
-    private $streetAddress;
-    private $city;
-    private $postNumber;
-    private $country;
-    private $finvoiceAddress;
+    private $customerBaseInformation;
+    private $customerFinvoiceDetails;
 
-    /**
-     * @param string $externalIdentifier
-     * @param string $name
-     * @param string $streetAddress
-     * @param string $city
-     * @param string $postNumber
-     * @param string $country
-     * @param string $finvoiceAddress
-     */
     public function __construct(
-        $externalIdentifier,
-        $name,
-        $streetAddress,
-        $city,
-        $postNumber,
-        $country,
-        $finvoiceAddress
+        CustomerBaseInformation $customerBaseInformation,
+        CustomerFinvoiceDetails $customerFinvoiceDetails = null
     ) {
-        $this->externalIdentifier = $externalIdentifier;
-        $this->name = $name;
-        $this->streetAddress = $streetAddress;
-        $this->city = $city;
-        $this->postNumber = $postNumber;
-        $this->country = $country;
-        $this->finvoiceAddress = $finvoiceAddress;
+        $this->customerBaseInformation = $customerBaseInformation;
+        $this->customerFinvoiceDetails = $customerFinvoiceDetails;
     }
 
     public function getDtdPath()
@@ -51,6 +27,6 @@ class Customer extends Root
 
     protected function getXmlName()
     {
-        return 'salesinvoice';
+        return 'customer';
     }
 }

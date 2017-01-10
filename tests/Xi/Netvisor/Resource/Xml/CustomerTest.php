@@ -20,12 +20,14 @@ class CustomerTest extends XmlTestCase
         parent::setUp();
 
         $this->customer = new Customer(
-            '1234567-1',
-            'Testi Oy',
-            'Testikatu 1',
-            'Helsinki',
-            '00240',
-            'FI',
+            new CustomerBaseInformation(
+                '1234567-1',
+                'Testi Oy',
+                'Testikatu 1',
+                'Helsinki',
+                '00240',
+                'FI'
+            ),
             null
         );
     }
