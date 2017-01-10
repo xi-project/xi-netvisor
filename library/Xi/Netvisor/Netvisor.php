@@ -10,6 +10,7 @@ use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Serializer;
+use Xi\Netvisor\Resource\Xml\Customer;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
 
@@ -84,6 +85,15 @@ class Netvisor
     public function sendInvoice(SalesInvoice $invoice)
     {
         return $this->requestWithBody($invoice, 'salesinvoice');
+    }
+
+    /**
+     * @param Customer $customer
+     * @return null|string
+     */
+    public function sendCustomer(Customer $customer)
+    {
+        return $this->requestWithBody($customer, 'customer', ['method' => 'Add']);
     }
 
     /**

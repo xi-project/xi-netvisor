@@ -58,7 +58,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 new Response('200', array(), 'hello')
             ));
 
-        $this->request->send(
+        $this->request->post(
             '<?xml>',
             'accounting'
         );
@@ -96,7 +96,7 @@ LUS;
             'AUTHENTICATION_FAILED :: Integraatiokumppania ei löydy, katso dokumentaatio'
         );
 
-        $this->request->send(
+        $this->request->post(
             '<?xml>',
             'accounting'
         );
@@ -128,7 +128,7 @@ LUS;
                 new Response('200', array(), $xmlResponse)
             ));
 
-        $response = $this->request->send(
+        $response = $this->request->post(
             '<?xml>',
             'accounting'
         );
