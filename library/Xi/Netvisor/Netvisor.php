@@ -93,7 +93,7 @@ class Netvisor
      */
     public function sendCustomer(Customer $customer)
     {
-        return $this->requestWithBody($customer, 'customer', ['method' => 'Add']);
+        return $this->requestWithBody($customer, 'customer', ['method' => 'add']);
     }
 
     /**
