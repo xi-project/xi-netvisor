@@ -6,9 +6,9 @@ use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Netvisor;
 use Xi\Netvisor\Config;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use Xi\Netvisor\Resource\Xml\TestResource;
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Psr7\Response;
 
 class NetvisorTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->client = $this->getMockBuilder('Guzzle\Http\Client')
+        $this->client = $this->getMockBuilder('GuzzleHttp\Client')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -79,7 +79,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $netvisor = new Netvisor($this->client, $config, new Validate());
 
         $this->assertNull(
-            $netvisor->request(new TestResource(), 'service')
+            $netvisor->requestWithBody(new TestResource(), 'service')
         );
     }
 
@@ -90,7 +90,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Xi\Netvisor\Exception\NetvisorException', 'XML is not valid according to DTD');
 
-        $this->netvisor->request(new TestResource(), 'service');
+        $this->netvisor->requestWithBody(new TestResource(), 'service');
     }
 
     /**
@@ -102,13 +102,13 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $resource->setValue('value');
 
         $this->client->expects($this->once())
-            ->method('send')
+            ->method('request')
             ->with($this->anything())
             ->will($this->returnValue(
                 new Response('200', array(), 'lus')
             ));
 
-        $this->assertEquals('lus', $this->netvisor->request($resource, 'service'));
+        $this->assertEquals('lus', $this->netvisor->requestWithBody($resource, 'service'));
     }
 
     /**
@@ -129,7 +129,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $netvisor = new Netvisor($this->client, $this->config, $validate);
 
         $this->client->expects($this->once())
-            ->method('send')
+            ->method('request')
             ->will($this->returnValue(
                 new Response('200', array(), 'lus')
             ));
