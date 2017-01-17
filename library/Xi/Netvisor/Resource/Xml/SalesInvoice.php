@@ -3,6 +3,8 @@
 namespace Xi\Netvisor\Resource\Xml;
 
 use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\XmlKeyValuePairs;
+use JMS\Serializer\Annotation\Inline;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
@@ -55,6 +57,12 @@ class SalesInvoice extends Root
     private $paymentTermNetDays;
 
     /**
+     * @XmlKeyValuePairs
+     * @Inline
+     */
+    private $additionalFields;
+
+    /**
      * @XmlList(entry = "invoiceline")
      */
     private $invoiceLines = array();
@@ -81,13 +89,15 @@ class SalesInvoice extends Root
         $this->invoicingCustomerIdentifier = new AttributeElement($invoicingCustomerIdentifier, array('type' => 'netvisor')); // TODO: Type can be netvisor/customer.
         $this->paymentTermNetDays = $paymentTermNetDays;
 
-        foreach ($additionalFields as $key => $value) {
-            if (!in_array($key, self::ALLOWED_ADDITIONAL_FIELDS, true)) {
-                continue;
-            }
-
-            $this->$key = $value;
-        }
+        $this->additionalFields = array_change_key_case(
+            array_filter(
+                $additionalFields,
+                function ($key) {
+                    return in_array($key, self::ALLOWED_ADDITIONAL_FIELDS, true);
+                },
+                ARRAY_FILTER_USE_KEY
+            )
+        );
     }
 
     /**
