@@ -12,6 +12,42 @@ use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
  */
 class SalesInvoice extends Root
 {
+    // TODO Some of these will not work, as they need additional attributes
+    const ALLOWED_ADDITIONAL_FIELDS = [
+        'salesInvoiceNumber',
+        'salesInvoiceDeliveryDate',
+        'salesInvoiceReferenceNumber',
+        'sellerName',
+        'invoiceType',
+        'salesInvoiceFreeTextBeforeLines',
+        'salesInvoiceFreeTextAfterLines',
+        'salesInvoiceOurReference',
+        'salesInvoiceYourReference',
+        'salesInvoicePrivateComment',
+        'invoicingCustomerName',
+        'invoicingCustomerNameExtension',
+        'invoicingCustomerAddressLine',
+        'invoicingCustomerAdditionalAddressLine',
+        'invoicingCustomerPostNumber',
+        'invoicingCustomerTown',
+        'invoicingCustomerCountryCode',
+        'deliveryAddressName',
+        'deliveryAddressLine',
+        'deliveryAddressPostNumber',
+        'deliveryAddressTown',
+        'deliveryAddressCountryCode',
+        'deliveryMethod',
+        'deliveryTerm',
+        'salesInvoiceTaxHandlingType',
+        'paymentTermCashDiscountDays',
+        'paymentTermCashDiscount',
+        'expectPartialPayments',
+        'overrideVoucherSalesReceivablesAccountNumber',
+        'salesInvoiceAgreementIdentifier',
+        'printChannelFormat',
+        'secondName',
+    ];
+
     private $salesInvoiceDate;
     private $salesInvoiceAmount;
     private $salesInvoiceStatus;
@@ -25,23 +61,33 @@ class SalesInvoice extends Root
 
     /**
      * @param \DateTime $salesInvoiceDate
-     * @param string    $salesInvoiceAmount
-     * @param string    $salesInvoiceStatus
-     * @param string    $invoicingCustomerIdentifier
-     * @param int       $paymentTermNetDays
+     * @param string $salesInvoiceAmount
+     * @param string $salesInvoiceStatus
+     * @param string $invoicingCustomerIdentifier
+     * @param int $paymentTermNetDays
+     * @param array $additionalFields
      */
     public function __construct(
         \DateTime $salesInvoiceDate,
         $salesInvoiceAmount,
         $salesInvoiceStatus,
         $invoicingCustomerIdentifier,
-        $paymentTermNetDays
+        $paymentTermNetDays,
+        array $additionalFields = []
     ) {
         $this->salesInvoiceDate = $salesInvoiceDate->format('Y-m-d');
         $this->salesInvoiceAmount = $salesInvoiceAmount;
         $this->salesInvoiceStatus = new AttributeElement($salesInvoiceStatus, array('type' => 'netvisor'));
         $this->invoicingCustomerIdentifier = new AttributeElement($invoicingCustomerIdentifier, array('type' => 'netvisor')); // TODO: Type can be netvisor/customer.
         $this->paymentTermNetDays = $paymentTermNetDays;
+
+        foreach ($additionalFields as $key => $value) {
+            if (!in_array($key, self::ALLOWED_ADDITIONAL_FIELDS, true)) {
+                continue;
+            }
+
+            $this->$key = $value;
+        }
     }
 
     /**
