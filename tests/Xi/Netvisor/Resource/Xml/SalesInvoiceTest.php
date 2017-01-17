@@ -24,7 +24,10 @@ class SalesInvoiceTest extends XmlTestCase
             '5,00',
             'Open',
             '616',
-            14
+            14,
+            [
+                'secondName' => 'test',
+            ]
         );
     }
 
@@ -69,5 +72,15 @@ class SalesInvoiceTest extends XmlTestCase
 
         $this->assertXmlContainsTagWithValue('productidentifier', '1', $xml);
         $this->assertXmlContainsTagWithValue('productidentifier', '2', $xml);
+    }
+
+    /**
+     * @test
+     */
+    public function xmlHasAdditionalField()
+    {
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('secondname', 'test', $xml);
     }
 }
