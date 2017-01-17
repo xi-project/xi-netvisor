@@ -15,17 +15,22 @@ use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
 class SalesInvoice extends Root
 {
     // TODO Some of these will not work, as they need additional attributes
-    const ALLOWED_ADDITIONAL_FIELDS = [
+    // Note that the order is meaningful
+    const FIELDS = [
         'salesInvoiceNumber',
+        'salesInvoiceDate',
         'salesInvoiceDeliveryDate',
         'salesInvoiceReferenceNumber',
+        'salesInvoiceAmount',
         'sellerName',
         'invoiceType',
+        'salesInvoiceStatus',
         'salesInvoiceFreeTextBeforeLines',
         'salesInvoiceFreeTextAfterLines',
         'salesInvoiceOurReference',
         'salesInvoiceYourReference',
         'salesInvoicePrivateComment',
+        'invoicingCustomerIdentifier',
         'invoicingCustomerName',
         'invoicingCustomerNameExtension',
         'invoicingCustomerAddressLine',
@@ -41,6 +46,7 @@ class SalesInvoice extends Root
         'deliveryMethod',
         'deliveryTerm',
         'salesInvoiceTaxHandlingType',
+        'paymentTermNetDays',
         'paymentTermCashDiscountDays',
         'paymentTermCashDiscount',
         'expectPartialPayments',
@@ -50,17 +56,11 @@ class SalesInvoice extends Root
         'secondName',
     ];
 
-    private $salesInvoiceDate;
-    private $salesInvoiceAmount;
-    private $salesInvoiceStatus;
-    private $invoicingCustomerIdentifier;
-    private $paymentTermNetDays;
-
     /**
      * @XmlKeyValuePairs
      * @Inline
      */
-    private $additionalFields;
+    private $data;
 
     /**
      * @XmlList(entry = "invoiceline")
@@ -83,21 +83,31 @@ class SalesInvoice extends Root
         $paymentTermNetDays,
         array $additionalFields = []
     ) {
-        $this->salesInvoiceDate = $salesInvoiceDate->format('Y-m-d');
-        $this->salesInvoiceAmount = $salesInvoiceAmount;
-        $this->salesInvoiceStatus = new AttributeElement($salesInvoiceStatus, array('type' => 'netvisor'));
-        $this->invoicingCustomerIdentifier = new AttributeElement($invoicingCustomerIdentifier, array('type' => 'netvisor')); // TODO: Type can be netvisor/customer.
-        $this->paymentTermNetDays = $paymentTermNetDays;
+        $requiredAndTransformed = [
+            'salesInvoiceDate' => $salesInvoiceDate->format('Y-m-d'),
+            'salesInvoiceAmount' => $salesInvoiceAmount,
+            'salesInvoiceStatus' => new AttributeElement($salesInvoiceStatus, array('type' => 'netvisor')),
+            'invoicingCustomerIdentifier' => new AttributeElement($invoicingCustomerIdentifier, array('type' => 'netvisor')), // TODO: Type can be netvisor/customer.
+            'paymentTermNetDays' => $paymentTermNetDays,
+            'secondName' => array_key_exists('secondName', $additionalFields) ? new AttributeElement($additionalFields['secondName'], ['type' => 'netvisor']) : null,
+        ];
 
-        $this->additionalFields = array_change_key_case(
+        $data = array_merge(
             array_filter(
                 $additionalFields,
                 function ($key) {
-                    return in_array($key, self::ALLOWED_ADDITIONAL_FIELDS, true);
+                    return in_array($key, self::FIELDS, true);
                 },
                 ARRAY_FILTER_USE_KEY
-            )
+            ),
+            $requiredAndTransformed
         );
+
+        uksort($data, function ($a, $b) {
+            return array_search($a, self::FIELDS) - array_search($b, self::FIELDS);
+        });
+
+        $this->data = array_change_key_case($data);
     }
 
     /**
