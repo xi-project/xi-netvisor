@@ -3,8 +3,6 @@
 namespace Xi\Netvisor\Resource\Xml;
 
 use JMS\Serializer\Annotation\XmlList;
-use JMS\Serializer\Annotation\XmlKeyValuePairs;
-use JMS\Serializer\Annotation\Inline;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
@@ -14,58 +12,58 @@ use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
  */
 class SalesInvoice extends Root
 {
-    // TODO Some of these will not work, as they need additional attributes
-    // Note that the order is meaningful
-    const FIELDS = [
-        'salesInvoiceNumber',
-        'salesInvoiceDate',
-        'salesInvoiceDeliveryDate',
-        'salesInvoiceReferenceNumber',
-        'salesInvoiceAmount',
-        'sellerName',
-        'invoiceType',
-        'salesInvoiceStatus',
-        'salesInvoiceFreeTextBeforeLines',
-        'salesInvoiceFreeTextAfterLines',
-        'salesInvoiceOurReference',
-        'salesInvoiceYourReference',
-        'salesInvoicePrivateComment',
-        'invoicingCustomerIdentifier',
-        'invoicingCustomerName',
-        'invoicingCustomerNameExtension',
-        'invoicingCustomerAddressLine',
-        'invoicingCustomerAdditionalAddressLine',
-        'invoicingCustomerPostNumber',
-        'invoicingCustomerTown',
-        'invoicingCustomerCountryCode',
-        'deliveryAddressName',
-        'deliveryAddressLine',
-        'deliveryAddressPostNumber',
-        'deliveryAddressTown',
-        'deliveryAddressCountryCode',
-        'deliveryMethod',
-        'deliveryTerm',
-        'salesInvoiceTaxHandlingType',
-        'paymentTermNetDays',
-        'paymentTermCashDiscountDays',
-        'paymentTermCashDiscount',
-        'expectPartialPayments',
-        'overrideVoucherSalesReceivablesAccountNumber',
-        'salesInvoiceAgreementIdentifier',
-        'printChannelFormat',
-        'secondName',
-    ];
-
-    /**
-     * @XmlKeyValuePairs
-     * @Inline
-     */
-    private $data;
+    private $salesInvoiceNumber;
+    private $salesInvoiceDate;
+    private $salesInvoiceDeliveryDate;
+    private $salesInvoiceReferenceNumber;
+    private $salesInvoiceAmount;
+    private $sellerName;
+    private $invoiceType;
+    private $salesInvoiceStatus;
+    private $salesInvoiceFreeTextBeforeLines;
+    private $salesInvoiceFreeTextAfterLines;
+    private $salesInvoiceOurReference;
+    private $salesInvoiceYourReference;
+    private $salesInvoicePrivateComment;
+    private $invoicingCustomerIdentifier;
+    private $invoicingCustomerName;
+    private $invoicingCustomerNameExtension;
+    private $invoicingCustomerAddressLine;
+    private $invoicingCustomerAdditionalAddressLine;
+    private $invoicingCustomerPostNumber;
+    private $invoicingCustomerTown;
+    private $invoicingCustomerCountryCode;
+    private $deliveryAddressName;
+    private $deliveryAddressLine;
+    private $deliveryAddressPostNumber;
+    private $deliveryAddressTown;
+    private $deliveryAddressCountryCode;
+    private $deliveryMethod;
+    private $deliveryTerm;
+    private $salesInvoiceTaxHandlingType;
+    private $paymentTermNetDays;
+    private $paymentTermCashDiscountDays;
+    private $paymentTermCashDiscount;
+    private $expectPartialPayments;
+    private $overrideVoucherSalesReceivablesAccountNumber;
+    private $salesInvoiceAgreementIdentifier;
+    private $printChannelFormat;
+    private $secondName;
 
     /**
      * @XmlList(entry = "invoiceline")
      */
-    private $invoiceLines = array();
+    private $invoiceLines = [];
+
+    private $invoiceVoucherLines;
+    private $salesInvoiceAccrual;
+
+    /**
+     * @XmlList(entry = "salesinvoiceattachment")
+     */
+    private $salesInvoiceAttachments;
+
+    private $customTags;
 
     /**
      * @param \DateTime $salesInvoiceDate
@@ -83,31 +81,20 @@ class SalesInvoice extends Root
         $paymentTermNetDays,
         array $additionalFields = []
     ) {
-        $requiredAndTransformed = [
-            'salesInvoiceDate' => $salesInvoiceDate->format('Y-m-d'),
-            'salesInvoiceAmount' => $salesInvoiceAmount,
-            'salesInvoiceStatus' => new AttributeElement($salesInvoiceStatus, array('type' => 'netvisor')),
-            'invoicingCustomerIdentifier' => new AttributeElement($invoicingCustomerIdentifier, array('type' => 'netvisor')), // TODO: Type can be netvisor/customer.
-            'paymentTermNetDays' => $paymentTermNetDays,
-            'secondName' => array_key_exists('secondName', $additionalFields) ? new AttributeElement($additionalFields['secondName'], ['type' => 'netvisor']) : null,
-        ];
+        $this->salesInvoiceDate = $salesInvoiceDate->format('Y-m-d');
+        $this->salesInvoiceAmount = $salesInvoiceAmount;
+        $this->salesInvoiceStatus = new AttributeElement($salesInvoiceStatus, array('type' => 'netvisor'));
+        $this->invoicingCustomerIdentifier = new AttributeElement($invoicingCustomerIdentifier, array('type' => 'netvisor')); // TODO: Type can be netvisor/customer.
+        $this->paymentTermNetDays = $paymentTermNetDays;
+        $this->secondName = array_key_exists('secondName', $additionalFields) ? new AttributeElement($additionalFields['secondName'], ['type' => 'netvisor']) : null;
 
-        $data = array_merge(
-            array_filter(
-                $additionalFields,
-                function ($key) {
-                    return in_array($key, self::FIELDS, true);
-                },
-                ARRAY_FILTER_USE_KEY
-            ),
-            $requiredAndTransformed
-        );
+        foreach ($additionalFields as $key => $value) {
+            if (in_array($key, ['secondName'])) {
+                continue;
+            }
 
-        uksort($data, function ($a, $b) {
-            return array_search($a, self::FIELDS) - array_search($b, self::FIELDS);
-        });
-
-        $this->data = array_change_key_case($data);
+            $this->$key = $value;
+        }
     }
 
     /**
