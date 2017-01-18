@@ -1,12 +1,8 @@
 # Xi Netvisor
 
-Netvisor API interface for PHP 5.3+.
+Netvisor API interface for PHP 5.6+.
 
 [![Build Status](https://secure.travis-ci.org/xi-project/xi-netvisor.png)](https://travis-ci.org/xi-project/xi-netvisor)
-
-## Interfaces
-
-- None yet
 
 ## Before you start hacking away
 
@@ -44,15 +40,48 @@ $config   = new Xi\Netvisor\Config(...);       // Use the parameters described a
 $netvisor = new Xi\Netvisor\Netvisor($config);
 ```
 
-### Constructing XML
+### Actions
 
-You can instantiate a certain type of a _Resource_ (e.g. `Xi\Netvisor\Resource\Xml\SalesInvoice`).
-All _Resources_ should extend `Xi\Netvisor\Resource\Xml\Root` and implement `getDtdPath()` to return a file path
-which points to a correct DTD file (used for validation).
+#### Search customers
+```php
+$customers = $netvisor->getCustomers(
+    '1234567-1' // Optional keyword
+);
+```
 
-Resource's mandatory parameters are given in the constructor. Optional values can be set via setters.
+#### Get customers changed since datetime
+```php
+$customers = $netvisor->getCustomersChangedSince(
+    new DateTime(...) // Required
+);
+```
 
-#### SalesInvoice
+#### Get product
+```php
+$product = $netvisor->getProduct(
+    123 // Required Netvisor identifier
+);
+```
+
+#### Send customer
+```php
+$customer = new Xi\Netvisor\Resource\Xml\Customer(
+    new Xi\Netvisor\Resource\Xml\CustomerBaseInformation(
+        '1234567-1',
+        'Test Oy',
+        'Test street 1',
+        'Helsinki',
+        '00240',
+        'FI'
+    )
+);
+
+$response = new \SimpleXMLElement($this->netvisor->sendCustomer($customer));
+$netvisorIdentifier = (string)$response->Replies->InsertedDataIdentifier;
+```
+
+
+#### Send invoice
 
 ```php
 $invoice = new Xi\Netvisor\Resource\Xml\SalesInvoice(...);
@@ -61,5 +90,5 @@ $invoiceProductLine = new Xi\Netvisor\Resource\Xml\SalesInvoiceProductLine(...);
 
 $invoice->addSalesInvoiceProductLine($invoiceProductLine);
 
-$netvisor->addSalesInvoice($invoice);
+$netvisor->sendInvoice($invoice);
 ```
