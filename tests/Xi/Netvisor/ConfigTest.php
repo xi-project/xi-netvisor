@@ -32,5 +32,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($c->getOrganizationId(), 'organizationId');
         $this->assertEquals($c->getUserKey(), 'userKey');
         $this->assertEquals($c->getPartnerKey(), 'partnerKey');
+        
+        $c->setLanguage('orcish');
+        $this->assertEquals($c->getLanguage(), 'orcish');
     }
+    
 }
