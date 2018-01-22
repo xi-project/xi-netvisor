@@ -115,6 +115,14 @@ class Config
     }
 
     /**
+     * @param string $language
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+    }
+
+    /**
      * @return string
      */
     public function getOrganizationId()
