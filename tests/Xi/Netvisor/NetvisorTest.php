@@ -79,7 +79,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $netvisor = new Netvisor($this->client, $config, new Validate());
 
         $this->assertNull(
-            $netvisor->requestWithBody(new TestResource(), 'service')
+            $netvisor->requestWithBody(new TestResource(), 'service', array(), null)
         );
     }
 
@@ -90,7 +90,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Xi\Netvisor\Exception\NetvisorException', 'XML is not valid according to DTD');
 
-        $this->netvisor->requestWithBody(new TestResource(), 'service');
+        $this->netvisor->requestWithBody(new TestResource(), 'service', array(), null);
     }
 
     /**
@@ -108,7 +108,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
                 new Response('200', array(), 'lus')
             ));
 
-        $this->assertEquals('lus', $this->netvisor->requestWithBody($resource, 'service'));
+        $this->assertEquals('lus', $this->netvisor->requestWithBody($resource, 'service', array(), null));
     }
 
     /**
