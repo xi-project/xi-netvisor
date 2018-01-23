@@ -11,13 +11,16 @@ class Customer extends Root
 {
     private $customerBaseInformation;
     private $customerFinvoiceDetails;
+    private $customerAdditionalInformation;
 
     public function __construct(
         CustomerBaseInformation $customerBaseInformation,
-        CustomerFinvoiceDetails $customerFinvoiceDetails = null
+        CustomerFinvoiceDetails $customerFinvoiceDetails = null,
+        CustomerAdditionalInformation $customerAdditionalInformation = null
     ) {
         $this->customerBaseInformation = $customerBaseInformation;
         $this->customerFinvoiceDetails = $customerFinvoiceDetails;
+        $this->customerAdditionalInformation = $customerAdditionalInformation;
     }
 
     public function getDtdPath()
