@@ -152,6 +152,6 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
     {
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<salesinvoicedate><![CDATA[2014-02-17]]></salesinvoicedate>";
 
-        $this->assertEquals('<salesinvoicedate>2014-02-17</salesinvoicedate>', $this->netvisor->processXml($xml));
+        $this->assertEquals('<salesinvoicedate><![CDATA[2014-02-17]]></salesinvoicedate>', $this->netvisor->processXml($xml));
     }
 }
