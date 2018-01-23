@@ -80,11 +80,12 @@ class Netvisor
 
     /**
      * @param  SalesInvoice $invoice
+     * @param  String       $language
      * @return null|string
      */
-    public function sendInvoice(SalesInvoice $invoice)
+    public function sendInvoice(SalesInvoice $invoice, $language = null)
     {
-        return $this->requestWithBody($invoice, 'salesinvoice');
+        return $this->requestWithBody($invoice, 'salesinvoice', array(), $language);
     }
 
     /**
@@ -185,10 +186,11 @@ class Netvisor
      * @param  Root              $root
      * @param  string            $service
      * @param  array             $params
+     * @param  string            $language
      * @return null|string
      * @throws NetvisorException
      */
-    public function requestWithBody(Root $root, $service, array $params = [])
+    public function requestWithBody(Root $root, $service, array $params = [], $language = null)
     {
         if (!$this->config->isEnabled()) {
             return null;
@@ -198,6 +200,10 @@ class Netvisor
 
         if (!$this->validate->isValid($xml, $root->getDtdPath())) {
             throw new NetvisorException('XML is not valid according to DTD');
+        }
+
+        if ($language !== null) {
+            $this->config->setLanguage($language);
         }
 
         $request = new Request($this->client, $this->config);
