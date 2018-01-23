@@ -10,6 +10,7 @@ class CustomerBaseInformation
     private $city;
     private $postNumber;
     private $country;
+    private $invoicingLanguage;
 
     /**
      * @param string $externalIdentifier
@@ -18,6 +19,7 @@ class CustomerBaseInformation
      * @param string $city
      * @param string $postNumber
      * @param string $country
+     * @param string $invoicingLanguage
      */
     public function __construct(
         $externalIdentifier,
@@ -25,7 +27,8 @@ class CustomerBaseInformation
         $streetAddress,
         $city,
         $postNumber,
-        $country
+        $country,
+        $invoicingLanguage = 'FI'
     ) {
         $this->externalIdentifier = $externalIdentifier;
         $this->name = $name;
@@ -33,5 +36,6 @@ class CustomerBaseInformation
         $this->city = $city;
         $this->postNumber = $postNumber;
         $this->country = $country;
+        $this->invoicingLanguage = $invoicingLanguage;
     }
 }

@@ -26,6 +26,7 @@ class CustomerTest extends XmlTestCase
                 'Testikatu 1',
                 'Helsinki',
                 '00240',
+                'FI',
                 'FI'
             ),
             null
@@ -49,5 +50,6 @@ class CustomerTest extends XmlTestCase
 
         $this->assertXmlContainsTagWithValue('externalidentifier', '1234567-1', $xml);
         $this->assertXmlContainsTagWithValue('name', 'Testi Oy', $xml);
+        $this->assertXmlContainsTagWithValue('invoicinglanguage', 'FI', $xml);
     }
 }
