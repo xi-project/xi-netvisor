@@ -11,6 +11,7 @@ class CustomerBaseInformation
     private $postNumber;
     private $country;
     private $customerGroupName;
+    private $emailInvoicingAddress;
 
     /**
      * @param string $externalIdentifier
@@ -20,6 +21,7 @@ class CustomerBaseInformation
      * @param string $postNumber
      * @param string $country
      * @param string|null $customerGroupName
+     * @param string|null $emailInvoicingAddress
      */
     public function __construct(
         $externalIdentifier,
@@ -28,7 +30,8 @@ class CustomerBaseInformation
         $city,
         $postNumber,
         $country,
-        $customerGroupName = null
+        $customerGroupName = null,
+        $emailInvoicingAddress = null
     ) {
         $this->externalIdentifier = $externalIdentifier;
         $this->name = $name;
@@ -37,5 +40,6 @@ class CustomerBaseInformation
         $this->postNumber = $postNumber;
         $this->country = $country;
         $this->customerGroupName = $customerGroupName;
+        $this->emailInvoicingAddress = $emailInvoicingAddress;
     }
 }
