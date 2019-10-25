@@ -1,6 +1,6 @@
 # Xi Netvisor
 
-Netvisor API interface for PHP 5.6+.
+Netvisor API interface for PHP 7.1+.
 
 [![Build Status](https://secure.travis-ci.org/xi-project/xi-netvisor.png)](https://travis-ci.org/xi-project/xi-netvisor)
 
