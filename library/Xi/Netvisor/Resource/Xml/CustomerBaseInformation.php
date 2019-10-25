@@ -4,6 +4,7 @@ namespace Xi\Netvisor\Resource\Xml;
 
 class CustomerBaseInformation
 {
+    private $internalIdentifier;
     private $externalIdentifier;
     private $name;
     private $streetAddress;
@@ -12,7 +13,6 @@ class CustomerBaseInformation
     private $country;
     private $customerGroupName;
     private $emailInvoicingAddress;
-    private $internalIdentifier;
 
     /**
      * @param string $externalIdentifier
