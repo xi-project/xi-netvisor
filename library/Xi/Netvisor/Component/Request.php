@@ -171,7 +171,7 @@ class Request
      */
     private function getAuthenticationTimestamp()
     {
-        $timestamp = \DateTime::createFromFormat('U.u', microtime(true));
+        $timestamp = \DateTime::createFromFormat('U.u', time() . '.' . rand(0, 9999));
         $timestamp->setTimezone(new \DateTimeZone('GMT'));
 
         return substr($timestamp->format('Y-m-d H:i:s.u'), 0, -3);
