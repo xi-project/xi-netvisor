@@ -1,78 +1,82 @@
 <!DOCTYPE root [
 <!ELEMENT root (salesinvoice)>
-<!ELEMENT salesinvoice (salesinvoicenumber?, salesinvoicedate, salesinvoicedeliverydate?, salesinvoicereferencenumber?, salesinvoiceamount, selleridentifier?, sellername?, invoicetype?, salesinvoicestatus, salesinvoicefreetextbeforelines?, salesinvoicefreetextafterlines?, salesinvoiceourreference?, salesinvoiceyourreference?, salesinvoiceprivatecomment?, invoicingcustomeridentifier, invoicingcustomername?, invoicingcustomernameextension?, invoicingcustomeraddressline?, invoicingcustomeradditionaladdressline?, invoicingcustomerpostnumber?, invoicingcustomertown?, invoicingcustomercountrycode?, deliveryaddressname?, deliveryaddressnameextension?, deliveryaddressline?, deliveryaddresspostnumber?, deliveryaddresstown?, deliveryaddresscountrycode?, deliverymethod?, deliveryterm?, salesinvoicetaxhandlingtype?, paymenttermnetdays, paymenttermcashdiscountdays?, paymenttermcashdiscount?, expectpartialpayments?, trydirectdebitlink?, overridevouchersalesreceivablesaccountnumber?, invoicesubjecttype?, printchannelformat?, invoicelines, invoicevoucherlines?, salesinvoiceaccrual?, salesinvoiceattachments?, customtags?)>
+<!ELEMENT salesinvoice (salesinvoicenumber?, salesinvoicedate, salesinvoicedeliverydate?, salesinvoicereferencenumber?, salesinvoiceamount, selleridentifier?, sellername?, invoicetype?, salesinvoicestatus, salesinvoicefreetextbeforelines?, salesinvoicefreetextafterlines?, salesinvoiceourreference?, salesinvoiceyourreference?, salesinvoiceprivatecomment?, invoicingcustomeridentifier, invoicingcustomername?, invoicingcustomernameextension?, invoicingcustomeraddressline?, invoicingcustomeradditionaladdressline?, invoicingcustomerpostnumber?, invoicingcustomertown?, invoicingcustomercountrycode?, deliveryaddressname?, deliveryaddressnameextension?, deliveryaddressline?, deliveryaddresspostnumber?, deliveryaddresstown?, deliveryaddresscountrycode?, deliverymethod?, deliveryterm?, salesinvoicetaxhandlingtype?, paymenttermnetdays, paymenttermcashdiscountdays?, paymenttermcashdiscount?, expectpartialpayments?, trydirectdebitlink?, overridevouchersalesreceivablesaccountnumber?, invoicesubjecttype?, salesinvoiceagreementidentifier?, printchannelformat?, secondname?, overriderateofoverdue?, invoicelines, invoicevoucherlines?, salesinvoiceaccrual?, salesinvoiceattachments?, customtags?)>
 <!ELEMENT invoicelines (invoiceline+)>
 <!ELEMENT invoiceline (salesinvoiceproductline|salesinvoicecommentline)>
 <!ELEMENT salesinvoiceproductline (productidentifier, productname, productunitprice, productunitpurchaseprice?, productvatpercentage, salesinvoiceproductlinequantity, salesinvoiceproductlinediscountpercentage?, salesinvoiceproductlinefreetext?, salesinvoiceproductlinevatsum?, salesinvoiceproductlinesum?, accountingaccountsuggestion?, skipaccrual?, dimension*)>
 <!ELEMENT salesinvoicecommentline (comment)>
 <!ELEMENT invoicevoucherlines (voucherline+)>
 <!ELEMENT voucherline (linesum, description?, accountnumber, vatpercent, skipaccrual?, dimension*)>
-<!ELEMENT dimension (dimensionname, dimensionitem)>
+<!ELEMENT dimension (dimensionname, dimensionitem, metadata*)>
+<!ELEMENT metadata (data)>
 <!ELEMENT salesinvoiceaccrual (overridedefaultsalesaccrualaccountnumber?, salesinvoiceaccrualtype?, accrualvoucherentry+)>
 <!ELEMENT accrualvoucherentry (month, year, sum)>
 <!ELEMENT salesinvoiceattachments (salesinvoiceattachment+)>
-<!ELEMENT salesinvoiceattachment (mimetype, attachmentdescription, filename, documentdata)>
+<!ELEMENT salesinvoiceattachment (mimetype, attachmentdescription, filename, documentdata, printbydefault?)>
 <!ELEMENT customtags (tag*)>
 <!ELEMENT tag (tagname, tagvalue)>
-								
+
 <!ELEMENT salesinvoicenumber (#PCDATA)>
 <!ELEMENT salesinvoicedate (#PCDATA)>
-	<!ATTLIST salesinvoicedate format CDATA "ansi">
+<!ATTLIST salesinvoicedate format CDATA "ansi">
 <!ELEMENT salesinvoicedeliverydate (#PCDATA)>
-	<!ATTLIST salesinvoicedeliverydate format CDATA "ansi">
+<!ATTLIST salesinvoicedeliverydate format CDATA "ansi">
 <!ELEMENT salesinvoicereferencenumber (#PCDATA)>
 <!ELEMENT salesinvoiceamount (#PCDATA)>
-  <!ATTLIST salesinvoiceamount iso4217currencycode CDATA #IMPLIED>
-  <!ATTLIST salesinvoiceamount currencyrate CDATA #IMPLIED>
+<!ATTLIST salesinvoiceamount iso4217currencycode CDATA #IMPLIED>
+<!ATTLIST salesinvoiceamount currencyrate CDATA #IMPLIED>
 <!ELEMENT selleridentifier (#PCDATA)>
-	<!ATTLIST selleridentifier type (netvisor) #IMPLIED>
+<!ATTLIST selleridentifier type (netvisor) #IMPLIED>
 <!ELEMENT sellername (#PCDATA)>
-<!ELEMENT invoicetype (#PCDATA)>	
-<!ELEMENT salesinvoicestatus (#PCDATA)>	
-	<!ATTLIST salesinvoicestatus type CDATA "netvisor">
-<!ELEMENT salesinvoicefreetextbeforelines (#PCDATA)>	
+<!ELEMENT invoicetype (#PCDATA)>
+<!ELEMENT salesinvoicestatus (#PCDATA)>
+<!ATTLIST salesinvoicestatus type CDATA "netvisor">
+<!ELEMENT salesinvoicefreetextbeforelines (#PCDATA)>
 <!ELEMENT salesinvoicefreetextafterlines (#PCDATA)>
 <!ELEMENT salesinvoiceourreference (#PCDATA)>
 <!ELEMENT salesinvoiceyourreference (#PCDATA)>
 <!ELEMENT salesinvoiceprivatecomment (#PCDATA)>
 <!ELEMENT invoicingcustomeridentifier (#PCDATA)>
-	<!ATTLIST invoicingcustomeridentifier type (netvisor|customer) #REQUIRED>	
-<!ELEMENT invoicingcustomername (#PCDATA)>	
+<!ATTLIST invoicingcustomeridentifier type (netvisor|customer) #REQUIRED>
+<!ELEMENT invoicingcustomername (#PCDATA)>
 <!ELEMENT invoicingcustomernameextension (#PCDATA)>
 <!ELEMENT invoicingcustomeraddressline (#PCDATA)>
 <!ELEMENT invoicingcustomeradditionaladdressline (#PCDATA)>
 <!ELEMENT invoicingcustomerpostnumber (#PCDATA)>
 <!ELEMENT invoicingcustomertown (#PCDATA)>
 <!ELEMENT invoicingcustomercountrycode (#PCDATA)>
-	<!ATTLIST invoicingcustomercountrycode type CDATA "ISO-xxx">	
+<!ATTLIST invoicingcustomercountrycode type CDATA "ISO-xxx">
 <!ELEMENT expectpartialpayments (#PCDATA)>
-<!ELEMENT trydirectdebitlink (#PCDATA)>		
-    <!ATTLIST trydirectdebitlink mode (ignore_error|fail_on_error) #REQUIRED>	
-<!ELEMENT overridevouchersalesreceivablesaccountnumber (#PCDATA)>		
+<!ELEMENT trydirectdebitlink (#PCDATA)>
+<!ATTLIST trydirectdebitlink mode (ignore_error|fail_on_error) #REQUIRED>
+<!ELEMENT overridevouchersalesreceivablesaccountnumber (#PCDATA)>
 <!ELEMENT invoicesubjecttype (#PCDATA)>
+<!ELEMENT salesinvoiceagreementidentifier (#PCDATA)>
 <!ELEMENT salesinvoicetaxhandlingtype (#PCDATA)>
 <!ELEMENT printchannelformat (#PCDATA)>
-    <!ATTLIST printchannelformat type (netvisor|customer) #REQUIRED>
-
-<!ELEMENT deliveryaddressname (#PCDATA)>	
+<!ATTLIST printchannelformat type (netvisor|customer) #REQUIRED>
+<!ELEMENT secondname (#PCDATA)>
+<!ATTLIST secondname type (netvisor|customer) #REQUIRED>
+<!ELEMENT overriderateofoverdue (#PCDATA)>
+<!ELEMENT deliveryaddressname (#PCDATA)>
 <!ELEMENT deliveryaddressnameextension (#PCDATA)>
 <!ELEMENT deliveryaddressline (#PCDATA)>
 <!ELEMENT deliveryaddresspostnumber (#PCDATA)>
 <!ELEMENT deliveryaddresstown (#PCDATA)>
 <!ELEMENT deliveryaddresscountrycode (#PCDATA)>
-	<!ATTLIST deliveryaddresscountrycode type CDATA "ISO-xxx">	
+<!ATTLIST deliveryaddresscountrycode type CDATA "ISO-xxx">
 <!ELEMENT deliverymethod (#PCDATA)>
 <!ELEMENT deliveryterm (#PCDATA)>
-	
+
 <!ELEMENT productidentifier (#PCDATA)>
-	<!ATTLIST productidentifier type (netvisor|customer) #REQUIRED>	
+<!ATTLIST productidentifier type (netvisor|customer) #REQUIRED>
 <!ELEMENT productname (#PCDATA)>
 <!ELEMENT productunitprice (#PCDATA)>
-	<!ATTLIST productunitprice type (net|gross) #REQUIRED>
+<!ATTLIST productunitprice type (net|gross) #REQUIRED>
 <!ELEMENT productunitpurchaseprice (#PCDATA)>
-  <!ATTLIST productunitpurchaseprice type (net) #REQUIRED>
-<!ELEMENT productvatpercentage (#PCDATA)>	
-	<!ATTLIST productvatpercentage vatcode (NONE|KOOS|EUOS|EUUO|EUPO|100|KOMY|EUMY|EUUM|EUPM312|EUPM309|MUUL|EVTO|EVPO|RAMY|RAOS|EVRO) #IMPLIED>	
+<!ATTLIST productunitpurchaseprice type (net) #REQUIRED>
+<!ELEMENT productvatpercentage (#PCDATA)>
+<!ATTLIST productvatpercentage vatcode (NONE|KOOS|EUOS|EUUO|EUPO|100|KOMY|EUMY|EUUM|EUPM312|EUPM309|MUUL|EVTO|EVPO|RAMY|RAOS|EVRO) #IMPLIED>
 <!ELEMENT salesinvoiceproductlinequantity (#PCDATA)>
 <!ELEMENT salesinvoiceproductlinediscountpercentage (#PCDATA)>
 <!ELEMENT salesinvoiceproductlinefreetext (#PCDATA)>
@@ -84,19 +88,20 @@
 <!ELEMENT paymenttermnetdays (#PCDATA)>
 <!ELEMENT paymenttermcashdiscountdays (#PCDATA)>
 <!ELEMENT paymenttermcashdiscount (#PCDATA)>
-	<!ATTLIST paymenttermcashdiscount type (percentage|sum) #REQUIRED>	
-	
+<!ATTLIST paymenttermcashdiscount type (percentage|sum) #REQUIRED>
+
 <!ELEMENT comment (#PCDATA)>
 
 <!ELEMENT linesum (#PCDATA)>
-	<!ATTLIST linesum type (net|gross) #REQUIRED>
+<!ATTLIST linesum type (net|gross) #REQUIRED>
 <!ELEMENT description (#PCDATA)>
 <!ELEMENT accountnumber (#PCDATA)>
 <!ELEMENT vatpercent (#PCDATA)>
-	<!ATTLIST vatpercent vatcode (NONE|KOOS|EUOS|EUUO|EUPO|100|KOMY|EUMY|EUUM|EUPM312|EUPM309|MUUL|EVTO|EVPO|RAMY|RAOS|EVRO) #REQUIRED>
+<!ATTLIST vatpercent vatcode (NONE|KOOS|EUOS|EUUO|EUPO|100|KOMY|EUMY|EUUM|EUPM312|EUPM309|MUUL|EVTO|EVPO|RAMY|RAOS|EVRO) #REQUIRED>
 
 <!ELEMENT dimensionname (#PCDATA)>
 <!ELEMENT dimensionitem (#PCDATA)>
+<!ATTLIST dimensionitem integrationdimensiondetailguid CDATA #IMPLIED>
 
 <!ELEMENT overridedefaultsalesaccrualaccountnumber (#PCDATA)>
 <!ELEMENT salesinvoiceaccrualtype (#PCDATA)>
@@ -108,8 +113,11 @@
 <!ELEMENT attachmentdescription (#PCDATA)>
 <!ELEMENT filename (#PCDATA)>
 <!ELEMENT documentdata (#PCDATA)>
+<!ATTLIST documentdata type (finvoice|pdf) #IMPLIED>
+<!ELEMENT printbydefault (#PCDATA)>
 
 <!ELEMENT tagname (#PCDATA)>
 <!ELEMENT tagvalue (#PCDATA)>
-	<!ATTLIST tagvalue datatype (date|text|float|enum) #REQUIRED>
+<!ATTLIST tagvalue datatype (date|text|float|enum) #REQUIRED>
+<!ELEMENT data (#PCDATA)>
 ]>

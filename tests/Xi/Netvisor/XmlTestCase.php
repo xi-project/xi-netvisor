@@ -4,9 +4,10 @@ namespace Xi\Netvisor;
 
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
+use PHPUnit\Framework\TestCase;
 use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
 
-class XmlTestCase extends \PHPUnit_Framework_TestCase
+class XmlTestCase extends TestCase
 {
     /**
      * @var Serializer

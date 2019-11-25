@@ -98,6 +98,16 @@ class Netvisor
     }
 
     /**
+     * @param int $customerId
+     * @param Customer $customer
+     * @return null|string
+     */
+    public function editCustomer(int $customerId, Customer $customer)
+    {
+        return $this->requestWithBody($customer, 'customer', ['method' => 'edit', 'id' => $customerId]);
+    }
+
+    /**
      * List customers, optionally filtered by a keyword.
      *
      * The keyword matches Netvisor fields
@@ -130,6 +140,22 @@ class Netvisor
             'customerlist',
             [
                 'changedsince' => $changedSince->format('Y-m-d'),
+            ]
+        );
+    }
+
+    /**
+     * Get details for a customer identified by Netvisor id.
+     *
+     * @param int $id
+     * @return null|string
+     */
+    public function getCustomer($id)
+    {
+        return $this->get(
+            'getcustomer',
+            [
+                'id' => $id,
             ]
         );
     }
@@ -215,7 +241,6 @@ class Netvisor
     public function processXml($xml)
     {
         $xml = str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "", $xml);
-        $xml = str_replace(array('<![CDATA[', ']]>'), '', $xml);
 
         return $xml;
     }

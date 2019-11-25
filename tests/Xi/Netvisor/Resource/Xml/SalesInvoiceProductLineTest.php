@@ -21,7 +21,13 @@ class SalesInvoiceProductLineTest extends XmlTestCase
             'Product name, which is longer than the limit of 50 characters',
             '1,23',
             '24',
-            '5'
+            '5',
+            [
+                'dimensions' => [
+                    new Dimension('test name', 'test item 1'),
+                    new Dimension('test name', 'test item 2'),
+                ],
+            ]
         );
     }
 
@@ -45,5 +51,7 @@ class SalesInvoiceProductLineTest extends XmlTestCase
         $this->assertXmlContainsTagWithAttributes('productvatpercentage', array('vatcode' => 'KOMY'), $xml);
 
         $this->assertXmlContainsTagWithValue('salesinvoiceproductlinequantity', 5, $xml);
+
+        $this->assertXmlContainsTagWithValue('dimensionitem', 'test item 1', $xml);
     }
 }
