@@ -37,6 +37,8 @@ class SalesInvoice extends Root
         $invoicingCustomerIdentifier,
         $paymentTermNetDays
     ) {
+        parent::__construct();
+
         $this->salesInvoiceDate = $salesInvoiceDate->format('Y-m-d');
         $this->salesInvoiceAmount = $salesInvoiceAmount;
         $this->salesInvoiceStatus = new AttributeElement($salesInvoiceStatus, array('type' => 'netvisor'));

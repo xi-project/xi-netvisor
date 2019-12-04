@@ -2,8 +2,16 @@
 
 namespace Xi\Netvisor\Resource\Xml\Component;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
 abstract class Root
 {
+    public function __construct()
+    {
+        // This is important for Doctrine annotation reader to work
+        AnnotationRegistry::registerLoader('class_exists');
+    }
+
     /**
      * File path to a DTD file
      * which should be used for XML validation.

@@ -16,6 +16,8 @@ class Customer extends Root
         CustomerBaseInformation $customerBaseInformation,
         CustomerFinvoiceDetails $customerFinvoiceDetails = null
     ) {
+        parent::__construct();
+        
         $this->customerBaseInformation = $customerBaseInformation;
         $this->customerFinvoiceDetails = $customerFinvoiceDetails;
     }
