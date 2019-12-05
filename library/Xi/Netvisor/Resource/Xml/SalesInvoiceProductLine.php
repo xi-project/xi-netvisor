@@ -15,6 +15,7 @@ class SalesInvoiceProductLine
     private $productUnitPrice;
     private $productVatPercentage;
     private $salesInvoiceProductLineQuantity;
+    private $salesinvoiceproductlinefreetext;
 
     /**
      * @XmlList(inline = true, entry = "dimension")
@@ -65,6 +66,16 @@ class SalesInvoiceProductLine
     public function setUnitPriceType($type)
     {
         $this->productUnitPrice->setAttribute('type', $type);
+        return $this;
+    }
+
+    /**
+     * @param string $text
+     * @return self
+     */
+    public function setFreeTezt($text)
+    {
+        $this->salesinvoiceproductlinefreetext = $text;
         return $this;
     }
 }

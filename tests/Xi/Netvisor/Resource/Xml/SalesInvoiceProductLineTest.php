@@ -88,4 +88,14 @@ class SalesInvoiceProductLineTest extends XmlTestCase
             [SalesInvoiceProductLine::UNIT_PRICE_TYPE_WITHOUT_VAT],
         ];
     }
+
+    public function testSetFreeText()
+    {
+        $text = 'Additional information';
+        $this->invoiceProductLine->setFreeTezt($text);
+
+        $xml = $this->toXml($this->invoiceProductLine);
+
+        $this->assertXmlContainsTagWithValue('salesinvoiceproductlinefreetext', $text, $xml);
+    }
 }
