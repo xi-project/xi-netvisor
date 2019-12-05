@@ -107,7 +107,7 @@ class Netvisor
             $customer,
             'customer',
             [
-                'method' => 'Edit',
+                'method' => 'edit',
                 'id' => $id,
             ]
         );

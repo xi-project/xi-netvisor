@@ -162,7 +162,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $id = 12345;
         
         $attributes = [
-            'method' => 'Edit',
+            'method' => 'edit',
             'id' => $id,
         ];
 
