@@ -98,6 +98,22 @@ class Netvisor
     }
 
     /**
+     * @param Customer $customer
+     * @return null|string
+     */
+    public function updateCustomer(Customer $customer, int $id)
+    {
+        return $this->requestWithBody(
+            $customer,
+            'customer',
+            [
+                'method' => 'Edit',
+                'id' => $id,
+            ]
+        );
+    }
+
+    /**
      * List customers, optionally filtered by a keyword.
      *
      * The keyword matches Netvisor fields

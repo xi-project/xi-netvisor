@@ -5,6 +5,7 @@ namespace Xi\Netvisor;
 use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Netvisor;
 use Xi\Netvisor\Config;
+use Xi\Netvisor\Resource\Xml\Customer;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use GuzzleHttp\Client;
 use Xi\Netvisor\Resource\Xml\TestResource;
@@ -153,5 +154,35 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<salesinvoicedate><![CDATA[2014-02-17]]></salesinvoicedate>";
 
         $this->assertEquals('<salesinvoicedate>2014-02-17</salesinvoicedate>', $this->netvisor->processXml($xml));
+    }
+
+    public function testUpdateCustomer()
+    {
+        // Expected params
+        $id = 12345;
+        
+        $attributes = [
+            'method' => 'Edit',
+            'id' => $id,
+        ];
+
+        $customerMock = $this
+            ->getMockBuilder(Customer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // Mock requestWithBody
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['requestWithBody'])
+            ->getMock();
+
+        $netvisorMock
+            ->expects($this->once())
+            ->method('requestWithBody')
+            ->with($customerMock, 'customer', $attributes);
+
+        $netvisorMock->updateCustomer($customerMock, $id);
     }
 }
