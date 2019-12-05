@@ -2,6 +2,7 @@
 
 namespace Xi\Netvisor\Resource\Xml;
 
+use JMS\Serializer\Annotation\XmlList;
 use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 
 class SalesInvoiceProductLine
@@ -11,6 +12,11 @@ class SalesInvoiceProductLine
     private $productUnitPrice;
     private $productVatPercentage;
     private $salesInvoiceProductLineQuantity;
+
+    /**
+     * @XmlList(inline = true, entry = "dimension")
+     */
+    private $dimensions = [];
 
     /**
      * @param string $productIdentifier
@@ -31,5 +37,16 @@ class SalesInvoiceProductLine
         $this->productUnitPrice = new AttributeElement($productUnitPrice, array('type' => 'net')); // TODO: net/gross.
         $this->productVatPercentage = new AttributeElement($productVatPercentage, array('vatcode' => 'KOMY')); // TODO: different values.
         $this->salesInvoiceProductLineQuantity = $salesInvoiceProductLineQuantity;
+    }
+
+    /**
+     * @param string $name
+     * @param string $item
+     * @return self
+     */
+    public function addDimension($name, $item): self
+    {
+        $this->dimensions[] = new Dimension($name, $item);
+        return $this;
     }
 }
