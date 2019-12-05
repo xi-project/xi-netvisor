@@ -17,6 +17,11 @@ class SalesInvoice extends Root
     private $salesInvoiceStatus;
     private $invoicingCustomerIdentifier;
     private $paymentTermNetDays;
+    private $deliveryaddressname;
+    private $deliveryaddressline;
+    private $deliveryaddresspostnumber;
+    private $deliveryaddresstown;
+    private $deliveryaddresscountrycode;
 
     /**
      * @XmlList(entry = "invoiceline")
@@ -48,10 +53,53 @@ class SalesInvoice extends Root
 
     /**
      * @param SalesInvoiceProductLine $line
+     * @return self
      */
     public function addSalesInvoiceProductLine(SalesInvoiceProductLine $line)
     {
         $this->invoiceLines[] = new WrapperElement('salesinvoiceproductline', $line);
+        return $this;
+    }
+
+    /**
+     * @param string $receiverName
+     * @param string $streetAddress
+     * @param string $postNumber
+     * @param string $town
+     * @param string $countryCode
+     * @return self
+     */
+    public function setDeliveryReceiverDetails(
+        $receiverName,
+        $streetAddress,
+        $postNumber,
+        $town,
+        $countryCode
+    ) {
+        $map = [
+            'deliveryaddressname' => $receiverName,
+            'deliveryaddressline' => $streetAddress,
+            'deliveryaddresspostnumber' => $postNumber,
+            'deliveryaddresstown' => $town,
+            'deliveryaddresscountrycode' => $countryCode,
+        ];
+
+        foreach ($map as $xmlField => $value) {
+            if (!$value) {
+                $this->$xmlField = null;
+                continue;
+            }
+
+            $attributes = array();
+
+            if ($xmlField === 'deliveryaddresscountrycode') {
+                $attributes = array('type' => 'ISO-3316');
+            }
+
+            $this->$xmlField = new AttributeElement($value, $attributes);
+        }
+
+        return $this;
     }
 
     public function getDtdPath()

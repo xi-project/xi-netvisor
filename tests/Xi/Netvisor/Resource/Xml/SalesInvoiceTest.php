@@ -70,4 +70,46 @@ class SalesInvoiceTest extends XmlTestCase
         $this->assertXmlContainsTagWithValue('productidentifier', '1', $xml);
         $this->assertXmlContainsTagWithValue('productidentifier', '2', $xml);
     }
+
+    public function testSetDeliveryReceiverDetails()
+    {
+        $receiverName = 'Receiver';
+        $streetAddress = 'Street address';
+        $postNumber = '12345';
+        $town = 'Town';
+        $countryCode = 'FI';
+    
+        // With all values
+        $this->invoice->setDeliveryReceiverDetails(
+            $receiverName,
+            $streetAddress,
+            $postNumber,
+            $town,
+            $countryCode
+        );
+        
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('deliveryaddressname', $receiverName, $xml);
+        $this->assertXmlContainsTagWithValue('deliveryaddressline', $streetAddress, $xml);
+        $this->assertXmlContainsTagWithValue('deliveryaddresspostnumber', $postNumber, $xml);
+        $this->assertXmlContainsTagWithValue('deliveryaddresstown', $town, $xml);
+        $this->assertXmlContainsTagWithValue('deliveryaddresscountrycode', $countryCode, $xml);
+
+        $this->assertXmlContainsTagWithAttributes(
+            'deliveryaddresscountrycode',
+            array('type' => 'ISO-3316'),
+            $xml
+        );
+
+        // Test with string, null or empty values
+        $this->invoice->setDeliveryReceiverDetails($receiverName, null, '', null, '');
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('deliveryaddressname', $receiverName, $xml);
+        $this->assertNotContains('deliveryaddressline', $xml);
+        $this->assertNotContains('deliveryaddresspostnumber', $xml);
+        $this->assertNotContains('deliveryaddresstown', $xml);
+        $this->assertNotContains('deliveryaddresscountrycode', $xml);
+    }
 }
