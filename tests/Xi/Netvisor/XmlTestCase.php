@@ -38,7 +38,22 @@ class XmlTestCase extends \PHPUnit_Framework_TestCase
     public function assertXmlContainsTagWithValue($tag, $value, $xml)
     {
         $this->assertContains(sprintf('<%s', $tag), $xml);
-        $this->assertContains(sprintf('><![CDATA[%s]]></%s>', $value, $tag), $xml); // TODO: Integers are not enclosed with CDATA.
+
+        if (is_int($value)) {
+            $this->assertContains(sprintf('>%s</%s>', $value, $tag), $xml);
+            return;
+        }
+
+        $this->assertContains(sprintf('><![CDATA[%s]]></%s>', $value, $tag), $xml);
+    }
+
+    /**
+     * @param string $tag
+     * @param string $xml
+     */
+    public function assertXmlDoesNotContainTag($tag, $xml)
+    {
+        $this->assertNotContains(sprintf('<%s', $tag), $xml);
     }
 
     /**

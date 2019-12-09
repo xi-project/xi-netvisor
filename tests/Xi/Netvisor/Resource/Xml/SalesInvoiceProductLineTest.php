@@ -44,7 +44,7 @@ class SalesInvoiceProductLineTest extends XmlTestCase
         $this->assertXmlContainsTagWithValue('productvatpercentage', '24', $xml);
         $this->assertXmlContainsTagWithAttributes('productvatpercentage', array('vatcode' => 'KOMY'), $xml);
 
-        $this->assertXmlContainsTagWithValue('salesinvoiceproductlinequantity', 5, $xml);
+        $this->assertXmlContainsTagWithValue('salesinvoiceproductlinequantity', '5', $xml);
     }
 
     /**

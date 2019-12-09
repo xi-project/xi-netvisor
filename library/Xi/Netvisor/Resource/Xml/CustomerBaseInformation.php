@@ -10,9 +10,12 @@ class CustomerBaseInformation
     private $city;
     private $postNumber;
     private $country;
+    private $organizationunitnumber;
+    private $phonenumber;
+    private $email;
+    private $isprivatecustomer = 0;
 
     /**
-     * @param string $externalIdentifier
      * @param string $name
      * @param string $streetAddress
      * @param string $city
@@ -20,18 +23,63 @@ class CustomerBaseInformation
      * @param string $country
      */
     public function __construct(
-        $externalIdentifier,
         $name,
         $streetAddress,
         $city,
         $postNumber,
         $country
     ) {
-        $this->externalIdentifier = $externalIdentifier;
         $this->name = $name;
         $this->streetAddress = $streetAddress;
         $this->city = $city;
         $this->postNumber = $postNumber;
         $this->country = $country;
+    }
+
+    /**
+     * @param string $ovt
+     * @return self
+     */
+    public function setOvt($ovt)
+    {
+        $this->organizationunitnumber = $ovt;
+        return $this;
+    }
+
+    /**
+     * @param string $number
+     * @return self
+     */
+    public function setPhoneNumber($number)
+    {
+        $this->phonenumber = $number;
+        return $this;
+    }
+
+    /**
+     * @param string $email
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @param string $od
+     * @return self
+     */
+    public function setBusinessId($id)
+    {
+        $this->externalIdentifier = null;
+        $this->isprivatecustomer = 0;
+
+        if ($id) {
+            $this->externalIdentifier = $id;
+            $this->isprivatecustomer = 1;
+        }
+
+        return $this;
     }
 }
