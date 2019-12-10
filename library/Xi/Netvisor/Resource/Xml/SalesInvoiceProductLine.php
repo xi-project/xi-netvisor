@@ -73,7 +73,7 @@ class SalesInvoiceProductLine
      * @param string $text
      * @return self
      */
-    public function setFreeTezt($text)
+    public function setFreeText($text)
     {
         $this->salesinvoiceproductlinefreetext = $text;
         return $this;

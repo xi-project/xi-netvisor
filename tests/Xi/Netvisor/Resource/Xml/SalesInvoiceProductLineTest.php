@@ -92,7 +92,7 @@ class SalesInvoiceProductLineTest extends XmlTestCase
     public function testSetFreeText()
     {
         $text = 'Additional information';
-        $this->invoiceProductLine->setFreeTezt($text);
+        $this->invoiceProductLine->setFreeText($text);
 
         $xml = $this->toXml($this->invoiceProductLine);
 
