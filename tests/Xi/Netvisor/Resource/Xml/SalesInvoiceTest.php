@@ -112,4 +112,36 @@ class SalesInvoiceTest extends XmlTestCase
         $this->assertNotContains('deliveryaddresstown', $xml);
         $this->assertNotContains('deliveryaddresscountrycode', $xml);
     }
+
+    public function testSetInvoiceNumber()
+    {
+        $invoiceNumber = '0123456';
+    
+        $this->invoice->setInvoiceNumber($invoiceNumber);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('salesinvoicenumber', $invoiceNumber, $xml);
+    }
+
+    public function testSetReferenceNumber()
+    {
+        $referenceNumber = '0987654';
+    
+        $this->invoice->setReferenceNumber($referenceNumber);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        
+        $this->assertXmlContainsTagWithValue(
+            'salesinvoicereferencenumber',
+            $referenceNumber,
+            $xml
+        );
+    }
+
+    public function testSetAfterLinesText()
+    {
+        $text = 'Some additional data';
+    
+        $this->invoice->setAfterLinesText($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('salesinvoicefreetextafterlines', $text, $xml);
+    }
 }

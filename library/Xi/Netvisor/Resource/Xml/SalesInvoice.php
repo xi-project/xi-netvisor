@@ -22,6 +22,9 @@ class SalesInvoice extends Root
     private $deliveryaddresspostnumber;
     private $deliveryaddresstown;
     private $deliveryaddresscountrycode;
+    private $salesinvoicenumber;
+    private $salesinvoicereferencenumber;
+    private $salesinvoicefreetextafterlines;
 
     /**
      * @XmlList(entry = "invoiceline")
@@ -99,6 +102,36 @@ class SalesInvoice extends Root
             $this->$xmlField = new AttributeElement($value, $attributes);
         }
 
+        return $this;
+    }
+
+    /**
+     * @param string $invoiceNumber
+     * @return self
+     */
+    public function setInvoiceNumber($invoiceNumber)
+    {
+        $this->salesinvoicenumber = $invoiceNumber;
+        return $this;
+    }
+
+    /**
+     * @param string $referenceNumber
+     * @return self
+     */
+    public function setReferenceNumber($referenceNumber)
+    {
+        $this->salesinvoicereferencenumber = $referenceNumber;
+        return $this;
+    }
+
+    /**
+     * @param string $text
+     * @return self
+     */
+    public function setAfterLinesText($text)
+    {
+        $this->salesinvoicefreetextafterlines = $text;
         return $this;
     }
 
