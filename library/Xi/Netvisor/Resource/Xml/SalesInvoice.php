@@ -25,6 +25,7 @@ class SalesInvoice extends Root
     private $salesinvoicenumber;
     private $salesinvoicereferencenumber;
     private $salesinvoicefreetextafterlines;
+    private $salesinvoiceyourreference;
 
     /**
      * @XmlList(entry = "invoiceline")
@@ -132,6 +133,16 @@ class SalesInvoice extends Root
     public function setAfterLinesText($text)
     {
         $this->salesinvoicefreetextafterlines = $text;
+        return $this;
+    }
+
+    /**
+     * @param string $text
+     * @return self
+     */
+    public function setYourReference($text)
+    {
+        $this->salesinvoiceyourreference = $text;
         return $this;
     }
 

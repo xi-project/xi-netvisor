@@ -144,4 +144,13 @@ class SalesInvoiceTest extends XmlTestCase
         $xml = $this->toXml($this->invoice->getSerializableObject());
         $this->assertXmlContainsTagWithValue('salesinvoicefreetextafterlines', $text, $xml);
     }
+
+    public function testSetYourReference()
+    {
+        $text = 'Some reference data';
+    
+        $this->invoice->setYourReference($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('salesinvoiceyourreference', $text, $xml);
+    }
 }
