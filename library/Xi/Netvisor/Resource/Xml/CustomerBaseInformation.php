@@ -5,12 +5,12 @@ namespace Xi\Netvisor\Resource\Xml;
 class CustomerBaseInformation
 {
     private $externalIdentifier;
+    private $organizationunitnumber;
     private $name;
     private $streetAddress;
     private $city;
     private $postNumber;
     private $country;
-    private $organizationunitnumber;
     private $phonenumber;
     private $email;
     private $isprivatecustomer = 0;

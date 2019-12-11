@@ -12,20 +12,20 @@ use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
  */
 class SalesInvoice extends Root
 {
+    private $salesinvoicenumber;
     private $salesInvoiceDate;
+    private $salesinvoicereferencenumber;
     private $salesInvoiceAmount;
     private $salesInvoiceStatus;
+    private $salesinvoicefreetextafterlines;
+    private $salesinvoiceyourreference;
     private $invoicingCustomerIdentifier;
-    private $paymentTermNetDays;
     private $deliveryaddressname;
     private $deliveryaddressline;
     private $deliveryaddresspostnumber;
     private $deliveryaddresstown;
     private $deliveryaddresscountrycode;
-    private $salesinvoicenumber;
-    private $salesinvoicereferencenumber;
-    private $salesinvoicefreetextafterlines;
-    private $salesinvoiceyourreference;
+    private $paymentTermNetDays;
 
     /**
      * @XmlList(entry = "invoiceline")
