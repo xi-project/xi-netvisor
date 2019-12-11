@@ -7,6 +7,8 @@ use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 
 class SalesInvoiceProductLine
 {
+    const PRODUCT_IDENTIFIER_TYPE_CUSTOMER = 'customer';
+    const PRODUCT_IDENTIFIER_TYPE_NETVISOR = 'netvisor';
     const UNIT_PRICE_TYPE_WITH_VAT = 'gross';
     const UNIT_PRICE_TYPE_WITHOUT_VAT = 'net';
 
@@ -36,7 +38,11 @@ class SalesInvoiceProductLine
         $productVatPercentage,
         $salesInvoiceProductLineQuantity
     ) {
-        $this->productIdentifier = new AttributeElement($productIdentifier, array('type' => 'netvisor')); // TODO: netvisor/customer.
+        $this->productIdentifier = new AttributeElement(
+            $productIdentifier,
+            array('type' => self::PRODUCT_IDENTIFIER_TYPE_NETVISOR)
+        );
+
         $this->productName = substr($productName, 0, 50);
 
         $this->productUnitPrice = new AttributeElement(
@@ -55,6 +61,17 @@ class SalesInvoiceProductLine
     public function addDimension($name, $item)
     {
         $this->dimensions[] = new Dimension($name, $item);
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param string $item
+     * @return self
+     */
+    public function setProductIdentiefierType($type)
+    {
+        $this->productIdentifier->setAttribute('type', $type);
         return $this;
     }
 

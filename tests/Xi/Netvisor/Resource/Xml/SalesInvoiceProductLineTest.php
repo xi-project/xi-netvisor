@@ -70,14 +70,48 @@ class SalesInvoiceProductLineTest extends XmlTestCase
     }
 
     /**
+     * @dataProvider productIdentifierTypeProvider
+     */
+    public function testSetProductIdentifierType($type)
+    {
+        // Default
+        $xml = $this->toXml($this->invoiceProductLine);
+        $this->assertXmlContainsTagWithAttributes(
+            'productidentifier',
+            array('type' => SalesInvoiceProductLine::PRODUCT_IDENTIFIER_TYPE_NETVISOR),
+            $xml
+        );
+
+        // Setted value
+        $this->invoiceProductLine->setProductIdentiefierType($type);
+        $xml = $this->toXml($this->invoiceProductLine);
+        $this->assertXmlContainsTagWithAttributes('productidentifier', array('type' => $type), $xml);
+    }
+
+    public function productIdentifierTypeProvider()
+    {
+        return [
+            [SalesInvoiceProductLine::PRODUCT_IDENTIFIER_TYPE_CUSTOMER],
+            [SalesInvoiceProductLine::PRODUCT_IDENTIFIER_TYPE_NETVISOR],
+        ];
+    }
+
+    /**
      * @dataProvider unitPriceTypeProvider
      */
     public function testSetUnitPriceType($type)
     {
-        $this->invoiceProductLine->setUnitPriceType($type);
-
+        // Default
         $xml = $this->toXml($this->invoiceProductLine);
+        $this->assertXmlContainsTagWithAttributes(
+            'productunitprice',
+            array('type' => SalesInvoiceProductLine::UNIT_PRICE_TYPE_WITHOUT_VAT),
+            $xml
+        );
 
+        // Setted value
+        $this->invoiceProductLine->setUnitPriceType($type);
+        $xml = $this->toXml($this->invoiceProductLine);
         $this->assertXmlContainsTagWithAttributes('productunitprice', array('type' => $type), $xml);
     }
 
