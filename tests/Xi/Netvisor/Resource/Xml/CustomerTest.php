@@ -91,12 +91,12 @@ class CustomerTest extends XmlTestCase
 
         if (!$id) {
             $this->assertXmlDoesNotContainTag('externalidentifier', $xml);
-            $this->assertXmlContainsTagWithValue('isprivatecustomer', 0, $xml);
+            $this->assertXmlContainsTagWithValue('isprivatecustomer', 1, $xml);
             return;
         }
 
         $this->assertXmlContainsTagWithValue('externalidentifier', $id, $xml);
-        $this->assertXmlContainsTagWithValue('isprivatecustomer', 1, $xml);
+        $this->assertXmlContainsTagWithValue('isprivatecustomer', 0, $xml);
     }
 
     public function businessIdProvider()

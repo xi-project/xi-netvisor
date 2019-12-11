@@ -13,7 +13,7 @@ class CustomerBaseInformation
     private $country;
     private $phonenumber;
     private $email;
-    private $isprivatecustomer = 0;
+    private $isprivatecustomer = 1;
 
     /**
      * @param string $name
@@ -73,11 +73,11 @@ class CustomerBaseInformation
     public function setBusinessId($id)
     {
         $this->externalIdentifier = null;
-        $this->isprivatecustomer = 0;
+        $this->isprivatecustomer = 1;
 
         if ($id) {
             $this->externalIdentifier = $id;
-            $this->isprivatecustomer = 1;
+            $this->isprivatecustomer = 0;
         }
 
         return $this;
