@@ -132,4 +132,14 @@ class SalesInvoiceProductLineTest extends XmlTestCase
 
         $this->assertXmlContainsTagWithValue('salesinvoiceproductlinefreetext', $text, $xml);
     }
+
+    public function testSetAccountingAccount()
+    {
+        $account = 2000;
+        $this->invoiceProductLine->setAccountingAccount($account);
+
+        $xml = $this->toXml($this->invoiceProductLine);
+
+        $this->assertXmlContainsTagWithValue('accountingaccountsuggestion', $account, $xml);
+    }
 }

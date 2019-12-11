@@ -18,6 +18,7 @@ class SalesInvoiceProductLine
     private $productVatPercentage;
     private $salesInvoiceProductLineQuantity;
     private $salesinvoiceproductlinefreetext;
+    private $accountingaccountsuggestion;
 
     /**
      * @XmlList(inline = true, entry = "dimension")
@@ -93,6 +94,16 @@ class SalesInvoiceProductLine
     public function setFreeText($text)
     {
         $this->salesinvoiceproductlinefreetext = $text;
+        return $this;
+    }
+
+    /**
+     * @param int $account
+     * @return self
+     */
+    public function setAccountingAccount($account)
+    {
+        $this->accountingaccountsuggestion = $account;
         return $this;
     }
 }
