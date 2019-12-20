@@ -7,10 +7,12 @@ use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 
 class SalesInvoiceProductLine
 {
-    const PRODUCT_IDENTIFIER_TYPE_CUSTOMER = 'customer';
-    const PRODUCT_IDENTIFIER_TYPE_NETVISOR = 'netvisor';
-    const UNIT_PRICE_TYPE_WITH_VAT = 'gross';
-    const UNIT_PRICE_TYPE_WITHOUT_VAT = 'net';
+    public const PRODUCT_IDENTIFIER_TYPE_CUSTOMER = 'customer';
+    public const PRODUCT_IDENTIFIER_TYPE_NETVISOR = 'netvisor';
+    public const UNIT_PRICE_TYPE_WITH_VAT = 'gross';
+    public const UNIT_PRICE_TYPE_WITHOUT_VAT = 'net';
+    public const VAT_CODE_KOMY = 'KOMY';
+    public const VAT_CODE_NONE = 'NONE';
 
     private $productIdentifier;
     private $productName;
@@ -50,7 +52,10 @@ class SalesInvoiceProductLine
             $productUnitPrice, array('type' => self::UNIT_PRICE_TYPE_WITHOUT_VAT)
         );
         
-        $this->productVatPercentage = new AttributeElement($productVatPercentage, array('vatcode' => 'KOMY')); // TODO: different values.
+        $this->productVatPercentage = new AttributeElement(
+            $productVatPercentage, array('vatcode' => static::VAT_CODE_KOMY)
+        );
+
         $this->salesInvoiceProductLineQuantity = $salesInvoiceProductLineQuantity;
     }
 
@@ -66,8 +71,7 @@ class SalesInvoiceProductLine
     }
 
     /**
-     * @param string $name
-     * @param string $item
+     * @param string $type
      * @return self
      */
     public function setProductIdentiefierType($type)
@@ -77,8 +81,7 @@ class SalesInvoiceProductLine
     }
 
     /**
-     * @param string $name
-     * @param string $item
+     * @param string $type
      * @return self
      */
     public function setUnitPriceType($type)
@@ -104,6 +107,16 @@ class SalesInvoiceProductLine
     public function setAccountingAccount($account)
     {
         $this->accountingaccountsuggestion = $account;
+        return $this;
+    }
+
+    /**
+     * @param string $code
+     * @return self
+     */
+    public function setVatCode($code)
+    {
+        $this->productVatPercentage->setAttribute('vatcode', $code);
         return $this;
     }
 }

@@ -142,4 +142,36 @@ class SalesInvoiceProductLineTest extends XmlTestCase
 
         $this->assertXmlContainsTagWithValue('accountingaccountsuggestion', $account, $xml);
     }
+
+    /**
+     * @dataProvider setVatCodeProvider
+     */
+    public function testSetVatCode($code)
+    {
+        // Default
+        $xml = $this->toXml($this->invoiceProductLine);
+        $this->assertXmlContainsTagWithAttributes(
+            'productvatpercentage',
+            array('vatcode' => SalesInvoiceProductLine::VAT_CODE_KOMY),
+            $xml
+        );
+
+        // Setted value
+        $this->invoiceProductLine->setVatCode($code);
+        $xml = $this->toXml($this->invoiceProductLine);
+
+        $this->assertXmlContainsTagWithAttributes(
+            'productvatpercentage',
+            array('vatcode' => $code),
+            $xml
+        );
+    }
+
+    public function setVatCodeProvider()
+    {
+        return [
+            [SalesInvoiceProductLine::VAT_CODE_KOMY],
+            [SalesInvoiceProductLine::VAT_CODE_NONE],
+        ];
+    }
 }
