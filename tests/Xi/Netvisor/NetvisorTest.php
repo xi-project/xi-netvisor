@@ -7,6 +7,7 @@ use Xi\Netvisor\Netvisor;
 use Xi\Netvisor\Config;
 use Xi\Netvisor\Resource\Xml\Customer;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
+use Xi\Netvisor\Resource\Xml\Voucher;
 use GuzzleHttp\Client;
 use Xi\Netvisor\Resource\Xml\TestResource;
 use GuzzleHttp\Psr7\Response;
@@ -184,5 +185,27 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             ->with($customerMock, 'customer', $attributes);
 
         $netvisorMock->updateCustomer($customerMock, $id);
+    }
+
+    public function testSendVoucher()
+    {
+        $voucherMock = $this
+            ->getMockBuilder(Voucher::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // Mock requestWithBody
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['requestWithBody'])
+            ->getMock();
+
+        $netvisorMock
+            ->expects($this->once())
+            ->method('requestWithBody')
+            ->with($voucherMock, 'accounting');
+
+        $netvisorMock->sendVoucher($voucherMock);
     }
 }
