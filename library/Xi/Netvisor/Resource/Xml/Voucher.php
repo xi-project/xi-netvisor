@@ -8,8 +8,8 @@ use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 
 class Voucher extends Root
 {
-    public const CALCULATION_MODE_NET = 'net';
-    public const CALCULATION_MODE_GROSS = 'gross';
+    public const CALCULATION_MODE_WITHOUT_VAT = 'net';
+    public const CALCULATION_MODE_WITH_VAT = 'gross';
 
     private $calculationMode;
     private $voucherDate;

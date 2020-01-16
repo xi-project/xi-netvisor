@@ -16,7 +16,7 @@ class VoucherTest extends XmlTestCase
     {
         parent::setUp();
 
-        $this->voucher = new Voucher('Myyntilasku', Voucher::CALCULATION_MODE_NET, new \DateTime());
+        $this->voucher = new Voucher('Myyntilasku', Voucher::CALCULATION_MODE_WITH_VAT, new \DateTime());
     }
 
     public function testHasDtd()
@@ -27,7 +27,7 @@ class VoucherTest extends XmlTestCase
     public function testXmlHasRequiredValues()
     {
         $type = 'Myyntilasku';
-        $mode = Voucher::CALCULATION_MODE_NET;
+        $mode = Voucher::CALCULATION_MODE_WITH_VAT;
         $date = new \DateTime();
 
         $voucher = new Voucher($type, $mode, $date);
