@@ -19,6 +19,7 @@ class SalesInvoiceProductLine
     private $productUnitPrice;
     private $productVatPercentage;
     private $salesInvoiceProductLineQuantity;
+    private $salesInvoiceProductLineDiscountPercentage;
     private $salesinvoiceproductlinefreetext;
     private $accountingaccountsuggestion;
 
@@ -117,6 +118,16 @@ class SalesInvoiceProductLine
     public function setVatCode($code)
     {
         $this->productVatPercentage->setAttribute('vatcode', $code);
+        return $this;
+    }
+
+    /**
+     * @param float $discountPercentage
+     * @return self
+     */
+    public function setDiscountPercentage($discountPercentage)
+    {
+        $this->salesInvoiceProductLineDiscountPercentage = $discountPercentage;
         return $this;
     }
 }

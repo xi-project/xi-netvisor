@@ -174,4 +174,14 @@ class SalesInvoiceProductLineTest extends XmlTestCase
             [SalesInvoiceProductLine::VAT_CODE_NONE],
         ];
     }
+
+    public function testSetDiscountPercentage()
+    {
+        $discountPercentage = 20;
+        $this->invoiceProductLine->setDiscountPercentage($discountPercentage);
+
+        $xml = $this->toXml($this->invoiceProductLine);
+
+        $this->assertXmlContainsTagWithValue('salesinvoiceproductlinediscountpercentage', $discountPercentage, $xml);
+    }
 }
