@@ -13,6 +13,7 @@ class VoucherLine
     public const VAT_CODE_NONE = 'NONE';
 
     private $lineSum;
+    private $description;
     private $accountNumber;
     private $vatPercent;
 
@@ -56,6 +57,16 @@ class VoucherLine
     public function setVatCode($code)
     {
         $this->vatPercent->setAttribute('vatcode', $code);
+        return $this;
+    }
+
+    /**
+     * @param string $description
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
         return $this;
     }
 }

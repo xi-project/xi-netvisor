@@ -123,4 +123,12 @@ class VoucherLineTest extends XmlTestCase
             [VoucherLine::VAT_CODE_NONE],
         ];
     }
+
+    public function testSetDescription()
+    {
+        $description = md5(time());
+        $this->voucherLine->setDescription($description);
+        $xml = $this->toXml($this->voucherLine);
+        $this->assertXmlContainsTagWithValue('description', $description, $xml);
+    }
 }
