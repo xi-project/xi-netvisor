@@ -14,6 +14,7 @@ class Voucher extends Root
     private $calculationMode;
     private $voucherDate;
     private $number;
+    private $description;
     private $voucherClass;
 
     /**
@@ -52,6 +53,16 @@ class Voucher extends Root
     public function setNumber($number)
     {
         $this->number = $number;
+        return $this;
+    }
+
+    /**
+     * @param string $description
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
         return $this;
     }
 

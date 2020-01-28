@@ -59,4 +59,13 @@ class VoucherTest extends XmlTestCase
         $xml = $this->toXml($this->voucher->getSerializableObject());
         $this->assertXmlContainsTagWithValue('number', $number, $xml);
     }
+
+    public function testSetDescription()
+    {
+        $description = 'Some description';
+    
+        $this->voucher->setDescription($description);
+        $xml = $this->toXml($this->voucher->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('description', $description, $xml);
+    }
 }
