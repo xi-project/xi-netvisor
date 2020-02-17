@@ -143,6 +143,17 @@ class SalesInvoiceTest extends XmlTestCase
         $this->invoice->setAfterLinesText($text);
         $xml = $this->toXml($this->invoice->getSerializableObject());
         $this->assertXmlContainsTagWithValue('salesinvoicefreetextafterlines', $text, $xml);
+
+        // Too long
+        while (strlen($text) <= 500) {
+            $text .= $text;
+        }
+
+        $this->invoice->setAfterLinesText($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('salesinvoicefreetextafterlines', substr($text, 0, 500), $xml);
+        $this->assertNotContains($text, $xml);
     }
 
     public function testSetYourReference()

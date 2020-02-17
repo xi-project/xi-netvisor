@@ -132,7 +132,7 @@ class SalesInvoice extends Root
      */
     public function setAfterLinesText($text)
     {
-        $this->salesinvoicefreetextafterlines = $text;
+        $this->salesinvoicefreetextafterlines = substr($text, 0, 500);
         return $this;
     }
 
