@@ -66,7 +66,7 @@ class VoucherLine
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = substr($description, 0, 255);
         return $this;
     }
 }

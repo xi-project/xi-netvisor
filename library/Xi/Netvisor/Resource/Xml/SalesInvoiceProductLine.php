@@ -47,7 +47,7 @@ class SalesInvoiceProductLine
             array('type' => self::PRODUCT_IDENTIFIER_TYPE_NETVISOR)
         );
 
-        $this->productName = substr($productName, 0, 50);
+        $this->productName = substr($productName, 0, 200);
 
         $this->productUnitPrice = new AttributeElement(
             $productUnitPrice, array('type' => self::UNIT_PRICE_TYPE_WITHOUT_VAT)

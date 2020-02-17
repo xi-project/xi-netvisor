@@ -7,6 +7,7 @@ use Xi\Netvisor\XmlTestCase;
 
 class SalesInvoiceProductLineTest extends XmlTestCase
 {
+    private const LONG_PRODUCT_NAmE = 'Product name, which is longer than the limit of 200 characters Will add some lirum larum. Will add some lirum larum. Will add some lirum larum. Will add some lirum larum. Will add some lirum larum. Will add some lirum larum.';
     /**
      * @var SalesInvoiceProductLine
      */
@@ -18,7 +19,7 @@ class SalesInvoiceProductLineTest extends XmlTestCase
 
         $this->invoiceProductLine = new SalesInvoiceProductLine(
             '100',
-            'Product name, which is longer than the limit of 50 characters',
+            static::LONG_PRODUCT_NAmE,
             '1,23',
             '24',
             '5'
@@ -35,8 +36,8 @@ class SalesInvoiceProductLineTest extends XmlTestCase
         $this->assertXmlContainsTagWithValue('productidentifier', '100', $xml);
         $this->assertXmlContainsTagWithAttributes('productidentifier', array('type' => 'netvisor'), $xml);
 
-        $this->assertXmlContainsTagWithValue('productname', 'Product name, which is longer than the limit of 50', $xml);
-        $this->assertNotContains('Product name, which is longer than the limit of 50 characters', $xml);
+        $this->assertXmlContainsTagWithValue('productname', substr(static::LONG_PRODUCT_NAmE, 0, 200), $xml);
+        $this->assertNotContains(static::LONG_PRODUCT_NAmE, $xml);
 
         $this->assertXmlContainsTagWithValue('productunitprice', '1,23', $xml);
         $this->assertXmlContainsTagWithAttributes('productunitprice', array('type' => 'net'), $xml);

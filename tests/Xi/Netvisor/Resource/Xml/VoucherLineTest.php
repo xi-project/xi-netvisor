@@ -130,5 +130,16 @@ class VoucherLineTest extends XmlTestCase
         $this->voucherLine->setDescription($description);
         $xml = $this->toXml($this->voucherLine);
         $this->assertXmlContainsTagWithValue('description', $description, $xml);
+
+        // Test max length
+        while (strlen($description) <= 255) {
+            $description .= $description;
+        }
+
+        $this->voucherLine->setDescription($description);
+        $xml = $this->toXml($this->voucherLine);
+
+        $this->assertXmlContainsTagWithValue('description', substr($description, 0, 255), $xml);
+        $this->assertNotContains($description, $xml);
     }
 }
