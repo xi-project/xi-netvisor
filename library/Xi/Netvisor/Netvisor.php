@@ -187,7 +187,7 @@ class Netvisor
         return $this->get(
             'getsalesinvoice',
             [
-                'id' => $id,
+                'netvisorkey' => $id,
             ]
         );
     }

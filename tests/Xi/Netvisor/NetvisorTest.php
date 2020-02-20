@@ -223,7 +223,7 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $netvisorMock
             ->expects($this->once())
             ->method('get')
-            ->with('getsalesinvoice', ['id' => $id]);
+            ->with('getsalesinvoice', ['netvisorkey' => $id]);
 
         $netvisorMock->getSalesInvoice($id);
     }
