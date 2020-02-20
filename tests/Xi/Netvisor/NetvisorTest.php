@@ -208,4 +208,23 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
 
         $netvisorMock->sendVoucher($voucherMock);
     }
+
+    public function testGetSalesInvoice()
+    {
+        $id = 1234564;
+
+        // @var Netvisor $netvisorMock
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['get'])
+            ->getMock();
+
+        $netvisorMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('getsalesinvoice', ['id' => $id]);
+
+        $netvisorMock->getSalesInvoice($id);
+    }
 }

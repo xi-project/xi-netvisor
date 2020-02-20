@@ -177,11 +177,27 @@ class Netvisor
     }
 
     /**
+     * Get details for a invoice identified by Netvisor id.
+     *
+     * @param int $id
+     * @return null|string
+     */
+    public function getSalesInvoice($id)
+    {
+        return $this->get(
+            'getsalesinvoice',
+            [
+                'id' => $id,
+            ]
+        );
+    }
+
+    /**
      * @param string  $service
      * @param array   $params
      * @return null|string
      */
-    private function get($service, array $params = [])
+    protected function get($service, array $params = [])
     {
         if (!$this->config->isEnabled()) {
             return null;
