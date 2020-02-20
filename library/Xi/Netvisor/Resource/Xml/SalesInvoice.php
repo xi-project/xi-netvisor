@@ -17,6 +17,7 @@ class SalesInvoice extends Root
     private $salesinvoicereferencenumber;
     private $salesInvoiceAmount;
     private $salesInvoiceStatus;
+    private $salesinvoicefreetextbeforelines;
     private $salesinvoicefreetextafterlines;
     private $salesinvoiceyourreference;
     private $invoicingCustomerIdentifier;
@@ -133,6 +134,16 @@ class SalesInvoice extends Root
     public function setAfterLinesText($text)
     {
         $this->salesinvoicefreetextafterlines = substr($text, 0, 500);
+        return $this;
+    }
+
+    /**
+     * @param string $text
+     * @return self
+     */
+    public function setBeforeLinesText($text)
+    {
+        $this->salesinvoicefreetextbeforelines = substr($text, 0, 500);
         return $this;
     }
 

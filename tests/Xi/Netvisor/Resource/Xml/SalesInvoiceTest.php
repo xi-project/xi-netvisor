@@ -136,6 +136,26 @@ class SalesInvoiceTest extends XmlTestCase
         );
     }
 
+    public function testSetBeforeLinesText()
+    {
+        $text = 'Some additional data';
+    
+        $this->invoice->setBeforeLinesText($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('salesinvoicefreetextbeforelines', $text, $xml);
+
+        // Too long
+        while (strlen($text) <= 500) {
+            $text .= $text;
+        }
+
+        $this->invoice->setBeforeLinesText($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('salesinvoicefreetextbeforelines', substr($text, 0, 500), $xml);
+        $this->assertNotContains($text, $xml);
+    }
+
     public function testSetAfterLinesText()
     {
         $text = 'Some additional data';
