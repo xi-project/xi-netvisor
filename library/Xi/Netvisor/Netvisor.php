@@ -240,8 +240,8 @@ class Netvisor
     {
         $response = new \SimpleXMLElement($this->getVouchers($startDate, $endDate));
         
-        foreach ($response->vouchers->children() as $voucher) {
-            if ((int) $voucher->netvisorkey === (int) $id) {
+        foreach ($response->Vouchers->children() as $voucher) {
+            if ((int) $voucher->NetvisorKey === (int) $id) {
                 return $voucher->asXml();
             }
         }

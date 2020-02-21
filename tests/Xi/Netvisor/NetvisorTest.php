@@ -301,18 +301,18 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             ->method('getVouchers')
             ->willReturn('<?xml version="1.0" encoding="utf-8" standalone="yes"?>
             <Root>
-                <vouchers>
-                    <voucher>
-                        <netvisorkey>
+                <Vouchers>
+                    <Voucher>
+                        <NetvisorKey>
                             54321
-                        </netvisorkey>
-                    </voucher>
-                    <voucher>
-                        <netvisorkey>
+                        </NetvisorKey>
+                    </Voucher>
+                    <Voucher>
+                        <NetvisorKey>
                             ' . $id . '
-                        </netvisorkey>
-                    </voucher>
-                </vouchers>
+                        </NetvisorKey>
+                    </Voucher>
+                </Vouchers>
             </Root>');
 
         // Not found
@@ -323,6 +323,6 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $result = $netvisorMock->getVoucher($id, $start, $end);
         $voucher = new \SimpleXMLElement($result);
 
-        $this->assertSame((int) $voucher->netvisorkey, $id);
+        $this->assertSame((int) $voucher->NetvisorKey, $id);
     }
 }
