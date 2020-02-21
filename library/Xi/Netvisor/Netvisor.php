@@ -229,6 +229,27 @@ class Netvisor
     }
 
     /**
+     * Get details for a certain voucher from timeframe identified by Netvisor id.
+     *
+     * @param int $id
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @return null|string
+     */
+    public function getVoucher($id, \DateTime $startDate, \DateTime $endDate)
+    {
+        $response = new \SimpleXMLElement($this->getVouchers($startDate, $endDate));
+        
+        foreach ($response->vouchers->children() as $voucher) {
+            if ((int) $voucher->netvisorkey === (int) $id) {
+                return $voucher->asXml();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @param string  $service
      * @param array   $params
      * @return null|string

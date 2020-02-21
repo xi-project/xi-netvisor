@@ -283,4 +283,46 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
 
         $netvisorMock->getVouchers($start, $end);
     }
+
+    public function testGetVoucher()
+    {
+        $id = 12345;
+        $start = new \DateTime('2000-01-01');
+        $end = new \DateTime('2001-01-01');
+
+        // @var Netvisor $netvisorMock
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getVouchers'])
+            ->getMock();
+
+        $netvisorMock
+            ->method('getVouchers')
+            ->willReturn('<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+            <Root>
+                <vouchers>
+                    <voucher>
+                        <netvisorkey>
+                            54321
+                        </netvisorkey>
+                    </voucher>
+                    <voucher>
+                        <netvisorkey>
+                            ' . $id . '
+                        </netvisorkey>
+                    </voucher>
+                </vouchers>
+            </Root>');
+
+        // Not found
+        $result = $netvisorMock->getVoucher(999, $start, $end);
+        $this->assertNull($result);
+
+        // Found
+        $result = $netvisorMock->getVoucher($id, $start, $end);
+        $voucher = new \SimpleXMLElement($result);
+
+        $this->assertSame((int) $voucher->netvisorkey, $id);
+    }
 }
