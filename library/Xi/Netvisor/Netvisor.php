@@ -211,6 +211,24 @@ class Netvisor
     }
 
     /**
+     * Get vouchers by timeframe
+     *
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @return null|string
+     */
+    public function getVouchers(\DateTime $startDate, \DateTime $endDate)
+    {
+        return $this->get(
+            'accountingledger',
+            [
+                'startdate' => $startDate->format('Y-m-d'),
+                'enddate' => $endDate->format('Y-m-d'),
+            ]
+        );
+    }
+
+    /**
      * @param string  $service
      * @param array   $params
      * @return null|string

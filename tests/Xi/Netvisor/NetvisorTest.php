@@ -257,4 +257,30 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
 
         $netvisorMock->getSalesInvoice($id);
     }
+
+    public function testGetVouchers()
+    {
+        $start = new \DateTime('2000-01-01');
+        $end = new \DateTime('2001-01-01');
+
+        // @var Netvisor $netvisorMock
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['get'])
+            ->getMock();
+
+        $netvisorMock
+            ->expects($this->once())
+            ->method('get')
+            ->with(
+                'accountingledger',
+                [
+                    'startdate' => $start->format('Y-m-d'),
+                    'enddate' => $end->format('Y-m-d'),
+                ]
+            );
+
+        $netvisorMock->getVouchers($start, $end);
+    }
 }
