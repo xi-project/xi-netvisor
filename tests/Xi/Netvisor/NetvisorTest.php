@@ -187,6 +187,36 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $netvisorMock->updateCustomer($customerMock, $id);
     }
 
+    public function testUpdateInvoice()
+    {
+        // Expected params
+        $id = 12345;
+        
+        $attributes = [
+            'method' => 'edit',
+            'id' => $id,
+        ];
+
+        $invoiceMock = $this
+            ->getMockBuilder(SalesInvoice::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // Mock requestWithBody
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['requestWithBody'])
+            ->getMock();
+
+        $netvisorMock
+            ->expects($this->once())
+            ->method('requestWithBody')
+            ->with($invoiceMock, 'salesinvoice', $attributes);
+
+        $netvisorMock->updateInvoice($invoiceMock, $id);
+    }
+
     public function testSendVoucher()
     {
         $voucherMock = $this

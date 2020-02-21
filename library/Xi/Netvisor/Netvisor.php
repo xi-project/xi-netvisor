@@ -109,6 +109,7 @@ class Netvisor
 
     /**
      * @param Customer $customer
+     * @param int $id
      * @return null|string
      */
     public function updateCustomer(Customer $customer, int $id)
@@ -116,6 +117,23 @@ class Netvisor
         return $this->requestWithBody(
             $customer,
             'customer',
+            [
+                'method' => 'edit',
+                'id' => $id,
+            ]
+        );
+    }
+
+    /**
+     * @param SalesInvoice $invoice
+     * @param int $id
+     * @return null|string
+     */
+    public function updateInvoice(SalesInvoice $invoice, int $id)
+    {
+        return $this->requestWithBody(
+            $invoice,
+            'salesinvoice',
             [
                 'method' => 'edit',
                 'id' => $id,
