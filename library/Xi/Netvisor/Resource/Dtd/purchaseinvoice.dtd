@@ -1,0 +1,75 @@
+<!ELEMENT root (purchaseinvoice)>
+<!ELEMENT purchaseinvoice (invoicenumber, invoicedate, invoicesource?, valuedate?, duedate, purchaseinvoiceonround?, vendorcode?, vendorname?, vendoraddressline?, vendorpostnumber?, vendorcity?, vendorcountry?, vendorphonenumber?, vendorfaxnumber?, vendoremail?, vendorhomepage?, amount, accountnumber?, organizationidentifier?, deliverydate?, overduefinepercent?, bankreferencenumber?, ourreference?, yourreference?, currencycode?, deliveryterms?, deliverymethod?, comment?, checksum?, pdfextrapages?, readyforaccounting?, primaryvendormatchtype?, purchaseinvoicelines?, purchaseinvoicesublines?, purchaseinvoicecommentlines?, purchaseinvoiceattachments?, purchaseinvoicerelatedpurchaseordernumbers?)>
+    <!ELEMENT purchaseinvoicelines (purchaseinvoiceline+)>	
+		<!ELEMENT purchaseinvoiceline (productcode?, productname, orderedamount?, deliveredamount, unitname?, unitprice, discountpercentage?, vatpercent, linesum, description?, sort?, accountingsuggestion?, dimension*)>
+        <!ELEMENT dimension (dimensionname, dimensionitem)>
+    <!ELEMENT purchaseinvoicesublines (purchaseinvoicesubline+)>
+        <!ELEMENT purchaseinvoicesubline (productcode?, productname?, orderedamount?, deliveredamount?, unitname?, unitprice?, discountpercentage?, vatpercent?, linesum?, description?, sort?)>
+    <!ELEMENT purchaseinvoicecommentlines (purchaseinvoicecommentline+)>
+        <!ELEMENT purchaseinvoicecommentline (comment, sort?)>
+    <!ELEMENT purchaseinvoiceattachments (purchaseinvoiceattachment+)>
+        <!ELEMENT purchaseinvoiceattachment (mimetype, attachmentdescription, filename, documentdata)>
+    <!ELEMENT purchaseinvoicerelatedpurchaseordernumbers (purchaseinvoicerelatedpurchaseordernumber+)>
+        <!ELEMENT purchaseinvoicerelatedpurchaseordernumber (purchaseordernumber)>
+
+<!ELEMENT invoicenumber (#PCDATA)>
+<!ELEMENT invoicedate (#PCDATA)>
+<!ATTLIST invoicedate format CDATA "ansi">
+<!ATTLIST invoicedate findopendate (true) #IMPLIED>
+<!ELEMENT invoicesource (#PCDATA)>
+<!ELEMENT valuedate (#PCDATA)>
+<!ATTLIST valuedate format CDATA "ansi">
+<!ELEMENT duedate (#PCDATA)>
+<!ATTLIST duedate format CDATA "ansi">
+<!ELEMENT purchaseinvoiceonround (#PCDATA)>
+<!ATTLIST purchaseinvoiceonround type CDATA "netvisor">
+<!ELEMENT vendorcode (#PCDATA)>
+<!ELEMENT vendorname (#PCDATA)>
+<!ELEMENT vendoraddressline (#PCDATA)>
+<!ELEMENT vendorpostnumber (#PCDATA)>
+<!ELEMENT vendorcity (#PCDATA)>
+<!ELEMENT vendorcountry (#PCDATA)>
+<!ELEMENT vendorphonenumber (#PCDATA)>
+<!ELEMENT vendorfaxnumber (#PCDATA)>
+<!ELEMENT vendoremail (#PCDATA)>
+<!ELEMENT vendorhomepage (#PCDATA)>
+<!ELEMENT amount (#PCDATA)>
+<!ELEMENT accountnumber (#PCDATA)>
+<!ELEMENT organizationidentifier (#PCDATA)>
+<!ELEMENT deliverydate (#PCDATA)>
+<!ATTLIST deliverydate format CDATA "ansi">
+<!ELEMENT overduefinepercent (#PCDATA)>
+<!ELEMENT bankreferencenumber (#PCDATA)>
+<!ELEMENT ourreference (#PCDATA)>
+<!ELEMENT yourreference (#PCDATA)>
+<!ELEMENT currencycode (#PCDATA)>
+<!ELEMENT deliveryterms (#PCDATA)>
+<!ELEMENT deliverymethod (#PCDATA)>
+<!ELEMENT comment (#PCDATA)>
+<!ELEMENT checksum (#PCDATA)>
+<!ELEMENT pdfextrapages (#PCDATA)>
+<!ELEMENT readyforaccounting (#PCDATA)>
+<!ELEMENT primaryvendormatchtype (#PCDATA)>
+<!ELEMENT sort (#PCDATA)>
+<!ELEMENT accountingsuggestion (#PCDATA)>
+
+<!ELEMENT productcode (#PCDATA)>
+<!ELEMENT productname (#PCDATA)>
+<!ELEMENT orderedamount (#PCDATA)>
+<!ELEMENT deliveredamount (#PCDATA)>
+<!ELEMENT unitname (#PCDATA)>
+<!ELEMENT unitprice (#PCDATA)>
+<!ELEMENT discountpercentage (#PCDATA)>
+<!ELEMENT vatpercent (#PCDATA)>
+<!ELEMENT linesum (#PCDATA)>
+<!ATTLIST linesum type (brutto) #REQUIRED>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT dimensionname (#PCDATA)>
+<!ELEMENT dimensionitem (#PCDATA)>
+
+<!ELEMENT mimetype (#PCDATA)>
+<!ELEMENT attachmentdescription (#PCDATA)>
+<!ELEMENT filename (#PCDATA)>
+<!ELEMENT documentdata (#PCDATA)>
+  <!ATTLIST documentdata documenttype (invoiceimage|otherattachment) #IMPLIED>
+<!ELEMENT purchaseordernumber (#PCDATA)>
