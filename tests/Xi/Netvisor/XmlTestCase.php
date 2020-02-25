@@ -39,7 +39,7 @@ class XmlTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertContains(sprintf('<%s', $tag), $xml);
 
-        if (is_int($value)) {
+        if (is_int($value) || is_float($value)) {
             $this->assertContains(sprintf('>%s</%s>', $value, $tag), $xml);
             return;
         }
