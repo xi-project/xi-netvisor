@@ -11,6 +11,7 @@ use Xi\Netvisor\Resource\Xml\Voucher;
 use GuzzleHttp\Client;
 use Xi\Netvisor\Resource\Xml\TestResource;
 use GuzzleHttp\Psr7\Response;
+use Xi\Netvisor\Resource\Xml\PurchaseInvoice;
 
 class NetvisorTest extends \PHPUnit_Framework_TestCase
 {
@@ -324,5 +325,27 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $voucher = new \SimpleXMLElement($result);
 
         $this->assertSame((int) $voucher->NetvisorKey, $id);
+    }
+
+    public function testSendPurchaseInvoice()
+    {
+        $purchaseInvoiceMock = $this
+            ->getMockBuilder(PurchaseInvoice::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // Mock requestWithBody
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['requestWithBody'])
+            ->getMock();
+
+        $netvisorMock
+            ->expects($this->once())
+            ->method('requestWithBody')
+            ->with($purchaseInvoiceMock, 'purchaseinvoice');
+
+        $netvisorMock->sendPurchaseInvoice($purchaseInvoiceMock);
     }
 }

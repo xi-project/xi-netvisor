@@ -12,6 +12,7 @@ use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Serializer;
 use Xi\Netvisor\Resource\Xml\Customer;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
+use Xi\Netvisor\Resource\Xml\PurchaseInvoice;
 use Xi\Netvisor\Resource\Xml\Voucher;
 use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
 
@@ -105,6 +106,15 @@ class Netvisor
     public function sendVoucher(Voucher $voucher)
     {
         return $this->requestWithBody($voucher, 'accounting');
+    }
+
+    /**
+     * @param PurchaseInvoice $invoice
+     * @return null|string
+     */
+    public function sendPurchaseInvoice(PurchaseInvoice $invoice)
+    {
+        return $this->requestWithBody($invoice, 'purchaseinvoice');
     }
 
     /**
