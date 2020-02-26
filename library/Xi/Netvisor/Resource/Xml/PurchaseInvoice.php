@@ -13,7 +13,17 @@ class PurchaseInvoice extends Root
     private $invoicedate;
     private $valuedate;
     private $duedate;
+    private $vendorname;
+    private $vendoraddressline;
+    private $vendorpostnumber;
+    private $vendorcity;
+    private $vendorcountry;
+    private $vendorphonenumber;
+    private $vendoremail;
     private $amount;
+    private $accountnumber;
+    private $organizationidentifier;
+    private $bankreferencenumber;
     private $comment;
 
     /**
@@ -63,6 +73,53 @@ class PurchaseInvoice extends Root
     public function addPurchaseInvoiceLine(PurchaseInvoiceLine $line)
     {
         $this->purchaseinvoicelines[] = new WrapperElement('purchaseinvoiceline', $line);
+        return $this;
+    }
+
+    /**
+     * @param string $bankAccount
+     * @param string $businessId
+     * @param string $name
+     * @param string $streetAddress
+     * @param string $postNumber
+     * @param string $city
+     * @param string $countryCode
+     * @param string $phone
+     * @param string $email
+     *
+     * @return self
+     */
+    public function setVendorDetails(
+        $bankAccount = null,
+        $businessId = null,
+        $name = null,
+        $streetAddress = null,
+        $postNumber = null,
+        $city = null,
+        $countryCode = null,
+        $phone = null,
+        $email = null
+    ) {
+        $this->accountnumber = $bankAccount;
+        $this->organizationidentifier = $businessId;
+        $this->vendorname = $name ? substr($name, 0, 250) : $name;
+        $this->vendoraddressline = $streetAddress ? substr($streetAddress, 0, 80) : $streetAddress;
+        $this->vendorpostnumber = $postNumber ? substr($postNumber, 0, 50) : $postNumber;
+        $this->vendorcity = $city ? substr($city, 0, 50) : $city;
+        $this->vendorcountry = $countryCode ? substr($countryCode, 0, 2) : $countryCode;
+        $this->vendorphonenumber = $phone ? substr($phone, 0, 80) : $phone;
+        $this->vendoremail = $email ? substr($email, 0, 80) : $email;
+
+        return $this;
+    }
+
+    /**
+     * @param string $reference
+     * @return self
+     */
+    public function setBankReferenceNumber($reference)
+    {
+        $this->bankreferencenumber = $reference;
         return $this;
     }
 
