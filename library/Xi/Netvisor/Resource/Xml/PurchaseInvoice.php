@@ -100,15 +100,15 @@ class PurchaseInvoice extends Root
         $phone = null,
         $email = null
     ) {
-        $this->accountnumber = $bankAccount;
-        $this->organizationidentifier = $businessId;
-        $this->vendorname = $name ? substr($name, 0, 250) : $name;
-        $this->vendoraddressline = $streetAddress ? substr($streetAddress, 0, 80) : $streetAddress;
-        $this->vendorpostnumber = $postNumber ? substr($postNumber, 0, 50) : $postNumber;
-        $this->vendorcity = $city ? substr($city, 0, 50) : $city;
-        $this->vendorcountry = $countryCode ? substr($countryCode, 0, 2) : $countryCode;
-        $this->vendorphonenumber = $phone ? substr($phone, 0, 80) : $phone;
-        $this->vendoremail = $email ? substr($email, 0, 80) : $email;
+        $this->accountnumber = $bankAccount ?: null;
+        $this->organizationidentifier = $businessId ?: null;
+        $this->vendorname = $name ? substr($name, 0, 250) : null;
+        $this->vendoraddressline = $streetAddress ? substr($streetAddress, 0, 80) : null;
+        $this->vendorpostnumber = $postNumber ? substr($postNumber, 0, 50) : null;
+        $this->vendorcity = $city ? substr($city, 0, 50) : null;
+        $this->vendorcountry = $countryCode ? substr($countryCode, 0, 2) : null;
+        $this->vendorphonenumber = $phone ? substr($phone, 0, 80) : null;
+        $this->vendoremail = $email ? substr($email, 0, 80) : null;
 
         return $this;
     }

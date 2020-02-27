@@ -179,7 +179,7 @@ class PurchaseInvoiceTest extends XmlTestCase
         ];
 
         foreach ($map as $key => $data) {
-            if (is_null($data['value'])) {
+            if (!$data['value']) {
                 $this->assertXmlDoesNotContainTag($key, $xml);
                 continue;
             }
@@ -205,6 +205,17 @@ class PurchaseInvoiceTest extends XmlTestCase
                 null,
                 null,
                 null,
+            ],
+            [
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
                 '12315456',
