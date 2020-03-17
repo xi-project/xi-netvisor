@@ -1,3 +1,4 @@
+<!DOCTYPE root [
 <!ELEMENT root (purchaseinvoice)>
 <!ELEMENT purchaseinvoice (invoicenumber, invoicedate, invoicesource?, valuedate?, duedate, purchaseinvoiceonround?, vendorcode?, vendorname?, vendoraddressline?, vendorpostnumber?, vendorcity?, vendorcountry?, vendorphonenumber?, vendorfaxnumber?, vendoremail?, vendorhomepage?, amount, accountnumber?, organizationidentifier?, deliverydate?, overduefinepercent?, bankreferencenumber?, ourreference?, yourreference?, currencycode?, deliveryterms?, deliverymethod?, comment?, checksum?, pdfextrapages?, readyforaccounting?, primaryvendormatchtype?, purchaseinvoicelines?, purchaseinvoicesublines?, purchaseinvoicecommentlines?, purchaseinvoiceattachments?, purchaseinvoicerelatedpurchaseordernumbers?)>
     <!ELEMENT purchaseinvoicelines (purchaseinvoiceline+)>	
@@ -73,3 +74,4 @@
 <!ELEMENT documentdata (#PCDATA)>
   <!ATTLIST documentdata documenttype (invoiceimage|otherattachment) #IMPLIED>
 <!ELEMENT purchaseordernumber (#PCDATA)>
+]>
