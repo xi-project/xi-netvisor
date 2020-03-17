@@ -49,6 +49,8 @@ class VoucherTest extends XmlTestCase
         $this->assertContains('voucherline', $xml);
         $this->assertXmlContainsTagWithValue('linesum', 0, $xml);
         $this->assertSame(2, substr_count($xml, '<voucherline>'));
+
+        $this->assertXmlIsValid($xml, $this->voucher->getDtdPath());
     }
 
     public function testSetNumber()

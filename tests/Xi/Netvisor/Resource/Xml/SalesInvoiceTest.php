@@ -2,9 +2,6 @@
 
 namespace Xi\Netvisor\Resource\Xml;
 
-use Xi\Netvisor\Component\Validate;
-use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
-use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use Xi\Netvisor\XmlTestCase;
 
@@ -69,6 +66,8 @@ class SalesInvoiceTest extends XmlTestCase
 
         $this->assertXmlContainsTagWithValue('productidentifier', '1', $xml);
         $this->assertXmlContainsTagWithValue('productidentifier', '2', $xml);
+
+        $this->assertXmlIsValid($xml, $this->invoice->getDtdPath());
     }
 
     public function testSetDeliveryReceiverDetails()

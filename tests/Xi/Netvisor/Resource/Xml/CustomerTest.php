@@ -2,9 +2,6 @@
 
 namespace Xi\Netvisor\Resource\Xml;
 
-use Xi\Netvisor\Component\Validate;
-use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
-use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
 use Xi\Netvisor\Resource\Xml\Customer;
 use Xi\Netvisor\Resource\Xml\CustomerBaseInformation;
 use Xi\Netvisor\XmlTestCase;
@@ -52,6 +49,7 @@ class CustomerTest extends XmlTestCase
         $xml = $this->toXml($this->customer->getSerializableObject());
 
         $this->assertXmlContainsTagWithValue('name', 'Testi Oy', $xml);
+        $this->assertXmlIsValid($xml, $this->customer->getDtdPath());
     }
 
     public function testSetOvt()

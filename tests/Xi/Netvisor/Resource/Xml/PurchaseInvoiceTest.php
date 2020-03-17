@@ -89,6 +89,8 @@ class PurchaseInvoiceTest extends XmlTestCase
 
         $this->assertXmlContainsTagWithValue('productname', 'Name 1', $xml);
         $this->assertXmlContainsTagWithValue('productname', 'Name 2', $xml);
+
+        $this->assertXmlIsValid($xml, $this->invoice->getDtdPath());
     }
 
     public function testSetComment()
