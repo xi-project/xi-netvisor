@@ -252,4 +252,28 @@ class PurchaseInvoiceTest extends XmlTestCase
         $xml = $this->toXml($this->invoice->getSerializableObject());
         $this->assertXmlContainsTagWithValue('bankreferencenumber', $reference, $xml);
     }
+
+    /**
+     * @dataProvider setInvoiceSourceProvider
+     */
+    public function testSetInvoiceSource($source, $expectException)
+    {
+        if ($expectException) {
+            $this->expectException(\Exception::class);
+        }
+
+        $this->invoice->setInvoiceSource($source);
+
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('invoicesource', $source, $xml);
+    }
+
+    public function setInvoiceSourceProvider()
+    {
+        return [
+            [PurchaseInvoice::INVOICE_SOURCE_FINVOICE, false],
+            [PurchaseInvoice::INVOICE_SOURCE_MANUAL, false],
+            ['Something else', true],
+        ];
+    }
 }

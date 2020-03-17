@@ -8,8 +8,12 @@ use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 
 class PurchaseInvoice extends Root
 {
+    public const INVOICE_SOURCE_FINVOICE = 'finvoice';
+    public const INVOICE_SOURCE_MANUAL = 'manual';
+
     private $invoicenumber;
     private $invoicedate;
+    private $invoicesource;
     private $valuedate;
     private $duedate;
     private $vendorname;
@@ -129,6 +133,25 @@ class PurchaseInvoice extends Root
     public function setComment($comment)
     {
         $this->comment = substr($comment, 0, 255);
+        return $this;
+    }
+
+    /**
+     * @param string $source
+     * @return self
+     */
+    public function setInvoiceSource($source)
+    {
+        $allowed = [
+            static::INVOICE_SOURCE_FINVOICE,
+            static::INVOICE_SOURCE_MANUAL,
+        ];
+
+        if (!in_array($source, $allowed)) {
+            throw new \Exception('Invalid invoice source: ' . $source);
+        }
+
+        $this->invoicesource = $source;
         return $this;
     }
 
