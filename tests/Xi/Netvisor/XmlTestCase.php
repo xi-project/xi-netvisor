@@ -4,6 +4,7 @@ namespace Xi\Netvisor;
 
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
+use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
 
 class XmlTestCase extends \PHPUnit_Framework_TestCase
@@ -13,12 +14,18 @@ class XmlTestCase extends \PHPUnit_Framework_TestCase
      */
     private $serializer;
 
+    /**
+     * @var Validate
+     */
+    private $validate;
+
     public function setUp()
     {
         $builder = SerializerBuilder::create();
         $builder->setPropertyNamingStrategy(new LowercaseNamingStrategy());
 
         $this->serializer = $builder->build();
+        $this->validate = new Validate();
     }
 
     /**
@@ -70,5 +77,10 @@ class XmlTestCase extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertContains(sprintf('<%s%s>', $tag, $attributeLine), $xml);
+    }
+
+    public function assertXmlIsValid($xml, $dtdPath)
+    {
+        $this->assertTrue($this->validate->isValid($xml, $dtdPath));
     }
 }
