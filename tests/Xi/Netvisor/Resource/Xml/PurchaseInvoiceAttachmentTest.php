@@ -28,13 +28,11 @@ class PurchaseInvoiceAttachmentTest extends XmlTestCase
      */
     public function xmlHasRequiredSalesInvoiceValues()
     {
-        $mimetype = 'attachmentdescription';
         $description = 'description';
         $filename = 'filename.pdf';
         $data = 'data';
 
         $attachment = new PurchaseInvoiceAttachment(
-            $mimetype,
             $description,
             $filename,
             $data
@@ -42,7 +40,7 @@ class PurchaseInvoiceAttachmentTest extends XmlTestCase
 
         $xml = $this->toXml($attachment);
 
-        $this->assertXmlContainsTagWithValue('mimetype', $mimetype, $xml);
+        $this->assertXmlContainsTagWithValue('mimetype', 'application/pdf', $xml);
         $this->assertXmlContainsTagWithValue('attachmentdescription', $description, $xml);
         $this->assertXmlContainsTagWithValue('filename', $filename, $xml);
         $this->assertXmlContainsTagWithValue('documentdata', base64_encode($data), $xml);

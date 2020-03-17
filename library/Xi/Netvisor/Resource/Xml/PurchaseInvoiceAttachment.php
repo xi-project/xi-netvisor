@@ -4,14 +4,13 @@ namespace Xi\Netvisor\Resource\Xml;
 
 class PurchaseInvoiceAttachment
 {
-    private $mimetype;
+    private $mimetype = 'application/pdf';
     private $attachmentdescription;
     private $filename;
     private $documentdata;
 
-    public function __construct($mimetype, $description, $filename, $documentdata)
+    public function __construct($description, $filename, $documentdata)
     {
-        $this->mimetype = $mimetype;
         $this->attachmentdescription = $description;
         $this->filename = $filename;
         $this->documentdata = base64_encode($documentdata);

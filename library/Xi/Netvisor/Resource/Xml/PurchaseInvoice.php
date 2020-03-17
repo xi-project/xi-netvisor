@@ -35,6 +35,11 @@ class PurchaseInvoice extends Root
     private $purchaseinvoicelines = array();
 
     /**
+     * @XmlList(entry = "purchaseinvoiceattachment")
+     */
+    private $purchaseinvoiceattachments = array();
+
+    /**
      * @param int $invoiceNumber
      * @param \DateTime $invoiceDate
      * @param \DateTime $valueDate
@@ -76,6 +81,16 @@ class PurchaseInvoice extends Root
     public function addPurchaseInvoiceLine(PurchaseInvoiceLine $line)
     {
         $this->purchaseinvoicelines[] = $line;
+        return $this;
+    }
+
+    /**
+     * @param PurchaseInvoiceAttachment $attachment
+     * @return self
+     */
+    public function addAttachment(PurchaseInvoiceAttachment $attachment)
+    {
+        $this->purchaseinvoiceattachments[] = $attachment;
         return $this;
     }
 

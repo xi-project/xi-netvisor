@@ -93,6 +93,27 @@ class PurchaseInvoiceTest extends XmlTestCase
         $this->assertXmlIsValid($xml, $this->invoice->getDtdPath());
     }
 
+    public function testAddAttachment()
+    {
+        $this->invoice->addAttachment(
+            new PurchaseInvoiceAttachment('Desc 1', 'File 1', 'Data 1')
+        );
+
+        $this->invoice->addAttachment(
+            new PurchaseInvoiceAttachment('Desc 2', 'File 2', 'Data 2')
+        );
+
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertContains('purchaseinvoiceattachments', $xml);
+        $this->assertContains('purchaseinvoiceattachment', $xml);
+
+        $this->assertXmlContainsTagWithValue('attachmentdescription', 'Desc 1', $xml);
+        $this->assertXmlContainsTagWithValue('attachmentdescription', 'Desc 2', $xml);
+
+        $this->assertXmlIsValid($xml, $this->invoice->getDtdPath());
+    }
+
     public function testSetComment()
     {
         $comment = 'Some additional data';
