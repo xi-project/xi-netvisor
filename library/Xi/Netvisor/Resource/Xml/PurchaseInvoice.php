@@ -72,7 +72,7 @@ class PurchaseInvoice extends Root
      */
     public function addPurchaseInvoiceLine(PurchaseInvoiceLine $line)
     {
-        $this->purchaseinvoicelines[] = new WrapperElement('purchaseinvoiceline', $line);
+        $this->purchaseinvoicelines[] = $line;
         return $this;
     }
 
