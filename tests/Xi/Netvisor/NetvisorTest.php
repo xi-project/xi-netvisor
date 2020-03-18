@@ -12,6 +12,7 @@ use GuzzleHttp\Client;
 use Xi\Netvisor\Resource\Xml\TestResource;
 use GuzzleHttp\Psr7\Response;
 use Xi\Netvisor\Resource\Xml\PurchaseInvoice;
+use Xi\Netvisor\Resource\Xml\PurchaseInvoiceState;
 
 class NetvisorTest extends \PHPUnit_Framework_TestCase
 {
@@ -347,5 +348,27 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             ->with($purchaseInvoiceMock, 'purchaseinvoice');
 
         $netvisorMock->sendPurchaseInvoice($purchaseInvoiceMock);
+    }
+
+    public function testUpdatePurchaseInvoiceState()
+    {
+        $purchaseInvoiceStateMock = $this
+            ->getMockBuilder(PurchaseInvoiceState::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // Mock requestWithBody
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['requestWithBody'])
+            ->getMock();
+
+        $netvisorMock
+            ->expects($this->once())
+            ->method('requestWithBody')
+            ->with($purchaseInvoiceStateMock, 'purchaseinvoicepostingdata');
+
+        $netvisorMock->updatePurchaseInvoiceState($purchaseInvoiceStateMock);
     }
 }
