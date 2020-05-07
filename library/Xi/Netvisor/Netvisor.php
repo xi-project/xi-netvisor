@@ -231,6 +231,23 @@ class Netvisor
     }
 
     /**
+     * Get details for a invoice identified by Netvisor id.
+     *
+     * @param int $id
+     * @param bool $omitAttachments
+     * @return null|string
+     */
+    public function getPurchaseInvoice($id)
+    {
+        return $this->get(
+            'getpurchaseinvoice',
+            [
+                'netvisorkey' => $id,
+            ]
+        );
+    }
+
+    /**
      * Get vouchers by timeframe
      *
      * @param DateTime $startDate

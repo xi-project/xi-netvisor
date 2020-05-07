@@ -260,6 +260,25 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $netvisorMock->getSalesInvoice($id);
     }
 
+    public function testGetPurchaseInvoice()
+    {
+        $id = 1234564;
+
+        // @var Netvisor $netvisorMock
+        $netvisorMock = $this
+            ->getMockBuilder(Netvisor::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['get'])
+            ->getMock();
+
+        $netvisorMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('getpurchaseinvoice', ['netvisorkey' => $id]);
+
+        $netvisorMock->getPurchaseInvoice($id);
+    }
+
     public function testGetVouchers()
     {
         $start = new \DateTime('2000-01-01');
