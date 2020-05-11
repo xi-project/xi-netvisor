@@ -260,16 +260,10 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
         $netvisorMock->getSalesInvoice($id);
     }
 
-    /**
-     * @dataProvider getPurchaseInvoiceProvider
-     */
-    public function testGetPurchaseInvoice($id)
+    public function testGetPurchaseInvoice()
     {
+        $id = 123125;
         $requestParams = ['netvisorkey' => $id];
-
-        if (is_array($id)) {
-            $requestParams = ['netvisorkeylist' => implode(',', $id)];
-        }
 
         // @var Netvisor $netvisorMock
         $netvisorMock = $this
@@ -284,14 +278,6 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
             ->with('getpurchaseinvoice', $requestParams);
 
         $netvisorMock->getPurchaseInvoice($id);
-    }
-
-    public function getPurchaseInvoiceProvider()
-    {
-        return [
-            [123456],
-            [[123456, 155]],
-        ];
     }
 
     public function testGetVouchers()
