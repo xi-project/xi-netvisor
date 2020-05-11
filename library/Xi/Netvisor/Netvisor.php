@@ -231,20 +231,20 @@ class Netvisor
     }
 
     /**
-     * Get details for a invoice identified by Netvisor id.
+     * Get details for a invoices identified by Netvisor id.
      *
-     * @param int $id
-     * @param bool $omitAttachments
+     * @param int|array $id
      * @return null|string
      */
     public function getPurchaseInvoice($id)
     {
-        return $this->get(
-            'getpurchaseinvoice',
-            [
-                'netvisorkey' => $id,
-            ]
-        );
+        $params['netvisorkey'] = $id;
+
+        if (is_array($id)) {
+            $params = ['netvisorkeylist' => implode(',', $id)];
+        }
+
+        return $this->get('getpurchaseinvoice', $params);
     }
 
     /**
