@@ -5,7 +5,6 @@ namespace Xi\Netvisor\Resource\Xml;
 class CustomerBaseInformation
 {
     private $externalIdentifier;
-    private $organizationunitnumber;
     private $name;
     private $streetAddress;
     private $city;
@@ -34,16 +33,6 @@ class CustomerBaseInformation
         $this->city = $city;
         $this->postNumber = $postNumber;
         $this->country = $country;
-    }
-
-    /**
-     * @param string $ovt
-     * @return self
-     */
-    public function setOvt($ovt)
-    {
-        $this->organizationunitnumber = $ovt;
-        return $this;
     }
 
     /**

@@ -52,14 +52,6 @@ class CustomerTest extends XmlTestCase
         $this->assertXmlIsValid($xml, $this->customer->getDtdPath());
     }
 
-    public function testSetOvt()
-    {
-        $ovt = '001231564';
-        $this->baseInformation->setOvt($ovt);
-        $xml = $this->toXml($this->customer->getSerializableObject());
-        $this->assertXmlContainsTagWithValue('organizationunitnumber', $ovt, $xml);
-    }
-
     public function testSetPhoneNumber()
     {
         $number = '0501234567';
