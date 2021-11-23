@@ -11,10 +11,12 @@ use Xi\Netvisor\Resource\Xml\Voucher;
 use GuzzleHttp\Client;
 use Xi\Netvisor\Resource\Xml\TestResource;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
+use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Resource\Xml\PurchaseInvoice;
 use Xi\Netvisor\Resource\Xml\PurchaseInvoiceState;
 
-class NetvisorTest extends \PHPUnit_Framework_TestCase
+class NetvisorTest extends TestCase
 {
     /**
      * @var Netvisor
@@ -92,8 +94,8 @@ class NetvisorTest extends \PHPUnit_Framework_TestCase
      */
     public function throwsIfXmlIsNotValid()
     {
-        $this->setExpectedException('Xi\Netvisor\Exception\NetvisorException', 'XML is not valid according to DTD');
-
+        $this->expectExceptionMessage('XML is not valid according to DTD');
+        $this->expectException(NetvisorException::class);
         $this->netvisor->requestWithBody(new TestResource(), 'service', array(), null);
     }
 

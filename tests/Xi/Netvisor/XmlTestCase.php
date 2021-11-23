@@ -6,8 +6,9 @@ use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
+use PHPUnit\Framework\TestCase;
 
-class XmlTestCase extends \PHPUnit_Framework_TestCase
+class XmlTestCase extends TestCase
 {
     /**
      * @var Serializer

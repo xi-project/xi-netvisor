@@ -2,9 +2,10 @@
 
 namespace Xi\Netvisor\Resource\Xml\Component;
 
+use PHPUnit\Framework\TestCase;
 use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
 
-class AttributeElementTest extends \PHPUnit_Framework_TestCase
+class AttributeElementTest extends TestCase
 {
     public function testConstructor()
     {
