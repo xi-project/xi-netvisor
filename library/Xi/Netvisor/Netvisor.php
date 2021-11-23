@@ -231,6 +231,24 @@ class Netvisor
     }
 
     /**
+     * Get sales invoices by last time modified and invoices above Netvisor key
+     *
+     * @param dateTime $modifiedAfterDate
+     * @param int $invoiceId
+     * @return null|string
+     */
+    public function getSalesInvoices(\DateTime $modifiedAfterDate, int $invoiceId)
+    {
+        return $this->get(
+            'getsalesinvoice',
+            [
+                'lastmodifiedstart' => $modifiedAfterDate->format('Y-m-d'),
+                'invoicesabovenetvisorkey' => $invoiceId,
+            ]
+        );
+    }
+
+    /**
      * Get details for a invoices identified by Netvisor id.
      *
      * @param int $id
