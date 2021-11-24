@@ -3,9 +3,10 @@
 namespace Xi\Netvisor\Component;
 
 use JMS\Serializer\Metadata\PropertyMetadata;
+use PHPUnit\Framework\TestCase;
 use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
 
-class LowercaseNamingStrategyTest extends \PHPUnit_Framework_TestCase
+class LowercaseNamingStrategyTest extends TestCase
 {
     /**
      * @test

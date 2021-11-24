@@ -10,6 +10,7 @@ use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Serializer;
+use Xi\Netvisor\Filter\SalesInvoicesFilter;
 use Xi\Netvisor\Resource\Xml\Customer;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use Xi\Netvisor\Resource\Xml\PurchaseInvoice;
@@ -227,6 +228,20 @@ class Netvisor
             [
                 'netvisorkey' => $id,
             ]
+        );
+    }
+
+    /**
+     * Get sales invoices by filters
+     *
+     * @param SalesInvoicesFilter $salesInvoicesFilter
+     * @return null|string
+     */
+    public function getSalesInvoices(SalesInvoicesFilter $salesInvoicesFilter)
+    {
+        return $this->get(
+            'getsalesinvoice',
+            $salesInvoicesFilter->getFilterArray() 
         );
     }
 

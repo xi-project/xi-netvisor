@@ -2,9 +2,10 @@
 
 namespace Xi\Netvisor\Component;
 
+use PHPUnit\Framework\TestCase;
 use Xi\Netvisor\Config;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends TestCase
 {
     /**
      * @test
