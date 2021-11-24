@@ -10,6 +10,7 @@ use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Serializer;
+use Xi\Netvisor\Filter\SalesInvoicesFilter;
 use Xi\Netvisor\Resource\Xml\Customer;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use Xi\Netvisor\Resource\Xml\PurchaseInvoice;
@@ -231,20 +232,16 @@ class Netvisor
     }
 
     /**
-     * Get sales invoices by last time modified and invoices above Netvisor key
+     * Get sales invoices by filters
      *
-     * @param dateTime $modifiedAfterDate
-     * @param int $invoiceId
+     * @param SalesInvoicesFilter $salesInvoicesFilter
      * @return null|string
      */
-    public function getSalesInvoices(\DateTime $modifiedAfterDate, int $invoiceId)
+    public function getSalesInvoices(SalesInvoicesFilter $salesInvoicesFilter)
     {
         return $this->get(
             'getsalesinvoice',
-            [
-                'lastmodifiedstart' => $modifiedAfterDate->format('Y-m-d'),
-                'invoicesabovenetvisorkey' => $invoiceId,
-            ]
+            $salesInvoicesFilter->getFilterArray() 
         );
     }
 

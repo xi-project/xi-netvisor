@@ -13,6 +13,7 @@ use Xi\Netvisor\Resource\Xml\TestResource;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Xi\Netvisor\Exception\NetvisorException;
+use Xi\Netvisor\Filter\SalesInvoicesFilter;
 use Xi\Netvisor\Resource\Xml\PurchaseInvoice;
 use Xi\Netvisor\Resource\Xml\PurchaseInvoiceState;
 
@@ -399,6 +400,10 @@ class NetvisorTest extends TestCase
         $date = new \DateTime('2000-01-01');
         $lastInvoiceId = 200;
 
+        $filter = new SalesInvoicesFilter();
+        $filter->setGreaterThanId($lastInvoiceId);
+        $filter->setModifiedAfterDate($date);
+
         // @var Netvisor $netvisorMock
         $netvisorMock = $this
             ->getMockBuilder(Netvisor::class)
@@ -417,6 +422,6 @@ class NetvisorTest extends TestCase
                 ]
             );
 
-        $netvisorMock->getSalesInvoices($date, $lastInvoiceId);
+        $netvisorMock->getSalesInvoices($filter);
     }
 }
