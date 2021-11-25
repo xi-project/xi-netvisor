@@ -240,7 +240,7 @@ class Netvisor
     public function getSalesInvoices(SalesInvoicesFilter $salesInvoicesFilter)
     {
         return $this->get(
-            'getsalesinvoice',
+            'salesinvoicelist',
             $salesInvoicesFilter->getFilterArray() 
         );
     }
