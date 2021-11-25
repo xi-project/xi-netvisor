@@ -415,7 +415,7 @@ class NetvisorTest extends TestCase
             ->expects($this->once())
             ->method('get')
             ->with(
-                'getsalesinvoice',
+                'salesinvoicelist',
                 [
                     'lastmodifiedstart' => $date->format('Y-m-d'),
                     'invoicesabovenetvisorkey' => $lastInvoiceId,
