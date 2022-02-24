@@ -37,7 +37,7 @@ class NetvisorTest extends TestCase
     /**
      * @test
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->getMockBuilder('GuzzleHttp\Client')
             ->disableOriginalConstructor()
@@ -148,6 +148,10 @@ class NetvisorTest extends TestCase
         $invoice->expects($this->once())
             ->method('getDtdPath')
             ->will($this->returnValue(__DIR__ . '/Resource/Dtd/test.dtd'));
+
+        $invoice->expects($this->once())
+            ->method('getSerializableObject')
+            ->will($this->returnValue([]));
 
         $this->assertEquals('lus', $netvisor->sendInvoice($invoice));
     }

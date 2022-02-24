@@ -12,7 +12,7 @@ class VoucherLineTest extends XmlTestCase
      */
     private $voucherLine;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

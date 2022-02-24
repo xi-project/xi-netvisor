@@ -11,7 +11,7 @@ class PurchaseInvoiceAttachmentTest extends XmlTestCase
      */
     private $attachment;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

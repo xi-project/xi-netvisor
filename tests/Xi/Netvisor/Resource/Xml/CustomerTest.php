@@ -18,7 +18,7 @@ class CustomerTest extends XmlTestCase
      */
     private $baseInformation;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

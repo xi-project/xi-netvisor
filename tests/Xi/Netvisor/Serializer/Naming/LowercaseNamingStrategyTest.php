@@ -20,7 +20,7 @@ class LowercaseNamingStrategyTest extends TestCase
         $toBeObject[$name] = '';
         $object = (object)$toBeObject;
 
-        $metadata = new PropertyMetadata($object, $name);
+        $metadata = new PropertyMetadata($object::class, $name);
 
         $this->assertEquals(strtolower($name), $strategy->translateName($metadata));
     }

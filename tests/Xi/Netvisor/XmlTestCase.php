@@ -20,7 +20,7 @@ class XmlTestCase extends TestCase
      */
     private $validate;
 
-    public function setUp()
+    public function setUp(): void
     {
         $builder = SerializerBuilder::create();
         $builder->setPropertyNamingStrategy(new LowercaseNamingStrategy());

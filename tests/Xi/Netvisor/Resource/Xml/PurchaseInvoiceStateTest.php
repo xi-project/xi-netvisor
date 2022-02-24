@@ -11,7 +11,7 @@ class PurchaseInvoiceStateTest extends XmlTestCase
      */
     private $invoiceState;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

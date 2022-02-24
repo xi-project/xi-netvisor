@@ -7,7 +7,7 @@ use JMS\Serializer\Metadata\PropertyMetadata;
 
 class LowercaseNamingStrategy implements PropertyNamingStrategyInterface
 {
-    public function translateName(PropertyMetadata $property)
+    public function translateName(PropertyMetadata $property): string
     {
         return strtolower($property->name);
     }

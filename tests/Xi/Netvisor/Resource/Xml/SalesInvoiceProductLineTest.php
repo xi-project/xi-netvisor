@@ -13,7 +13,7 @@ class SalesInvoiceProductLineTest extends XmlTestCase
      */
     private $invoiceProductLine;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

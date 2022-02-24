@@ -13,7 +13,7 @@ class ValidateTest extends XmlTestCase
      */
     private $validate;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
