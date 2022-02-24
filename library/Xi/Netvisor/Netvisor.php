@@ -10,8 +10,12 @@ use Xi\Netvisor\Exception\NetvisorException;
 use Xi\Netvisor\Component\Validate;
 use Xi\Netvisor\Resource\Xml\Component\Root;
 use JMS\Serializer\Serializer;
+use Xi\Netvisor\Filter\SalesInvoicesFilter;
 use Xi\Netvisor\Resource\Xml\Customer;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
+use Xi\Netvisor\Resource\Xml\PurchaseInvoice;
+use Xi\Netvisor\Resource\Xml\PurchaseInvoiceState;
+use Xi\Netvisor\Resource\Xml\Voucher;
 use Xi\Netvisor\Serializer\Naming\LowercaseNamingStrategy;
 
 /**
@@ -98,6 +102,67 @@ class Netvisor
     }
 
     /**
+     * @param Voucher $voucher
+     * @return null|string
+     */
+    public function sendVoucher(Voucher $voucher)
+    {
+        return $this->requestWithBody($voucher, 'accounting');
+    }
+
+    /**
+     * @param PurchaseInvoice $invoice
+     * @return null|string
+     */
+    public function sendPurchaseInvoice(PurchaseInvoice $invoice)
+    {
+        return $this->requestWithBody($invoice, 'purchaseinvoice');
+    }
+
+    /**
+     * @param PurchaseInvoiceState $state
+     * @return null|string
+     */
+    public function updatePurchaseInvoiceState(PurchaseInvoiceState $state)
+    {
+        return $this->requestWithBody($state, 'purchaseinvoicepostingdata');
+    }
+
+    /**
+     * @param Customer $customer
+     * @param int $id
+     * @return null|string
+     */
+    public function updateCustomer(Customer $customer, int $id)
+    {
+        return $this->requestWithBody(
+            $customer,
+            'customer',
+            [
+                'method' => 'edit',
+                'id' => $id,
+            ]
+        );
+    }
+
+    /**
+     * @param SalesInvoice $invoice
+     * @param int $id
+     * @return null|string
+     */
+    public function updateInvoice(SalesInvoice $invoice, int $id)
+    {
+        return $this->requestWithBody(
+            $invoice,
+            'salesinvoice',
+            [
+                'method' => 'edit',
+                'id' => $id,
+            ]
+        );
+    }
+
+    /**
      * List customers, optionally filtered by a keyword.
      *
      * The keyword matches Netvisor fields
@@ -151,11 +216,96 @@ class Netvisor
     }
 
     /**
+     * Get details for a invoice identified by Netvisor id.
+     *
+     * @param int $id
+     * @return null|string
+     */
+    public function getSalesInvoice($id)
+    {
+        return $this->get(
+            'getsalesinvoice',
+            [
+                'netvisorkey' => $id,
+            ]
+        );
+    }
+
+    /**
+     * Get sales invoices by filters
+     *
+     * @param SalesInvoicesFilter $salesInvoicesFilter
+     * @return null|string
+     */
+    public function getSalesInvoices(SalesInvoicesFilter $salesInvoicesFilter)
+    {
+        return $this->get(
+            'salesinvoicelist',
+            $salesInvoicesFilter->getFilterArray() 
+        );
+    }
+
+    /**
+     * Get details for a invoices identified by Netvisor id.
+     *
+     * @param int $id
+     * @return null|string
+     */
+    public function getPurchaseInvoice($id)
+    {
+        return $this->get(
+            'getpurchaseinvoice',
+            [
+                'netvisorkey' => $id,
+            ]
+        );
+    }
+
+    /**
+     * Get vouchers by timeframe
+     *
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @return null|string
+     */
+    public function getVouchers(\DateTime $startDate, \DateTime $endDate)
+    {
+        return $this->get(
+            'accountingledger',
+            [
+                'startdate' => $startDate->format('Y-m-d'),
+                'enddate' => $endDate->format('Y-m-d'),
+            ]
+        );
+    }
+
+    /**
+     * Get details for a certain voucher from timeframe identified by Netvisor id.
+     *
+     * @param int $id
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @return null|string
+     */
+    public function getVoucher($id, \DateTime $startDate, \DateTime $endDate)
+    {
+        $response = new \SimpleXMLElement($this->getVouchers($startDate, $endDate));
+        
+        foreach ($response->Vouchers->children() as $voucher) {
+            if ((int) $voucher->NetvisorKey === (int) $id) {
+                return $voucher->asXml();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @param string  $service
      * @param array   $params
      * @return null|string
      */
-    private function get($service, array $params = [])
+    protected function get($service, array $params = [])
     {
         if (!$this->config->isEnabled()) {
             return null;
@@ -215,7 +365,6 @@ class Netvisor
     public function processXml($xml)
     {
         $xml = str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "", $xml);
-        $xml = str_replace(array('<![CDATA[', ']]>'), '', $xml);
 
         return $xml;
     }

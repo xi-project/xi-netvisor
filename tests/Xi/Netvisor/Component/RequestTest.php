@@ -6,8 +6,10 @@ use GuzzleHttp\Psr7\Response;
 use Xi\Netvisor\Component\Request;
 use Xi\Netvisor\Config;
 use GuzzleHttp\Client;
+use PHPUnit\Framework\TestCase;
+use Xi\Netvisor\Exception\NetvisorException;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     /**
      * @var Request
@@ -19,7 +21,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -91,10 +93,8 @@ LUS;
                 new Response('200', array(), $xmlResponse)
             ));
 
-        $this->setExpectedException(
-            'Xi\Netvisor\Exception\NetvisorException',
-            'AUTHENTICATION_FAILED :: Integraatiokumppania ei löydy, katso dokumentaatio'
-        );
+        $this->expectException(NetvisorException::class);
+        $this->expectExceptionMessage('AUTHENTICATION_FAILED :: Integraatiokumppania ei löydy, katso dokumentaatio');
 
         $this->request->post(
             '<?xml>',

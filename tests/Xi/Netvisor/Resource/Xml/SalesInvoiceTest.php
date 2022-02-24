@@ -2,9 +2,6 @@
 
 namespace Xi\Netvisor\Resource\Xml;
 
-use Xi\Netvisor\Component\Validate;
-use Xi\Netvisor\Resource\Xml\Component\AttributeElement;
-use Xi\Netvisor\Resource\Xml\Component\WrapperElement;
 use Xi\Netvisor\Resource\Xml\SalesInvoice;
 use Xi\Netvisor\XmlTestCase;
 
@@ -15,7 +12,7 @@ class SalesInvoiceTest extends XmlTestCase
      */
     private $invoice;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -69,5 +66,121 @@ class SalesInvoiceTest extends XmlTestCase
 
         $this->assertXmlContainsTagWithValue('productidentifier', '1', $xml);
         $this->assertXmlContainsTagWithValue('productidentifier', '2', $xml);
+
+        $this->assertXmlIsValid($xml, $this->invoice->getDtdPath());
+    }
+
+    public function testSetDeliveryReceiverDetails()
+    {
+        $receiverName = 'Receiver';
+        $streetAddress = 'Street address';
+        $postNumber = '12345';
+        $town = 'Town';
+        $countryCode = 'FI';
+    
+        // With all values
+        $this->invoice->setDeliveryReceiverDetails(
+            $receiverName,
+            $streetAddress,
+            $postNumber,
+            $town,
+            $countryCode
+        );
+        
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('deliveryaddressname', $receiverName, $xml);
+        $this->assertXmlContainsTagWithValue('deliveryaddressline', $streetAddress, $xml);
+        $this->assertXmlContainsTagWithValue('deliveryaddresspostnumber', $postNumber, $xml);
+        $this->assertXmlContainsTagWithValue('deliveryaddresstown', $town, $xml);
+        $this->assertXmlContainsTagWithValue('deliveryaddresscountrycode', $countryCode, $xml);
+
+        $this->assertXmlContainsTagWithAttributes(
+            'deliveryaddresscountrycode',
+            array('type' => 'ISO-3316'),
+            $xml
+        );
+
+        // Test with string, null or empty values
+        $this->invoice->setDeliveryReceiverDetails($receiverName, null, '', null, '');
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('deliveryaddressname', $receiverName, $xml);
+        $this->assertNotContains('deliveryaddressline', $xml);
+        $this->assertNotContains('deliveryaddresspostnumber', $xml);
+        $this->assertNotContains('deliveryaddresstown', $xml);
+        $this->assertNotContains('deliveryaddresscountrycode', $xml);
+    }
+
+    public function testSetInvoiceNumber()
+    {
+        $invoiceNumber = '0123456';
+    
+        $this->invoice->setInvoiceNumber($invoiceNumber);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('salesinvoicenumber', $invoiceNumber, $xml);
+    }
+
+    public function testSetReferenceNumber()
+    {
+        $referenceNumber = '0987654';
+    
+        $this->invoice->setReferenceNumber($referenceNumber);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        
+        $this->assertXmlContainsTagWithValue(
+            'salesinvoicereferencenumber',
+            $referenceNumber,
+            $xml
+        );
+    }
+
+    public function testSetBeforeLinesText()
+    {
+        $text = 'Some additional data';
+    
+        $this->invoice->setBeforeLinesText($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('salesinvoicefreetextbeforelines', $text, $xml);
+
+        // Too long
+        while (strlen($text) <= 500) {
+            $text .= $text;
+        }
+
+        $this->invoice->setBeforeLinesText($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('salesinvoicefreetextbeforelines', substr($text, 0, 500), $xml);
+        $this->assertNotContains($text, $xml);
+    }
+
+    public function testSetAfterLinesText()
+    {
+        $text = 'Some additional data';
+    
+        $this->invoice->setAfterLinesText($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('salesinvoicefreetextafterlines', $text, $xml);
+
+        // Too long
+        while (strlen($text) <= 500) {
+            $text .= $text;
+        }
+
+        $this->invoice->setAfterLinesText($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+
+        $this->assertXmlContainsTagWithValue('salesinvoicefreetextafterlines', substr($text, 0, 500), $xml);
+        $this->assertNotContains($text, $xml);
+    }
+
+    public function testSetYourReference()
+    {
+        $text = 'Some reference data';
+    
+        $this->invoice->setYourReference($text);
+        $xml = $this->toXml($this->invoice->getSerializableObject());
+        $this->assertXmlContainsTagWithValue('salesinvoiceyourreference', $text, $xml);
     }
 }

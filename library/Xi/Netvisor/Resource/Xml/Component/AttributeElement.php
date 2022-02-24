@@ -26,4 +26,31 @@ class AttributeElement
         $this->value = $value;
         $this->attributes = $attributes;
     }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param string $attribute
+     * @param array  $value
+     * @return self
+     */
+    public function setAttribute($attribute, $value)
+    {
+        $this->attributes[$attribute] = $value;
+        return $this;
+    }
 }

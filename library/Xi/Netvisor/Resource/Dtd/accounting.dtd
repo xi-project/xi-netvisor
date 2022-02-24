@@ -1,0 +1,32 @@
+<!DOCTYPE root [
+<!ELEMENT root (voucher)>
+	<!ELEMENT voucher (calculationmode, voucherdate, number?, description?, voucherclass, voucherline+, voucherattachments?)>
+		<!ELEMENT voucherline (linesum, description?, accountnumber, vatpercent, accountdimension?, dimension*)>
+			<!ELEMENT dimension (dimensionname, dimensionitem)>
+		<!ELEMENT voucherattachments (voucherattachment+)>
+			<!ELEMENT voucherattachment (mimetype, attachmentdescription, filename, documentdata)>
+
+<!ELEMENT calculationmode (#PCDATA)>
+<!ELEMENT voucherdate (#PCDATA)>
+	<!ATTLIST voucherdate format CDATA #FIXED "ansi">
+<!ELEMENT number (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT voucherclass (#PCDATA)>
+	
+<!ELEMENT linesum (#PCDATA)>
+    <!ATTLIST linesum type (net|gross) #IMPLIED>
+<!ELEMENT accountnumber (#PCDATA)>
+<!ELEMENT vatpercent (#PCDATA)>
+	<!ATTLIST vatpercent vatcode (NONE|KOOS|EUOS|EUUO|EUPO|100|KOMY|EUMY|EUUM|EUPM312|EUPM309|MUUL|EVTO|EVPO|RAMY|RAOS|EVRO|EVKV|KAVE) #IMPLIED>
+
+<!ELEMENT accountdimension (#PCDATA)>
+  <!ATTLIST accountdimension type (netvisorkey|name) #IMPLIED>
+
+<!ELEMENT dimensionname (#PCDATA)>
+<!ELEMENT dimensionitem (#PCDATA)>
+
+<!ELEMENT mimetype (#PCDATA)>
+<!ELEMENT attachmentdescription (#PCDATA)>
+<!ELEMENT filename (#PCDATA)>
+<!ELEMENT documentdata (#PCDATA)>
+]>
